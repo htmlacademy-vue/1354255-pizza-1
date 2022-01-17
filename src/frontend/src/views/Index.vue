@@ -13,8 +13,14 @@
                 class="dough__input"
                 v-for="element in dough"
                 :key="element.id"
+                :class="`dough__input--${element.type}`"
               >
-                <input type="radio" name="dought" class="visually-hidden" />
+                <input
+                  type="radio"
+                  name="dought"
+                  :value="element.type"
+                  class="visually-hidden"
+                />
                 <b>{{ element.name }}</b>
                 <span>{{ element.description }}</span>
               </label>
@@ -31,8 +37,14 @@
                 class="diameter__input"
                 v-for="size in sizes"
                 :key="size.id"
+                :class="`diameter__input--${size.size}`"
               >
-                <input type="radio" name="diameter" class="visually-hidden" />
+                <input
+                  type="radio"
+                  name="diameter"
+                  :value="size.size"
+                  class="visually-hidden"
+                />
                 <span>{{ size.name }}</span>
               </label>
             </div>
@@ -54,7 +66,7 @@
                   v-for="sauce in sauces"
                   :key="sauce.id"
                 >
-                  <input type="radio" name="sauce" value="" />
+                  <input type="radio" name="sauce" :value="sauce.sauce" />
                   <span>{{ sauce.name }}</span>
                 </label>
               </div>
@@ -68,7 +80,11 @@
                     v-for="ingredient in ingredients"
                     :key="ingredient.id"
                   >
-                    <span class="filling">{{ ingredient.name }}</span>
+                    <span
+                      class="filling"
+                      :class="`filling--${ingredient.filling}`"
+                      >{{ ingredient.name }}</span
+                    >
 
                     <div class="counter counter--orange ingredients__counter">
                       <button
@@ -122,14 +138,15 @@
 
 <script>
 import data from "@/static/pizza.json";
+import { getDough, getFilling, getSizes, getSauces } from "@/common/helpers.js";
 
 export default {
   data() {
     return {
-      dough: data.dough,
-      sizes: data.sizes,
-      ingredients: data.ingredients,
-      sauces: data.sauces,
+      dough: getDough(data.dough),
+      sizes: getSizes(data.sizes),
+      ingredients: getFilling(data.ingredients),
+      sauces: getSauces(data.sauces),
     };
   },
 };
