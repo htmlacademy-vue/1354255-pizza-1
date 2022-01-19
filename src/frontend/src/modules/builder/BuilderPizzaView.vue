@@ -6,6 +6,7 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        v-model.trim="pizzaName"
       />
     </label>
 
@@ -52,6 +53,12 @@ export default {
     selectedIngredients: {
       type: [Object, Array],
     },
+  },
+
+  data() {
+    return {
+      pizzaName: "",
+    };
   },
 
   computed: {
