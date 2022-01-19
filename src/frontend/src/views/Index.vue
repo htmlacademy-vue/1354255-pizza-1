@@ -1,155 +1,71 @@
 <template>
-  <main class="content">
-    <form action="#" method="post">
-      <div class="content__wrapper">
-        <h1 class="title title--big">Конструктор пиццы</h1>
+  <app-layout>
+    <main class="content">
+      <form action="#" method="post">
+        <div class="content__wrapper">
+          <h1 class="title title--big">Конструктор пиццы</h1>
+          <builder-dough-selector
+            :dough="dough"
+            @selectDough="selectedDough = $event"
+          ></builder-dough-selector>
 
-        <div class="content__dough">
-          <div class="sheet">
-            <h2 class="title title--small sheet__title">Выберите тесто</h2>
+          <builder-size-selector
+            :sizes="sizes"
+            @selectSize="selectedSize = $event"
+          ></builder-size-selector>
 
-            <div class="sheet__content dough">
-              <label
-                class="dough__input"
-                v-for="element in dough"
-                :key="element.id"
-                :class="`dough__input--${element.type}`"
-              >
-                <input
-                  type="radio"
-                  name="dought"
-                  :value="element.type"
-                  class="visually-hidden"
-                />
-                <b>{{ element.name }}</b>
-                <span>{{ element.description }}</span>
-              </label>
-            </div>
-          </div>
+          <builder-ingredients-selector
+            :ingredients="ingredients"
+            :sauces="sauces"
+            @selectSauce="selectedSauce = $event"
+            @selectIngredients="selectIngredients"
+          ></builder-ingredients-selector>
+
+          <builder-pizza-view></builder-pizza-view>
         </div>
-
-        <div class="content__diameter">
-          <div class="sheet">
-            <h2 class="title title--small sheet__title">Выберите размер</h2>
-
-            <div class="sheet__content diameter">
-              <label
-                class="diameter__input"
-                v-for="size in sizes"
-                :key="size.id"
-                :class="`diameter__input--${size.size}`"
-              >
-                <input
-                  type="radio"
-                  name="diameter"
-                  :value="size.size"
-                  class="visually-hidden"
-                />
-                <span>{{ size.name }}</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="content__ingredients">
-          <div class="sheet">
-            <h2 class="title title--small sheet__title">
-              Выберите ингредиенты
-            </h2>
-
-            <div class="sheet__content ingredients">
-              <div class="ingredients__sauce">
-                <p>Основной соус:</p>
-
-                <label
-                  class="radio ingredients__input"
-                  v-for="sauce in sauces"
-                  :key="sauce.id"
-                >
-                  <input type="radio" name="sauce" :value="sauce.sauce" />
-                  <span>{{ sauce.name }}</span>
-                </label>
-              </div>
-
-              <div class="ingredients__filling">
-                <p>Начинка:</p>
-
-                <ul class="ingredients__list">
-                  <li
-                    class="ingredients__item"
-                    v-for="ingredient in ingredients"
-                    :key="ingredient.id"
-                  >
-                    <span
-                      class="filling"
-                      :class="`filling--${ingredient.filling}`"
-                      >{{ ingredient.name }}</span
-                    >
-
-                    <div class="counter counter--orange ingredients__counter">
-                      <button
-                        type="button"
-                        class="counter__button counter__button--minus"
-                        disabled
-                      >
-                        <span class="visually-hidden">Меньше</span>
-                      </button>
-                      <input
-                        type="text"
-                        name="counter"
-                        class="counter__input"
-                        value="0"
-                      />
-                      <button
-                        type="button"
-                        class="counter__button counter__button--plus"
-                      >
-                        <span class="visually-hidden">Больше</span>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="content__pizza">
-          <label class="input">
-            <span class="visually-hidden">Название пиццы</span>
-            <input
-              type="text"
-              name="pizza_name"
-              placeholder="Введите название пиццы"
-            />
-          </label>
-
-          <div class="content__constructor"></div>
-
-          <div class="content__result">
-            <p>Итого: 0 ₽</p>
-            <button type="button" class="button" disabled>Готовьте!</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </main>
+      </form>
+    </main>
+  </app-layout>
 </template>
 
 <script>
+import BuilderPizzaView from "@/modules/builder/BuilderPizzaView";
+import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector";
+import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
+import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
+import AppLayout from "@/layouts/AppLayout";
 import data from "@/static/pizza.json";
 import { getDough, getFilling, getSizes, getSauces } from "@/common/helpers.js";
 
 export default {
+  components: {
+    AppLayout,
+    BuilderPizzaView,
+    BuilderIngredientsSelector,
+    BuilderSizeSelector,
+    BuilderDoughSelector,
+  },
+
   data() {
     return {
       dough: getDough(data.dough),
       sizes: getSizes(data.sizes),
       ingredients: getFilling(data.ingredients),
       sauces: getSauces(data.sauces),
+      selectedDough: "",
+      selectedSauce: "",
+      selectedSize: "",
+      selectedIngredients: {},
     };
+  },
+
+  methods: {
+    selectIngredients(ingredientSet) {
+      this.selectedIngredients = {
+        ...this.selectedIngredients,
+        ...ingredientSet,
+      };
+    },
   },
 };
 </script>
-
-<style scoped></style>

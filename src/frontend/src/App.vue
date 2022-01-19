@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="main">
+    <!-- <div class="main">
       <div class="main__wrapper">
         <div class="main__header">
           <img
@@ -17,7 +17,9 @@
           <b>«Vue.js для опытных разработчиков».</b>
         </p>
       </div>
-    </div>
+    </div> -->
+
+    <router-view />
   </div>
 </template>
 
