@@ -51,7 +51,6 @@ export const getFilling = (ingredientsArray) => {
       name: ingredient.name,
       filling: getFillingFromImg(ingredient.image),
       price: ingredient.price,
-      amount: 0,
     });
 
     return newArr;

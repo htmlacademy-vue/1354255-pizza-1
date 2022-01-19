@@ -17,6 +17,7 @@
           <builder-ingredients-selector
             :ingredients="ingredients"
             :sauces="sauces"
+            :selectedIngredients="selectedIngredients"
             @selectSauce="selectedSauce = $event"
             @selectIngredients="selectIngredients"
           ></builder-ingredients-selector>
@@ -26,7 +27,7 @@
             :selectedSauce="selectedSauce"
             :selectedSize="selectedSize"
             :selectedIngredients="selectedIngredients"
-            @updateIngredients="selectedIngredients = $event"
+            @updateIngredients="addIngredient"
           ></builder-pizza-view>
         </div>
       </form>
@@ -71,6 +72,17 @@ export default {
         ...this.selectedIngredients,
         ...ingredientSet,
       };
+    },
+    addIngredient(ingredientName) {
+      if (this.selectedIngredients[ingredientName]) {
+        this.$set(
+          this.selectedIngredients,
+          ingredientName,
+          this.selectedIngredients[ingredientName] + 1
+        );
+      } else {
+        this.$set(this.selectedIngredients, ingredientName, 1);
+      }
     },
   },
 };

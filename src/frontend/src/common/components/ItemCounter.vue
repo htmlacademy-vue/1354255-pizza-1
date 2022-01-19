@@ -29,15 +29,28 @@
 
 <script>
 export default {
+  props: {
+    startValue: {
+      type: Number,
+      default: 0,
+    },
+  },
+
   data() {
     return {
       counter: 0,
     };
   },
 
+  watch: {
+    startValue: function (newVal) {
+      this.counter = newVal;
+    },
+  },
+
   methods: {
     emitCountValue(value) {
-      this.$emit("changeAmount", value);
+      this.$emit("changeAmount", +value);
     },
 
     decreaseCounter() {

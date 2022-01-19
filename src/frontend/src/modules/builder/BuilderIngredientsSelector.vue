@@ -36,6 +36,7 @@
               </app-drag>
 
               <item-counter
+                :startValue="selectedIngredients[ingredient.filling]"
                 @changeAmount="selectIngredients($event, ingredient.filling)"
               ></item-counter>
             </li>
@@ -62,6 +63,10 @@ export default {
     ingredients: {
       type: Array,
       required: true,
+    },
+    selectedIngredients: {
+      type: Object,
+      default: () => {},
     },
   },
 

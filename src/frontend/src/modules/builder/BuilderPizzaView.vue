@@ -69,10 +69,7 @@ export default {
 
   methods: {
     addIngredient(ingredient) {
-      this.$emit("updateIngredients", {
-        ...this.selectedIngredients,
-        [ingredient]: this.selectedIngredients[ingredient] + 1 || 1,
-      });
+      this.$emit("updateIngredients", ingredient);
     },
   },
 };
