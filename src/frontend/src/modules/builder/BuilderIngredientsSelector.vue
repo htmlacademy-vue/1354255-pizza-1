@@ -27,9 +27,13 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <span class="filling" :class="`filling--${ingredient.filling}`">{{
-                ingredient.name
-              }}</span>
+              <app-drag :transfer-data="ingredient.filling">
+                <span
+                  class="filling"
+                  :class="`filling--${ingredient.filling}`"
+                  >{{ ingredient.name }}</span
+                >
+              </app-drag>
 
               <item-counter
                 @changeAmount="selectIngredients($event, ingredient.filling)"
@@ -45,9 +49,10 @@
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
+import AppDrag from "@/common/components/AppDrag";
 
 export default {
-  components: { ItemCounter, RadioButton },
+  components: { ItemCounter, RadioButton, AppDrag },
 
   props: {
     sauces: {

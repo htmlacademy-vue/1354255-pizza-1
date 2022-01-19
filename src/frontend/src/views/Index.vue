@@ -21,7 +21,13 @@
             @selectIngredients="selectIngredients"
           ></builder-ingredients-selector>
 
-          <builder-pizza-view></builder-pizza-view>
+          <builder-pizza-view
+            :selectedDough="selectedDough"
+            :selectedSauce="selectedSauce"
+            :selectedSize="selectedSize"
+            :selectedIngredients="selectedIngredients"
+            @updateIngredients="selectedIngredients = $event"
+          ></builder-pizza-view>
         </div>
       </form>
     </main>
