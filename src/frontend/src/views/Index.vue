@@ -60,9 +60,9 @@ export default {
       sizes: getSizes(data.sizes),
       ingredients: getFilling(data.ingredients),
       sauces: getSauces(data.sauces),
-      selectedDough: "",
-      selectedSauce: "",
-      selectedSize: "",
+      selectedDough: {},
+      selectedSauce: {},
+      selectedSize: {},
       selectedIngredients: {},
     };
   },

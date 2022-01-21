@@ -11,7 +11,9 @@
           :description="element.description"
           :inputValue="element.type"
           inputName="dough"
-          @change="$emit('selectDough', element.type)"
+          @change="
+            $emit('selectDough', { type: element.type, price: element.price })
+          "
         >
           <b>{{ element.name }}</b>
         </radio-button>

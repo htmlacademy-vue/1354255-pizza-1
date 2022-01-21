@@ -13,7 +13,7 @@
     <app-drop @drop="addIngredient" class="content__constructor">
       <div
         class="pizza"
-        :class="`pizza--foundation--${doughSize}-${selectedSauce}`"
+        :class="`pizza--foundation--${doughSize}-${selectedSauce.sauce}`"
       >
         <div class="pizza__wrapper">
           <div
@@ -29,7 +29,13 @@
       </div>
     </app-drop>
 
-    <builder-price-counter></builder-price-counter>
+    <builder-price-counter
+      :doughPrice="selectedDough.price"
+      :sizePrice="selectedSize.multiplier"
+      :saucePrice="selectedSauce.price"
+      :isNameFilled="!!pizzaName"
+      :ingredientsPrice="ingredientsPrice"
+    ></builder-price-counter>
   </div>
 </template>
 
@@ -42,16 +48,16 @@ export default {
 
   props: {
     selectedDough: {
-      type: String,
-      default: "",
+      type: Object,
+      default: () => {},
     },
     selectedSauce: {
-      type: String,
-      default: "",
+      type: Object,
+      default: () => {},
     },
     selectedSize: {
-      type: String,
-      default: "",
+      type: Object,
+      default: () => {},
     },
     selectedIngredients: {
       type: Object,
@@ -71,7 +77,7 @@ export default {
 
   computed: {
     doughSize() {
-      return this.selectedDough === "light" ? "small" : "big";
+      return this.selectedDough.type === "light" ? "small" : "big";
     },
     chosenIngredients() {
       const amount = [];
@@ -83,6 +89,15 @@ export default {
       });
 
       return amount;
+    },
+    ingredientsPrice() {
+      return Object.entries(this.selectedIngredients).reduce((result, item) => {
+        const price =
+          this.allIngredients.find(
+            (ingredient) => ingredient.filling === item[0]
+          ).price * item[1];
+        return (result += price);
+      }, 0);
     },
   },
 

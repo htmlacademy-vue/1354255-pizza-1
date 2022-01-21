@@ -14,7 +14,9 @@
             :description="sauce.name"
             :inputValue="sauce.sauce"
             inputName="sauce"
-            @change="$emit('selectSauce', sauce.sauce)"
+            @change="
+              $emit('selectSauce', { sauce: sauce.sauce, price: sauce.price })
+            "
           ></radio-button>
         </div>
 
