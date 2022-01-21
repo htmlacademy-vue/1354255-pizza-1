@@ -27,6 +27,7 @@
             :selectedSauce="selectedSauce"
             :selectedSize="selectedSize"
             :selectedIngredients="selectedIngredients"
+            :allIngredients="ingredients"
             @updateIngredients="addIngredient"
           ></builder-pizza-view>
         </div>

@@ -17,10 +17,13 @@
       >
         <div class="pizza__wrapper">
           <div
-            v-for="(amount, ingredient) in selectedIngredients"
-            :key="ingredient"
+            v-for="ingredient in chosenIngredients"
+            :key="`${ingredient.name}-${ingredient.amount}`"
             class="pizza__filling"
-            :class="`pizza__filling--${ingredient}`"
+            :class="[
+              `pizza__filling--${ingredient.name}`,
+              showIngredientAmount(ingredient.amount),
+            ]"
           ></div>
         </div>
       </div>
@@ -54,6 +57,10 @@ export default {
       type: Object,
       required: true,
     },
+    allIngredients: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
@@ -66,11 +73,32 @@ export default {
     doughSize() {
       return this.selectedDough === "light" ? "small" : "big";
     },
+    chosenIngredients() {
+      const amount = [];
+
+      Object.keys(this.selectedIngredients).forEach((item) => {
+        for (let i = 0; i < this.selectedIngredients[item]; i++) {
+          amount.push({ name: item, amount: i + 1 });
+        }
+      });
+
+      return amount;
+    },
   },
 
   methods: {
     addIngredient(ingredient) {
       this.$emit("updateIngredients", ingredient);
+    },
+    showIngredientAmount(amount) {
+      switch (amount) {
+        case 2:
+          return "pizza__filling--second";
+        case 3:
+          return "pizza__filling--second pizza__filling--third";
+        default:
+          return "";
+      }
     },
   },
 };
