@@ -3,7 +3,7 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
-      :disabled="!counter"
+      :disabled="!startValue"
       @click="decreaseCounter"
     >
       <span class="visually-hidden">Меньше</span>
@@ -13,7 +13,7 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="counter"
+      :value="startValue"
       @input="emitCountValue($event.target.value)"
     />
 
@@ -21,6 +21,7 @@
       type="button"
       class="counter__button counter__button--plus"
       @click="increaseCounter"
+      :disabled="startValue >= 3"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -36,15 +37,9 @@ export default {
     },
   },
 
-  data() {
-    return {
-      counter: 0,
-    };
-  },
-
   watch: {
-    startValue: function (newVal) {
-      this.counter = newVal;
+    startValue(newVal) {
+      if (newVal >= 3) this.$emit("changeAmount", 3);
     },
   },
 
@@ -54,13 +49,11 @@ export default {
     },
 
     decreaseCounter() {
-      this.counter--;
-      this.emitCountValue(this.counter);
+      this.emitCountValue(this.startValue - 1);
     },
 
     increaseCounter() {
-      this.counter++;
-      this.emitCountValue(this.counter);
+      this.emitCountValue(this.startValue + 1);
     },
   },
 };
