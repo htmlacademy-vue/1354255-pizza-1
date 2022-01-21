@@ -27,7 +27,10 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <app-drag :transfer-data="ingredient.filling">
+              <app-drag
+                :transfer-data="ingredient.filling"
+                :isDraggable="canDrag(selectedIngredients[ingredient.filling])"
+              >
                 <span
                   class="filling"
                   :class="`filling--${ingredient.filling}`"
@@ -73,6 +76,9 @@ export default {
   methods: {
     selectIngredients(amount, filling) {
       this.$emit("selectIngredients", { [filling]: amount });
+    },
+    canDrag(val) {
+      return typeof val === "undefined" || val < 3;
     },
   },
 };
