@@ -51,7 +51,8 @@ export default {
       default: "",
     },
     selectedIngredients: {
-      type: [Object, Array],
+      type: Object,
+      required: true,
     },
   },
 
