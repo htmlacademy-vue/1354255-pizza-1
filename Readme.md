@@ -1,6 +1,6 @@
 # Личный проект «VuePizza»
 
-* Студент: [Марс](https://up.htmlacademy.ru/vue/1/user/1354255).
+* Студент: [Марьяна](https://up.htmlacademy.ru/vue/1/user/1354255).
 
 ---
 
