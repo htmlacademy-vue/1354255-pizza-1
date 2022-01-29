@@ -7,17 +7,9 @@
 
         <builder-size-selector></builder-size-selector>
 
-        <builder-ingredients-selector
-          :ingredients="ingredients"
-          :selectedIngredients="selectedIngredients"
-          @selectIngredients="selectIngredients"
-        ></builder-ingredients-selector>
+        <builder-ingredients-selector></builder-ingredients-selector>
 
-        <builder-pizza-view
-          :selectedIngredients="selectedIngredients"
-          :allIngredients="ingredients"
-          @updateIngredients="addIngredient"
-        ></builder-pizza-view>
+        <builder-pizza-view></builder-pizza-view>
       </div>
     </form>
   </main>
@@ -28,8 +20,6 @@ import BuilderPizzaView from "@/modules/builder/BuilderPizzaView";
 import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
-import data from "@/static/pizza.json";
-import { getFilling } from "@/common/helpers.js";
 
 export default {
   components: {
@@ -37,33 +27,6 @@ export default {
     BuilderIngredientsSelector,
     BuilderSizeSelector,
     BuilderDoughSelector,
-  },
-
-  data() {
-    return {
-      ingredients: getFilling(data.ingredients),
-      selectedIngredients: {},
-    };
-  },
-
-  methods: {
-    selectIngredients(ingredientSet) {
-      this.selectedIngredients = {
-        ...this.selectedIngredients,
-        ...ingredientSet,
-      };
-    },
-    addIngredient(ingredientName) {
-      if (this.selectedIngredients[ingredientName]) {
-        this.$set(
-          this.selectedIngredients,
-          ingredientName,
-          this.selectedIngredients[ingredientName] + 1
-        );
-      } else {
-        this.$set(this.selectedIngredients, ingredientName, 1);
-      }
-    },
   },
 };
 </script>

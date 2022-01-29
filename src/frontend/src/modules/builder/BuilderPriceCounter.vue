@@ -16,19 +16,13 @@ import { mapGetters } from "vuex";
 import EventBus from "@/eventBus";
 
 export default {
-  props: {
-    ingredientsPrice: {
-      type: Number,
-      default: 0,
-    },
-  },
-
   computed: {
     ...mapGetters("Builder", {
       doughPrice: "getDoughPrice",
       sizePrice: "getSizePrice",
       saucePrice: "getSaucePrice",
       pizzaName: "getPizzaName",
+      ingredientsPrice: "getIngredientsPrice",
     }),
     finalPrice() {
       return (

@@ -59,26 +59,17 @@ import { mapGetters } from "vuex";
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
-  props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-    selectedIngredients: {
-      type: Object,
-      default: () => {},
-    },
-  },
-
   computed: {
     ...mapGetters("Builder", {
       sauces: "getSauces",
+      ingredients: "getIngredients",
+      selectedIngredients: "getSelectedIngredients",
     }),
   },
 
   methods: {
     selectIngredients(amount, filling) {
-      this.$emit("selectIngredients", { [filling]: amount });
+      this.$store.commit("Builder/ADD_INGREDIENTS", { name: filling, amount });
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;

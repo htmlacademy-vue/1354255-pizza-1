@@ -29,9 +29,7 @@
       </div>
     </app-drop>
 
-    <builder-price-counter
-      :ingredientsPrice="ingredientsPrice"
-    ></builder-price-counter>
+    <builder-price-counter></builder-price-counter>
   </div>
 </template>
 
@@ -43,23 +41,14 @@ import { mapGetters } from "vuex";
 export default {
   components: { BuilderPriceCounter, AppDrop },
 
-  props: {
-    selectedIngredients: {
-      type: Object,
-      required: true,
-    },
-    allIngredients: {
-      type: Array,
-      required: true,
-    },
-  },
-
   computed: {
     ...mapGetters("Builder", {
       selectedDough: "getSelectedDough",
       selectedSize: "getSelectedSize",
       selectedSauce: "getSelectedSauce",
       pizza: "getPizzaName",
+      allIngredients: "getIngredients",
+      selectedIngredients: "getSelectedIngredients",
     }),
     pizzaName: {
       get() {
@@ -83,20 +72,16 @@ export default {
 
       return amount;
     },
-    ingredientsPrice() {
-      return Object.entries(this.selectedIngredients).reduce((result, item) => {
-        const price =
-          this.allIngredients.find(
-            (ingredient) => ingredient.filling === item[0]
-          ).price * item[1];
-        return (result += price);
-      }, 0);
-    },
   },
 
   methods: {
-    addIngredient(ingredient) {
-      this.$emit("updateIngredients", ingredient);
+    addIngredient(filling) {
+      this.$store.commit("Builder/ADD_INGREDIENTS", {
+        name: filling,
+        amount: this.selectedIngredients[filling]
+          ? this.selectedIngredients[filling] + 1
+          : 1,
+      });
     },
     showIngredientAmount(amount) {
       switch (amount) {

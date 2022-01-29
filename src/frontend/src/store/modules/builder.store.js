@@ -1,5 +1,5 @@
 import data from "@/static/pizza.json";
-import { getDough, getSizes, getSauces } from "@/common/helpers.js";
+import { getDough, getSizes, getSauces, getFilling } from "@/common/helpers.js";
 
 const state = () => ({
   dough: getDough(data.dough),
@@ -9,6 +9,8 @@ const state = () => ({
   sauces: getSauces(data.sauces),
   selectedSauce: {},
   pizzaName: "",
+  ingredients: getFilling(data.ingredients),
+  selectedIngredients: {},
 });
 
 const mutations = {
@@ -27,6 +29,13 @@ const mutations = {
   SET_PIZZA_NAME: (state, pizzaName) => {
     state.pizzaName = pizzaName;
   },
+
+  ADD_INGREDIENTS: (state, ingredientSet) => {
+    state.selectedIngredients = {
+      ...state.selectedIngredients,
+      [ingredientSet.name]: ingredientSet.amount,
+    };
+  },
 };
 
 const actions = {};
@@ -42,6 +51,16 @@ const getters = {
   getDoughPrice: (state) => state.selectedDough.price || 0,
   getSizePrice: (state) => state.selectedSize.multiplier || 0,
   getSaucePrice: (state) => state.selectedSauce.price || 0,
+  getIngredients: (state) => state.ingredients,
+  getSelectedIngredients: (state) => state.selectedIngredients,
+  getIngredientsPrice: (state) => {
+    return Object.entries(state.selectedIngredients).reduce((result, item) => {
+      const price =
+        state.ingredients.find((ingredient) => ingredient.filling === item[0])
+          .price * item[1];
+      return (result += price);
+    }, 0);
+  },
 };
 
 export default {
