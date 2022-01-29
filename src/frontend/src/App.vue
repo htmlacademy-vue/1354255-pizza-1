@@ -1,31 +1,38 @@
 <template>
   <div id="app">
-    <!-- <div class="main">
-      <div class="main__wrapper">
-        <div class="main__header">
-          <img
-            src="@/assets/img/logo.svg"
-            width="300"
-            height="47"
-            alt="V!U!E! Pizza"
-          />
-        </div>
-        <h1>Добро пожаловать!</h1>
-        <p>
-          Это проект V!U!E! Pizza для обучения на профессиональном
-          онлайн‑курсе<br />
-          <b>«Vue.js для опытных разработчиков».</b>
-        </p>
-      </div>
-    </div> -->
-
-    <router-view />
+    <AppLayout :isLoggedIn="isLoggedIn">
+      <router-view />
+    </AppLayout>
   </div>
 </template>
 
 <script>
+import AppLayout from "@/layouts/AppLayout.vue";
+import EventBus from "@/eventBus";
+
 export default {
   name: "App",
+  components: { AppLayout },
+
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+
+  mounted() {
+    EventBus.$on("login", this.login);
+    EventBus.$on("logout", this.logout);
+  },
+
+  methods: {
+    login() {
+      this.isLoggedIn = true;
+    },
+    logout() {
+      this.isLoggedIn = false;
+    },
+  },
 };
 </script>
 

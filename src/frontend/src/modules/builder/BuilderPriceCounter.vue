@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import EventBus from "@/eventBus";
+
 export default {
   props: {
     doughPrice: {
@@ -35,6 +37,7 @@ export default {
       default: 0,
     },
   },
+
   computed: {
     finalPrice() {
       return (
@@ -44,6 +47,12 @@ export default {
     },
     isPizzaSelected() {
       return this.saucePrice && this.sizePrice && this.doughPrice;
+    },
+  },
+
+  watch: {
+    finalPrice(newVal) {
+      EventBus.$emit("priceChange", newVal);
     },
   },
 };

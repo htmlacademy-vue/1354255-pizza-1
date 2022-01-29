@@ -1,0 +1,103 @@
+<template>
+  <header class="header">
+    <div class="header__logo">
+      <router-link :to="{ name: 'Main' }" class="logo">
+        <img
+          src="@/assets/img/logo.svg"
+          alt="V!U!E! Pizza logo"
+          width="90"
+          height="40"
+        />
+      </router-link>
+    </div>
+
+    <div class="header__cart">
+      <router-link :to="{ name: 'Cart' }">{{ pizzaPrice }} ₽</router-link>
+    </div>
+
+    <div class="header__user" v-if="isLoggedIn">
+      <router-link :to="{ name: 'Profile' }">
+        <picture>
+          <source
+            type="image/webp"
+            srcset="
+              @/assets/img/users/user5.webp    1x,
+              @/assets/img/users/user5@2x.webp 2x
+            "
+          />
+          <img
+            src="@/assets/img/users/user5.jpg"
+            srcset="img/users/user5@2x.jpg"
+            :alt="username"
+            width="32"
+            height="32"
+          />
+        </picture>
+        <span>{{ username }}</span>
+      </router-link>
+      <button class="header__logout" @click="logoutHandler">
+        <span>Выйти</span>
+      </button>
+    </div>
+
+    <div class="header__user" v-else>
+      <button class="header__login" @click="loginHandler">
+        <span>Войти</span>
+      </button>
+    </div>
+  </header>
+</template>
+
+<script>
+import EventBus from "@/eventBus";
+
+export default {
+  props: {
+    isLoggedIn: {
+      type: Boolean,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      username: "Василий Ложкин",
+      pizzaPrice: 0,
+    };
+  },
+
+  mounted() {
+    EventBus.$on("priceChange", this.pizzaPriceHandler);
+  },
+
+  methods: {
+    loginHandler() {
+      EventBus.$emit("login");
+      this.$router.push({ name: "Login" });
+    },
+    logoutHandler() {
+      EventBus.$emit("logout");
+      this.$router.push({ name: "Main" });
+    },
+    pizzaPriceHandler(price) {
+      this.pizzaPrice = price;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.header__user {
+  display: flex;
+}
+
+.header__logout,
+.header__login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+</style>
