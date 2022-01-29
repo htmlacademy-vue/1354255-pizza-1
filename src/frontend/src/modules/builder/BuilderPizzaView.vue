@@ -52,10 +52,6 @@ export default {
       type: Object,
       default: () => {},
     },
-    selectedSize: {
-      type: Object,
-      default: () => {},
-    },
     selectedIngredients: {
       type: Object,
       required: true,
@@ -75,6 +71,7 @@ export default {
   computed: {
     ...mapGetters("Builder", {
       selectedDough: "getSelectedDough",
+      selectedSize: "getSelectedSize",
     }),
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";

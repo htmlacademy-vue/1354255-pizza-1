@@ -11,12 +11,7 @@
           :description="size.name"
           :inputValue="size.size"
           inputName="diameter"
-          @change="
-            $emit('selectSize', {
-              size: size.size,
-              multiplier: size.multiplier,
-            })
-          "
+          @change="selectSize({ size: size.size, multiplier: size.multiplier })"
         ></radio-button>
       </div>
     </div>
@@ -25,14 +20,20 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapGetters } from "vuex";
 
 export default {
   components: { RadioButton },
 
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
+  computed: {
+    ...mapGetters("Builder", {
+      sizes: "getSizes",
+    }),
+  },
+
+  methods: {
+    selectSize(selectedSize) {
+      this.$store.commit("Builder/SELECT_SIZE", selectedSize);
     },
   },
 };
