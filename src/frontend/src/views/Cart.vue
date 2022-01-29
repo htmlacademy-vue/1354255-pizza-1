@@ -14,7 +14,7 @@
           <li class="cart-list__item">
             <div class="product cart-list__product">
               <img
-                src="img/product.svg"
+                src="@/assets/img/product.svg"
                 class="product__img"
                 width="56"
                 height="56"
@@ -59,7 +59,7 @@
               <button type="button" class="cart-list__edit">Изменить</button>
             </div>
           </li>
-          <li class="cart-list__item">
+          <!-- <li class="cart-list__item">
             <div class="product cart-list__product">
               <img
                 src="img/product.svg"
@@ -109,7 +109,7 @@
             <div class="cart-list__button">
               <button type="button" class="cart-list__edit">Изменить</button>
             </div>
-          </li>
+          </li> -->
         </ul>
 
         <div class="cart__additional">
@@ -117,7 +117,7 @@
             <li class="additional-list__item sheet">
               <p class="additional-list__description">
                 <img
-                  src="img/cola.svg"
+                  src="@/assets/img/cola.svg"
                   width="39"
                   height="60"
                   alt="Coca-Cola 0,5 литра"
@@ -155,7 +155,7 @@
             <li class="additional-list__item sheet">
               <p class="additional-list__description">
                 <img
-                  src="img/sauce.svg"
+                  src="@/assets/img/sauce.svg"
                   width="39"
                   height="60"
                   alt="Острый соус"
@@ -193,7 +193,7 @@
             <li class="additional-list__item sheet">
               <p class="additional-list__description">
                 <img
-                  src="img/potato.svg"
+                  src="@/assets/img/potato.svg"
                   width="39"
                   height="60"
                   alt="Картошка из печи"
@@ -276,6 +276,7 @@
         </div>
       </div>
     </main>
+
     <section class="footer">
       <div class="footer__more">
         <a href="#" class="button button--border button--arrow"
@@ -290,8 +291,30 @@
       </div>
 
       <div class="footer__submit">
-        <button type="submit" class="button">Оформить заказ</button>
+        <button
+          type="submit"
+          class="button"
+          @click.prevent="isPopupOpen = true"
+        >
+          Оформить заказ
+        </button>
       </div>
     </section>
+
+    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="isPopupOpen = false" />
   </form>
 </template>
+
+<script>
+import AppPopup from "@/common/components/AppPopup";
+
+export default {
+  components: { AppPopup },
+
+  data() {
+    return {
+      isPopupOpen: false,
+    };
+  },
+};
+</script>
