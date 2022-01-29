@@ -13,7 +13,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import EventBus from "@/eventBus";
 
 export default {
   computed: {
@@ -25,10 +24,7 @@ export default {
       ingredientsPrice: "getIngredientsPrice",
     }),
     finalPrice() {
-      return (
-        (this.doughPrice + this.saucePrice + this.ingredientsPrice) *
-        this.sizePrice
-      );
+      return this.$store.getters["Cart/getPrice"];
     },
     isPizzaSelected() {
       return this.saucePrice && this.sizePrice && this.doughPrice;
@@ -38,10 +34,8 @@ export default {
     },
   },
 
-  watch: {
-    finalPrice(newVal) {
-      EventBus.$emit("priceChange", newVal);
-    },
+  mounted() {
+    this.$store.dispatch("Cart/countPrice");
   },
 };
 </script>

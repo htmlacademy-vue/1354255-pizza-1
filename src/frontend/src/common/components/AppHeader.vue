@@ -50,6 +50,7 @@
 
 <script>
 import EventBus from "@/eventBus";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -62,12 +63,13 @@ export default {
   data() {
     return {
       username: "Василий Ложкин",
-      pizzaPrice: 0,
     };
   },
 
-  mounted() {
-    EventBus.$on("priceChange", this.pizzaPriceHandler);
+  computed: {
+    ...mapGetters("Cart", {
+      pizzaPrice: "getPrice",
+    }),
   },
 
   methods: {
@@ -78,9 +80,6 @@ export default {
     logoutHandler() {
       EventBus.$emit("logout");
       this.$router.push({ name: "Main" });
-    },
-    pizzaPriceHandler(price) {
-      this.pizzaPrice = price;
     },
   },
 };

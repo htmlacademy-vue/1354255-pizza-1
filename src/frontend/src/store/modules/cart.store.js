@@ -1,10 +1,35 @@
-const state = () => ({});
+const state = () => ({
+  finalPrice: 0,
+});
 
-const mutations = {};
+const mutations = {
+  SET_PRICE: (state, price) => {
+    state.finalPrice = price;
+  },
+};
 
-const actions = {};
+const actions = {
+  countPrice({ commit, rootGetters }) {
+    const price =
+      (rootGetters["Builder/getDoughPrice"] +
+        rootGetters["Builder/getSaucePrice"] +
+        rootGetters["Builder/getIngredientsPrice"]) *
+      (rootGetters["Builder/getSizePrice"] || 1);
 
-const getters = {};
+    commit("SET_PRICE", price);
+  },
+};
+
+const getters = {
+  getPrice: (state, getters, rootState, rootGetters) => {
+    return (
+      (rootGetters["Builder/getDoughPrice"] +
+        rootGetters["Builder/getSaucePrice"] +
+        rootGetters["Builder/getIngredientsPrice"]) *
+      (rootGetters["Builder/getSizePrice"] || 1)
+    );
+  },
+};
 
 export default {
   namespaced: true,
