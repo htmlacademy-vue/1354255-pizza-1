@@ -9,14 +9,11 @@
 
         <builder-ingredients-selector
           :ingredients="ingredients"
-          :sauces="sauces"
           :selectedIngredients="selectedIngredients"
-          @selectSauce="selectedSauce = $event"
           @selectIngredients="selectIngredients"
         ></builder-ingredients-selector>
 
         <builder-pizza-view
-          :selectedSauce="selectedSauce"
           :selectedIngredients="selectedIngredients"
           :allIngredients="ingredients"
           @updateIngredients="addIngredient"
@@ -32,7 +29,7 @@ import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSele
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
 import data from "@/static/pizza.json";
-import { getFilling, getSauces } from "@/common/helpers.js";
+import { getFilling } from "@/common/helpers.js";
 
 export default {
   components: {
@@ -45,8 +42,6 @@ export default {
   data() {
     return {
       ingredients: getFilling(data.ingredients),
-      sauces: getSauces(data.sauces),
-      selectedSauce: {},
       selectedIngredients: {},
     };
   },

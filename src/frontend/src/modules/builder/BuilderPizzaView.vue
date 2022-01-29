@@ -48,10 +48,6 @@ export default {
   components: { BuilderPriceCounter, AppDrop },
 
   props: {
-    selectedSauce: {
-      type: Object,
-      default: () => {},
-    },
     selectedIngredients: {
       type: Object,
       required: true,
@@ -72,6 +68,7 @@ export default {
     ...mapGetters("Builder", {
       selectedDough: "getSelectedDough",
       selectedSize: "getSelectedSize",
+      selectedSauce: "getSelectedSauce",
     }),
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";

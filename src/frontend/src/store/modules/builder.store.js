@@ -1,11 +1,13 @@
 import data from "@/static/pizza.json";
-import { getDough, getSizes } from "@/common/helpers.js";
+import { getDough, getSizes, getSauces } from "@/common/helpers.js";
 
 const state = () => ({
-  dough: getDough(data.dough) || [],
+  dough: getDough(data.dough),
   selectedDough: {},
   sizes: getSizes(data.sizes),
   selectedSize: {},
+  sauces: getSauces(data.sauces),
+  selectedSauce: {},
 });
 
 const mutations = {
@@ -16,6 +18,10 @@ const mutations = {
   SELECT_SIZE: (state, selectedSize) => {
     state.selectedSize = selectedSize;
   },
+
+  SELECT_SAUCE: (state, selectedSauce) => {
+    state.selectedSauce = selectedSauce;
+  },
 };
 
 const actions = {};
@@ -25,6 +31,8 @@ const getters = {
   getSelectedDough: (state) => state.selectedDough,
   getSizes: (state) => state.sizes,
   getSelectedSize: (state) => state.selectedSize,
+  getSauces: (state) => state.sauces,
+  getSelectedSauce: (state) => state.selectedSauce,
 };
 
 export default {

@@ -14,9 +14,7 @@
             :description="sauce.name"
             :inputValue="sauce.sauce"
             inputName="sauce"
-            @change="
-              $emit('selectSauce', { sauce: sauce.sauce, price: sauce.price })
-            "
+            @change="selectSauce({ sauce: sauce.sauce, price: sauce.price })"
           ></radio-button>
         </div>
 
@@ -56,15 +54,12 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
+import { mapGetters } from "vuex";
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
   props: {
-    sauces: {
-      type: Array,
-      required: true,
-    },
     ingredients: {
       type: Array,
       required: true,
@@ -75,12 +70,21 @@ export default {
     },
   },
 
+  computed: {
+    ...mapGetters("Builder", {
+      sauces: "getSauces",
+    }),
+  },
+
   methods: {
     selectIngredients(amount, filling) {
       this.$emit("selectIngredients", { [filling]: amount });
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
+    },
+    selectSauce(selectedSauce) {
+      this.$store.commit("Builder/SELECT_SAUCE", selectedSauce);
     },
   },
 };
