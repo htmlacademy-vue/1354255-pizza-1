@@ -11,9 +11,7 @@
           :description="element.description"
           :inputValue="element.type"
           inputName="dough"
-          @change="
-            $emit('selectDough', { type: element.type, price: element.price })
-          "
+          @change="selectDough({ type: element.type, price: element.price })"
         >
           <b>{{ element.name }}</b>
         </radio-button>
@@ -24,14 +22,20 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapGetters } from "vuex";
 
 export default {
   components: { RadioButton },
 
-  props: {
-    dough: {
-      type: Array,
-      required: true,
+  computed: {
+    ...mapGetters("Builder", {
+      dough: "getDough",
+    }),
+  },
+
+  methods: {
+    selectDough(selectedDough) {
+      this.$store.commit("Builder/SELECT_DOUGH", selectedDough);
     },
   },
 };

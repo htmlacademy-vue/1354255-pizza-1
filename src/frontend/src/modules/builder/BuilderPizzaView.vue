@@ -42,15 +42,12 @@
 <script>
 import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/BuilderPriceCounter";
+import { mapGetters } from "vuex";
 
 export default {
   components: { BuilderPriceCounter, AppDrop },
 
   props: {
-    selectedDough: {
-      type: Object,
-      default: () => {},
-    },
     selectedSauce: {
       type: Object,
       default: () => {},
@@ -76,6 +73,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters("Builder", {
+      selectedDough: "getSelectedDough",
+    }),
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";
     },

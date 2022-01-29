@@ -3,10 +3,7 @@
     <form action="#" method="post">
       <div class="content__wrapper">
         <h1 class="title title--big">Конструктор пиццы</h1>
-        <builder-dough-selector
-          :dough="dough"
-          @selectDough="selectedDough = $event"
-        ></builder-dough-selector>
+        <builder-dough-selector></builder-dough-selector>
 
         <builder-size-selector
           :sizes="sizes"
@@ -22,7 +19,6 @@
         ></builder-ingredients-selector>
 
         <builder-pizza-view
-          :selectedDough="selectedDough"
           :selectedSauce="selectedSauce"
           :selectedSize="selectedSize"
           :selectedIngredients="selectedIngredients"
@@ -40,7 +36,7 @@ import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSele
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
 import data from "@/static/pizza.json";
-import { getDough, getFilling, getSizes, getSauces } from "@/common/helpers.js";
+import { getFilling, getSizes, getSauces } from "@/common/helpers.js";
 
 export default {
   components: {
@@ -52,7 +48,6 @@ export default {
 
   data() {
     return {
-      dough: getDough(data.dough),
       sizes: getSizes(data.sizes),
       ingredients: getFilling(data.ingredients),
       sauces: getSauces(data.sauces),
