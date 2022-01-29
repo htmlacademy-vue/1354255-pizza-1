@@ -8,6 +8,7 @@ const state = () => ({
   selectedSize: {},
   sauces: getSauces(data.sauces),
   selectedSauce: {},
+  pizzaName: "",
 });
 
 const mutations = {
@@ -22,6 +23,10 @@ const mutations = {
   SELECT_SAUCE: (state, selectedSauce) => {
     state.selectedSauce = selectedSauce;
   },
+
+  SET_PIZZA_NAME: (state, pizzaName) => {
+    state.pizzaName = pizzaName;
+  },
 };
 
 const actions = {};
@@ -33,6 +38,10 @@ const getters = {
   getSelectedSize: (state) => state.selectedSize,
   getSauces: (state) => state.sauces,
   getSelectedSauce: (state) => state.selectedSauce,
+  getPizzaName: (state) => state.pizzaName,
+  getDoughPrice: (state) => state.selectedDough.price || 0,
+  getSizePrice: (state) => state.selectedSize.multiplier || 0,
+  getSaucePrice: (state) => state.selectedSauce.price || 0,
 };
 
 export default {

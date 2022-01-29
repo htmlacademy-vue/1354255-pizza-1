@@ -17,10 +17,6 @@ import EventBus from "@/eventBus";
 
 export default {
   props: {
-    isNameFilled: {
-      type: Boolean,
-      default: false,
-    },
     ingredientsPrice: {
       type: Number,
       default: 0,
@@ -29,24 +25,22 @@ export default {
 
   computed: {
     ...mapGetters("Builder", {
-      selectedDough: "getSelectedDough",
-      selectedSize: "getSelectedSize",
-      selectedSauce: "getSelectedSauce",
+      doughPrice: "getDoughPrice",
+      sizePrice: "getSizePrice",
+      saucePrice: "getSaucePrice",
+      pizzaName: "getPizzaName",
     }),
     finalPrice() {
       return (
-        (this.selectedDough.price +
-          this.selectedSauce.price +
-          this.ingredientsPrice) *
-        this.selectedSize.multiplier
+        (this.doughPrice + this.saucePrice + this.ingredientsPrice) *
+        this.sizePrice
       );
     },
     isPizzaSelected() {
-      return (
-        this.selectedSauce.price &&
-        this.selectedSize.multiplier &&
-        this.selectedDough.price
-      );
+      return this.saucePrice && this.sizePrice && this.doughPrice;
+    },
+    isNameFilled() {
+      return !!this.pizzaName;
     },
   },
 

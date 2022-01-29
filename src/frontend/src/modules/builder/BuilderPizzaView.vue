@@ -30,7 +30,6 @@
     </app-drop>
 
     <builder-price-counter
-      :isNameFilled="!!pizzaName"
       :ingredientsPrice="ingredientsPrice"
     ></builder-price-counter>
   </div>
@@ -55,18 +54,21 @@ export default {
     },
   },
 
-  data() {
-    return {
-      pizzaName: "",
-    };
-  },
-
   computed: {
     ...mapGetters("Builder", {
       selectedDough: "getSelectedDough",
       selectedSize: "getSelectedSize",
       selectedSauce: "getSelectedSauce",
+      pizza: "getPizzaName",
     }),
+    pizzaName: {
+      get() {
+        return this.pizza;
+      },
+      set(value) {
+        this.$store.commit("Builder/SET_PIZZA_NAME", value);
+      },
+    },
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";
     },
