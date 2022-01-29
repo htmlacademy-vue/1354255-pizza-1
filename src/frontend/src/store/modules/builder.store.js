@@ -38,8 +38,6 @@ const mutations = {
   },
 };
 
-const actions = {};
-
 const getters = {
   getDough: (state) => state.dough,
   getSelectedDough: (state) => state.selectedDough,
@@ -67,6 +65,5 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions,
   getters,
 };
