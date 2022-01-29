@@ -30,9 +30,6 @@
     </app-drop>
 
     <builder-price-counter
-      :doughPrice="selectedDough.price"
-      :sizePrice="selectedSize.multiplier"
-      :saucePrice="selectedSauce.price"
       :isNameFilled="!!pizzaName"
       :ingredientsPrice="ingredientsPrice"
     ></builder-price-counter>

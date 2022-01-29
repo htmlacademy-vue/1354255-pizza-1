@@ -12,22 +12,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import EventBus from "@/eventBus";
 
 export default {
   props: {
-    doughPrice: {
-      type: Number,
-      default: 0,
-    },
-    sizePrice: {
-      type: Number,
-      default: 0,
-    },
-    saucePrice: {
-      type: Number,
-      default: 0,
-    },
     isNameFilled: {
       type: Boolean,
       default: false,
@@ -39,14 +28,25 @@ export default {
   },
 
   computed: {
+    ...mapGetters("Builder", {
+      selectedDough: "getSelectedDough",
+      selectedSize: "getSelectedSize",
+      selectedSauce: "getSelectedSauce",
+    }),
     finalPrice() {
       return (
-        (this.doughPrice + this.saucePrice + this.ingredientsPrice) *
-        this.sizePrice
+        (this.selectedDough.price +
+          this.selectedSauce.price +
+          this.ingredientsPrice) *
+        this.selectedSize.multiplier
       );
     },
     isPizzaSelected() {
-      return this.saucePrice && this.sizePrice && this.doughPrice;
+      return (
+        this.selectedSauce.price &&
+        this.selectedSize.multiplier &&
+        this.selectedDough.price
+      );
     },
   },
 
