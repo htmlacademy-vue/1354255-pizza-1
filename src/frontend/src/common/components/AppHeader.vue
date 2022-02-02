@@ -68,7 +68,7 @@ export default {
 
   computed: {
     ...mapGetters("Cart", {
-      pizzaPrice: "getPrice",
+      pizzaPrice: "getPizzaPrice",
     }),
   },
 
