@@ -1,10 +1,10 @@
 const state = () => ({
-  finalPrice: 0,
+  pizzaPrice: 0,
 });
 
 const mutations = {
   SET_PRICE: (state, price) => {
-    state.finalPrice = price;
+    state.pizzaPrice = price;
   },
 };
 
