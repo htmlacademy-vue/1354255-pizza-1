@@ -33,7 +33,7 @@ export default {
 
   methods: {
     selectSize(selectedSize) {
-      this.$store.commit("Builder/SELECT_SIZE", selectedSize);
+      this.$store.dispatch("Builder/selectSize", selectedSize);
     },
   },
 };

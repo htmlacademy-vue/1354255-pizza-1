@@ -24,7 +24,7 @@ export default {
       ingredientsPrice: "getIngredientsPrice",
     }),
     finalPrice() {
-      return this.$store.getters["Cart/getPizzaPrice"];
+      return this.$store.getters["Builder/getPizzaPrice"];
     },
     isPizzaSelected() {
       return this.saucePrice && this.sizePrice && this.doughPrice;
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("Cart/countPizzaPrice");
+    this.$store.dispatch("Builder/countPizzaPrice");
   },
 };
 </script>

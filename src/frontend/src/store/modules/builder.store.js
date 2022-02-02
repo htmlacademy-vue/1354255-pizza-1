@@ -3,61 +3,114 @@ import { getDough, getSizes, getSauces, getFilling } from "@/common/helpers.js";
 
 const state = () => ({
   dough: getDough(data.dough),
-  selectedDough: {},
   sizes: getSizes(data.sizes),
-  selectedSize: {},
   sauces: getSauces(data.sauces),
-  selectedSauce: {},
-  pizzaName: "",
   ingredients: getFilling(data.ingredients),
-  selectedIngredients: {},
+  currentPizza: {
+    name: "",
+    dough: {},
+    size: {},
+    sauce: {},
+    ingredients: {},
+    price: 0,
+  },
 });
 
 const mutations = {
   SELECT_DOUGH: (state, selectedDough) => {
-    state.selectedDough = selectedDough;
+    state.currentPizza = { ...state.currentPizza, dough: selectedDough };
   },
 
   SELECT_SIZE: (state, selectedSize) => {
-    state.selectedSize = selectedSize;
+    state.currentPizza = { ...state.currentPizza, size: selectedSize };
   },
 
   SELECT_SAUCE: (state, selectedSauce) => {
-    state.selectedSauce = selectedSauce;
+    state.currentPizza = { ...state.currentPizza, sauce: selectedSauce };
   },
 
   SET_PIZZA_NAME: (state, pizzaName) => {
-    state.pizzaName = pizzaName;
+    state.currentPizza = { ...state.currentPizza, name: pizzaName };
   },
 
   ADD_INGREDIENTS: (state, ingredientSet) => {
-    state.selectedIngredients = {
-      ...state.selectedIngredients,
-      [ingredientSet.name]: ingredientSet.amount,
+    state.currentPizza = {
+      ...state.currentPizza,
+      ingredients: {
+        ...state.currentPizza.ingredients,
+        [ingredientSet.name]: ingredientSet.amount,
+      },
     };
+  },
+
+  SET_PIZZA_PRICE: (state, price) => {
+    state.currentPizza.price = { ...state.currentPizza, price };
+  },
+};
+
+const actions = {
+  selectDough({ commit, dispatch }, selectedDough) {
+    const price = dispatch("countPizzaPrice");
+
+    commit("SELECT_DOUGH", selectedDough);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
+  selectSize({ commit, dispatch }, selectedSize) {
+    const price = dispatch("countPizzaPrice");
+
+    commit("SELECT_SIZE", selectedSize);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
+  selectSauce({ commit, dispatch }, selectedSauce) {
+    const price = dispatch("countPizzaPrice");
+
+    commit("SELECT_SAUCE", selectedSauce);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
+  addIngredients({ commit, getters }, ingredientSet) {
+    commit("ADD_INGREDIENTS", ingredientSet);
+    commit("SET_PIZZA_PRICE", getters.getIngredientsPrice);
+  },
+
+  countPizzaPrice({ getters }) {
+    return getters.getPizzaPrice;
   },
 };
 
 const getters = {
   getDough: (state) => state.dough,
-  getSelectedDough: (state) => state.selectedDough,
   getSizes: (state) => state.sizes,
-  getSelectedSize: (state) => state.selectedSize,
   getSauces: (state) => state.sauces,
-  getSelectedSauce: (state) => state.selectedSauce,
-  getPizzaName: (state) => state.pizzaName,
-  getDoughPrice: (state) => state.selectedDough.price || 0,
-  getSizePrice: (state) => state.selectedSize.multiplier || 0,
-  getSaucePrice: (state) => state.selectedSauce.price || 0,
   getIngredients: (state) => state.ingredients,
-  getSelectedIngredients: (state) => state.selectedIngredients,
+  getSelectedDough: (state) => state.currentPizza.dough,
+  getSelectedSize: (state) => state.currentPizza.size,
+  getSelectedSauce: (state) => state.currentPizza.sauce,
+  getPizzaName: (state) => state.currentPizza.name,
+  getDoughPrice: (state) => state.currentPizza.dough.price || 0,
+  getSizePrice: (state) => state.currentPizza.size.multiplier || 0,
+  getSaucePrice: (state) => state.currentPizza.sauce.price || 0,
+  getSelectedIngredients: (state) => state.currentPizza.ingredients,
   getIngredientsPrice: (state) => {
-    return Object.entries(state.selectedIngredients).reduce((result, item) => {
-      const price =
-        state.ingredients.find((ingredient) => ingredient.filling === item[0])
-          .price * item[1];
-      return (result += price);
-    }, 0);
+    return Object.entries(state.currentPizza.ingredients).reduce(
+      (result, item) => {
+        const price =
+          state.ingredients.find((ingredient) => ingredient.filling === item[0])
+            .price * item[1];
+        return (result += price);
+      },
+      0
+    );
+  },
+  getPizzaPrice: (state, getters) => {
+    return (
+      (getters.getDoughPrice +
+        getters.getSaucePrice +
+        getters.getIngredientsPrice) *
+      (getters.getSizePrice || 1)
+    );
   },
 };
 
@@ -65,5 +118,6 @@ export default {
   namespaced: true,
   state,
   mutations,
+  actions,
   getters,
 };

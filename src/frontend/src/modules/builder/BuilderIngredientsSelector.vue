@@ -14,7 +14,13 @@
             :description="sauce.name"
             :inputValue="sauce.sauce"
             inputName="sauce"
-            @change="selectSauce({ sauce: sauce.sauce, price: sauce.price })"
+            @change="
+              selectSauce({
+                sauce: sauce.sauce,
+                price: sauce.price,
+                name: sauce.name,
+              })
+            "
           ></radio-button>
         </div>
 
@@ -69,13 +75,13 @@ export default {
 
   methods: {
     selectIngredients(amount, filling) {
-      this.$store.commit("Builder/ADD_INGREDIENTS", { name: filling, amount });
+      this.$store.dispatch("Builder/addIngredients", { name: filling, amount });
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
     },
     selectSauce(selectedSauce) {
-      this.$store.commit("Builder/SELECT_SAUCE", selectedSauce);
+      this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
   },
 };

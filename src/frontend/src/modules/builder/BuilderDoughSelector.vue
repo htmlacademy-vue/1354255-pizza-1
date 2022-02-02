@@ -11,7 +11,13 @@
           :description="element.description"
           :inputValue="element.type"
           inputName="dough"
-          @change="selectDough({ type: element.type, price: element.price })"
+          @change="
+            selectDough({
+              type: element.type,
+              price: element.price,
+              name: element.name,
+            })
+          "
         >
           <b>{{ element.name }}</b>
         </radio-button>
@@ -35,7 +41,7 @@ export default {
 
   methods: {
     selectDough(selectedDough) {
-      this.$store.commit("Builder/SELECT_DOUGH", selectedDough);
+      this.$store.dispatch("Builder/selectDough", selectedDough);
     },
   },
 };
