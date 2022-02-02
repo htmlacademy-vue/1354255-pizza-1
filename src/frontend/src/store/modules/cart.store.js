@@ -3,7 +3,7 @@ const state = () => ({
 });
 
 const mutations = {
-  SET_PRICE: (state, price) => {
+  SET_PIZZA_PRICE: (state, price) => {
     state.pizzaPrice = price;
   },
 };
@@ -16,7 +16,7 @@ const actions = {
         rootGetters["Builder/getIngredientsPrice"]) *
       (rootGetters["Builder/getSizePrice"] || 1);
 
-    commit("SET_PRICE", price);
+    commit("SET_PIZZA_PRICE", price);
   },
 };
 
