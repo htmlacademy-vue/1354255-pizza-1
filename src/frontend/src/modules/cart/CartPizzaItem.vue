@@ -12,10 +12,11 @@
         <h2>{{ pizza.name }}</h2>
         <ul>
           <li>
-            {{ pizza.size }} см, на {{ doughDeclension(pizza.dough) }} тесте
+            {{ pizza.size.name }}, на
+            {{ doughDeclension(pizza.dough.name) }} тесте
           </li>
-          <li>Соус: {{ pizza.sauce }}</li>
-          <li>Начинка: {{ pizza.ingredients }}</li>
+          <li>Соус: {{ pizza.sauce.name }}</li>
+          <li>Начинка: {{ fillings }}</li>
         </ul>
       </div>
     </div>
@@ -34,7 +35,7 @@
     </div>
 
     <div class="cart-list__price">
-      <b>{{ item.price }} ₽</b>
+      <b>{{ pizza.price }} ₽</b>
     </div>
 
     <div class="cart-list__button">
@@ -44,11 +45,41 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     pizza: {
       type: Object,
       required: true,
+    },
+  },
+
+  computed: {
+    ...mapGetters("Builder", {
+      allIngredients: "getIngredients",
+    }),
+    fillings() {
+      const pizzaFillings = Object.entries(this.pizza.ingredients).reduce(
+        (acc, item) => {
+          if (item[1]) {
+            acc.push(item[0]);
+          }
+
+          return acc;
+        },
+        []
+      );
+
+      const fillingsList = this.allIngredients.reduce((list, item) => {
+        if (pizzaFillings.includes(item.filling)) {
+          list.push(item.name);
+        }
+
+        return list;
+      }, []);
+
+      return fillingsList.join(", ");
     },
   },
 
@@ -59,10 +90,6 @@ export default {
       } else {
         return "толстом";
       }
-    },
-
-    filling(ingredients) {
-      return ingredients.join(", ");
     },
   },
 };

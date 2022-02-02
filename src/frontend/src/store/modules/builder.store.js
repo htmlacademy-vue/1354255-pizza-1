@@ -6,77 +6,74 @@ const state = () => ({
   sizes: getSizes(data.sizes),
   sauces: getSauces(data.sauces),
   ingredients: getFilling(data.ingredients),
-  currentPizza: {
-    name: "",
-    dough: {},
-    size: {},
-    sauce: {},
-    ingredients: {},
-    price: 0,
-  },
+  selectedDough: {},
+  selectedSauce: {},
+  selectedSize: {},
+  selectedIngredients: {},
+  pizzaName: "",
+  pizzaPrice: 0,
 });
 
 const mutations = {
   SELECT_DOUGH: (state, selectedDough) => {
-    state.currentPizza = { ...state.currentPizza, dough: selectedDough };
+    state.selectedDough = selectedDough;
   },
 
   SELECT_SIZE: (state, selectedSize) => {
-    state.currentPizza = { ...state.currentPizza, size: selectedSize };
+    state.selectedSize = selectedSize;
   },
 
   SELECT_SAUCE: (state, selectedSauce) => {
-    state.currentPizza = { ...state.currentPizza, sauce: selectedSauce };
+    state.selectedSauce = selectedSauce;
   },
 
   SET_PIZZA_NAME: (state, pizzaName) => {
-    state.currentPizza = { ...state.currentPizza, name: pizzaName };
+    state.pizzaName = pizzaName;
   },
 
-  ADD_INGREDIENTS: (state, ingredientSet) => {
-    state.currentPizza = {
-      ...state.currentPizza,
-      ingredients: {
-        ...state.currentPizza.ingredients,
-        [ingredientSet.name]: ingredientSet.amount,
-      },
+  UPDATE_INGREDIENTS: (state, ingredientSet) => {
+    state.selectedIngredients = {
+      ...state.selectedIngredients,
+      [ingredientSet.name]: ingredientSet.amount,
     };
   },
 
   SET_PIZZA_PRICE: (state, price) => {
-    state.currentPizza.price = { ...state.currentPizza, price };
+    state.pizzaPrice = price;
   },
 };
 
 const actions = {
-  selectDough({ commit, dispatch }, selectedDough) {
-    const price = dispatch("countPizzaPrice");
+  async selectDough({ commit, dispatch }, selectedDough) {
+    const price = await dispatch("countPizzaPrice");
 
     commit("SELECT_DOUGH", selectedDough);
     commit("SET_PIZZA_PRICE", price);
   },
 
-  selectSize({ commit, dispatch }, selectedSize) {
-    const price = dispatch("countPizzaPrice");
+  async selectSize({ commit, dispatch }, selectedSize) {
+    const price = await dispatch("countPizzaPrice");
 
     commit("SELECT_SIZE", selectedSize);
     commit("SET_PIZZA_PRICE", price);
   },
 
-  selectSauce({ commit, dispatch }, selectedSauce) {
-    const price = dispatch("countPizzaPrice");
+  async selectSauce({ commit, dispatch }, selectedSauce) {
+    const price = await dispatch("countPizzaPrice");
 
     commit("SELECT_SAUCE", selectedSauce);
     commit("SET_PIZZA_PRICE", price);
   },
 
-  addIngredients({ commit, getters }, ingredientSet) {
-    commit("ADD_INGREDIENTS", ingredientSet);
-    commit("SET_PIZZA_PRICE", getters.getIngredientsPrice);
+  async updateIngredients({ commit, dispatch }, ingredientSet) {
+    const price = await dispatch("countPizzaPrice");
+
+    commit("UPDATE_INGREDIENTS", ingredientSet);
+    commit("SET_PIZZA_PRICE", price);
   },
 
-  countPizzaPrice({ getters }) {
-    return getters.getPizzaPrice;
+  async countPizzaPrice({ getters }) {
+    return await getters.getPizzaPrice;
   },
 };
 
@@ -85,24 +82,21 @@ const getters = {
   getSizes: (state) => state.sizes,
   getSauces: (state) => state.sauces,
   getIngredients: (state) => state.ingredients,
-  getSelectedDough: (state) => state.currentPizza.dough,
-  getSelectedSize: (state) => state.currentPizza.size,
-  getSelectedSauce: (state) => state.currentPizza.sauce,
-  getPizzaName: (state) => state.currentPizza.name,
-  getDoughPrice: (state) => state.currentPizza.dough.price || 0,
-  getSizePrice: (state) => state.currentPizza.size.multiplier || 0,
-  getSaucePrice: (state) => state.currentPizza.sauce.price || 0,
-  getSelectedIngredients: (state) => state.currentPizza.ingredients,
+  getSelectedDough: (state) => state.selectedDough,
+  getSelectedSize: (state) => state.selectedSize,
+  getSelectedSauce: (state) => state.selectedSauce,
+  getPizzaName: (state) => state.pizzaName,
+  getDoughPrice: (state) => state.selectedDough.price || 0,
+  getSizePrice: (state) => state.selectedSize.multiplier || 0,
+  getSaucePrice: (state) => state.selectedSauce.price || 0,
+  getSelectedIngredients: (state) => state.selectedIngredients,
   getIngredientsPrice: (state) => {
-    return Object.entries(state.currentPizza.ingredients).reduce(
-      (result, item) => {
-        const price =
-          state.ingredients.find((ingredient) => ingredient.filling === item[0])
-            .price * item[1];
-        return (result += price);
-      },
-      0
-    );
+    return Object.entries(state.selectedIngredients).reduce((result, item) => {
+      const price =
+        state.ingredients.find((ingredient) => ingredient.filling === item[0])
+          .price * item[1];
+      return (result += price);
+    }, 0);
   },
   getPizzaPrice: (state, getters) => {
     return (
@@ -112,6 +106,14 @@ const getters = {
       (getters.getSizePrice || 1)
     );
   },
+  getCurrentPizza: (state, getters) => ({
+    name: state.pizzaName,
+    price: getters.getPizzaPrice,
+    dough: state.selectedDough,
+    sauce: state.selectedSauce,
+    ingredients: state.selectedIngredients,
+    size: state.selectedSize,
+  }),
 };
 
 export default {

@@ -11,7 +11,13 @@
           :description="size.name"
           :inputValue="size.size"
           inputName="diameter"
-          @change="selectSize({ size: size.size, multiplier: size.multiplier })"
+          @change="
+            selectSize({
+              size: size.size,
+              multiplier: size.multiplier,
+              name: size.name,
+            })
+          "
         ></radio-button>
       </div>
     </div>

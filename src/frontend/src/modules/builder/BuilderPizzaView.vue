@@ -76,7 +76,7 @@ export default {
 
   methods: {
     addIngredient(filling) {
-      this.$store.dispatch("Builder/addIngredients", {
+      this.$store.dispatch("Builder/updateIngredients", {
         name: filling,
         amount: this.selectedIngredients[filling]
           ? this.selectedIngredients[filling] + 1

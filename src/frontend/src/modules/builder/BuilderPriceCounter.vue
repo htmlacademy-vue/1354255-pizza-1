@@ -5,6 +5,7 @@
       type="button"
       class="button"
       :disabled="!(ingredientsPrice && isNameFilled && isPizzaSelected)"
+      @click="$store.dispatch('Cart/addPizzaToCart')"
     >
       Готовьте!
     </button>
@@ -32,10 +33,6 @@ export default {
     isNameFilled() {
       return !!this.pizzaName;
     },
-  },
-
-  mounted() {
-    this.$store.dispatch("Builder/countPizzaPrice");
   },
 };
 </script>

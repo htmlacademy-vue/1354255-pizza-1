@@ -75,7 +75,10 @@ export default {
 
   methods: {
     selectIngredients(amount, filling) {
-      this.$store.dispatch("Builder/addIngredients", { name: filling, amount });
+      this.$store.dispatch("Builder/updateIngredients", {
+        name: filling,
+        amount,
+      });
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;

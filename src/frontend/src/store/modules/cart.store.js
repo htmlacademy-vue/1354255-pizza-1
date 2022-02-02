@@ -18,11 +18,19 @@ const mutations = {
       state.additionals[itemIndex].amount = amount;
     }
   },
+
+  ADD_PIZZA: (state, pizza) => {
+    state.pizzas.push(pizza);
+  },
 };
 
 const actions = {
   changeAdditionalsAmount({ commit }, { itemId, amount }) {
     commit("CHANGE_ADDITIONALS_AMOUNT", { itemId, amount });
+  },
+
+  addPizzaToCart({ commit, rootGetters }) {
+    commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
   },
 };
 
