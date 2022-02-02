@@ -1,7 +1,7 @@
 import data from "@/static/pizza.json";
 import { getDough, getSizes, getSauces, getFilling } from "@/common/helpers.js";
 
-const state = () => ({
+const setupState = () => ({
   dough: getDough(data.dough),
   sizes: getSizes(data.sizes),
   sauces: getSauces(data.sauces),
@@ -41,6 +41,10 @@ const mutations = {
   SET_PIZZA_PRICE: (state, price) => {
     state.pizzaPrice = price;
   },
+
+  RESET_STATE: (state) => {
+    Object.assign(state, setupState());
+  },
 };
 
 const actions = {
@@ -74,6 +78,10 @@ const actions = {
 
   async countPizzaPrice({ getters }) {
     return await getters.getPizzaPrice;
+  },
+
+  resetState({ commit }) {
+    commit("RESET_STATE");
   },
 };
 
@@ -113,12 +121,13 @@ const getters = {
     sauce: state.selectedSauce,
     ingredients: state.selectedIngredients,
     size: state.selectedSize,
+    amount: 1,
   }),
 };
 
 export default {
   namespaced: true,
-  state,
+  state: setupState(),
   mutations,
   actions,
   getters,

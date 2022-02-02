@@ -22,13 +22,25 @@
     </div>
 
     <div class="counter cart-list__counter">
-      <button type="button" class="counter__button counter__button--minus">
+      <button
+        type="button"
+        class="counter__button counter__button--minus"
+        @click="decreaseCounter"
+      >
         <span class="visually-hidden">Меньше</span>
       </button>
-      <input type="text" name="counter" class="counter__input" value="1" />
+      <input
+        readonly
+        type="text"
+        name="counter"
+        class="counter__input"
+        :value="pizza.amount"
+        @input="countValue($event.target.value)"
+      />
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
+        @click="increaseCounter"
       >
         <span class="visually-hidden">Больше</span>
       </button>
@@ -45,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
@@ -84,12 +96,25 @@ export default {
   },
 
   methods: {
+    ...mapActions("Cart", ["changePizzaAmount"]),
+
     doughDeclension(dough) {
-      if (dough.toLowerCase === "тонкое") {
+      if (dough.toLowerCase() === "тонкое") {
         return "тонком";
       } else {
         return "толстом";
       }
+    },
+    countValue(value) {
+      this.changePizzaAmount({ pizzaName: this.pizza.name, amount: +value });
+    },
+
+    decreaseCounter() {
+      this.countValue(this.pizza.amount - 1);
+    },
+
+    increaseCounter() {
+      this.countValue(this.pizza.amount + 1);
     },
   },
 };

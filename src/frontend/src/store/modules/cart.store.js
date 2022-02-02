@@ -19,6 +19,16 @@ const mutations = {
     }
   },
 
+  CHANGE_PIZZA_AMOUNT: (state, { pizzaName, amount }) => {
+    const itemIndex = state.pizzas.findIndex((item) => item.name === pizzaName);
+
+    if (amount <= 0) {
+      state.pizzas = state.pizzas.filter((item) => item.name !== pizzaName);
+    } else {
+      state.pizzas[itemIndex].amount = amount;
+    }
+  },
+
   ADD_PIZZA: (state, pizza) => {
     state.pizzas.push(pizza);
   },
@@ -27,6 +37,14 @@ const mutations = {
 const actions = {
   changeAdditionalsAmount({ commit }, { itemId, amount }) {
     commit("CHANGE_ADDITIONALS_AMOUNT", { itemId, amount });
+  },
+
+  changePizzaAmount({ commit, dispatch }, { pizzaName, amount }) {
+    commit("CHANGE_PIZZA_AMOUNT", { pizzaName, amount });
+
+    if (amount === 0) {
+      dispatch("Builder/resetState", null, { root: true });
+    }
   },
 
   addPizzaToCart({ commit, rootGetters }) {
