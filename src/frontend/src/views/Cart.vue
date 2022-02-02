@@ -118,9 +118,6 @@
               v-for="item in additionalItems"
               :key="item.id"
               :item="item"
-              @changeAmount="
-                changeAdditionalsAmount({ itemId: item.id, amount: $event })
-              "
             />
           </ul>
         </div>
@@ -217,10 +214,6 @@ export default {
     ...mapGetters("Cart", {
       additionalItems: "getAdditionals",
     }),
-  },
-
-  methods: {
-    ...mapActions("Cart", ["changeAdditionalsAmount"]),
   },
 };
 </script>

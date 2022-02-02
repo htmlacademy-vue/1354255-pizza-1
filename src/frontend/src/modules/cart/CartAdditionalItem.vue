@@ -1,7 +1,7 @@
 <template>
   <li class="additional-list__item sheet">
     <p class="additional-list__description">
-      <img :src="image(item.slug)" width="39" height="60" :alt="item.name" />
+      <img :src="imageSrc" width="39" height="60" :alt="item.name" />
       <span>{{ item.name }}</span>
     </p>
 
@@ -19,7 +19,7 @@
           name="counter"
           class="counter__input"
           :value="item.amount"
-          @input="emitCountValue($event.target.value)"
+          @input="countValue($event.target.value)"
         />
         <button
           type="button"
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
     item: {
@@ -46,27 +48,24 @@ export default {
     },
   },
 
-  watch: {
-    "item.amount"(newVal) {
-      this.$emit("changeAmount", newVal);
+  computed: {
+    imageSrc() {
+      return require(`@/assets/img/${this.item.slug}.svg`);
     },
   },
 
   methods: {
-    emitCountValue(value) {
-      this.$emit("changeAmount", +value);
+    ...mapActions("Cart", ["changeAdditionalsAmount"]),
+    countValue(value) {
+      this.changeAdditionalsAmount({ itemId: this.item.id, amount: +value });
     },
 
     decreaseCounter() {
-      this.emitCountValue(this.item.amount - 1);
+      this.countValue(this.item.amount - 1);
     },
 
     increaseCounter() {
-      this.emitCountValue(this.item.amount + 1);
-    },
-
-    image(slug) {
-      return require(`@/assets/img/${slug}.svg`);
+      this.countValue(this.item.amount + 1);
     },
   },
 };
