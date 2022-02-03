@@ -19,14 +19,16 @@ const mutations = {
     }
   },
 
-  CHANGE_PIZZA_AMOUNT: (state, { pizzaName, amount }) => {
-    const itemIndex = state.pizzas.findIndex((item) => item.name === pizzaName);
+  CHANGE_PIZZA_AMOUNT: (state, { pizzaIndex, amount }) => {
+    state.pizzas[pizzaIndex].amount = amount;
+  },
 
-    if (amount <= 0) {
-      state.pizzas = state.pizzas.filter((item) => item.name !== pizzaName);
-    } else {
-      state.pizzas[itemIndex].amount = amount;
-    }
+  CHANGE_PIZZA_PRICE: (state, { pizzaIndex, amount }) => {
+    state.pizzas[pizzaIndex].price *= amount;
+  },
+
+  REMOVE_PIZZA: (state, pizzaName) => {
+    state.pizzas = state.pizzas.filter((item) => item.name !== pizzaName);
   },
 
   ADD_PIZZA: (state, pizza) => {
@@ -39,11 +41,16 @@ const actions = {
     commit("CHANGE_ADDITIONALS_AMOUNT", { itemId, amount });
   },
 
-  changePizzaAmount({ commit, dispatch }, { pizzaName, amount }) {
-    commit("CHANGE_PIZZA_AMOUNT", { pizzaName, amount });
+  changePizzaAmount({ commit, state }, { pizzaName, amount }) {
+    const pizzaIndex = state.pizzas.findIndex(
+      (item) => item.name === pizzaName
+    );
 
-    if (amount === 0) {
-      dispatch("Builder/resetState", null, { root: true });
+    if (amount <= 0) {
+      commit("REMOVE_PIZZA", pizzaName);
+    } else {
+      commit("CHANGE_PIZZA_AMOUNT", { pizzaIndex, amount });
+      commit("CHANGE_PIZZA_PRICE", { pizzaIndex, amount });
     }
   },
 
