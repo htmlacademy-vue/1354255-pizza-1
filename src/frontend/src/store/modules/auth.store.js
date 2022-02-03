@@ -1,10 +1,25 @@
-const state = () => ({});
+const state = () => ({
+  isAuthorized: false,
+});
 
-const mutations = {};
+const mutations = {
+  SET_AUTH: (state, authStatus) => {
+    state.isAuthorized = authStatus;
+  },
+};
 
-const actions = {};
+const actions = {
+  login({ commit }) {
+    commit("SET_AUTH", true);
+  },
+  logout({ commit }) {
+    commit("SET_AUTH", false);
+  },
+};
 
-const getters = {};
+const getters = {
+  getAuthStatus: (state) => state.isAuthorized,
+};
 
 export default {
   namespaced: true,
