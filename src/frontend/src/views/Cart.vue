@@ -28,49 +28,7 @@
           </ul>
         </div>
 
-        <div class="cart__form">
-          <div class="cart-form">
-            <label class="cart-form__select">
-              <span class="cart-form__label">Получение заказа:</span>
-
-              <select name="test" class="select">
-                <option value="1">Заберу сам</option>
-                <option value="2">Новый адрес</option>
-                <option value="3">Дом</option>
-              </select>
-            </label>
-
-            <label class="input input--big-label">
-              <span>Контактный телефон:</span>
-              <input type="text" name="tel" placeholder="+7 999-999-99-99" />
-            </label>
-
-            <div class="cart-form__address">
-              <span class="cart-form__label">Новый адрес:</span>
-
-              <div class="cart-form__input">
-                <label class="input">
-                  <span>Улица*</span>
-                  <input type="text" name="street" />
-                </label>
-              </div>
-
-              <div class="cart-form__input cart-form__input--small">
-                <label class="input">
-                  <span>Дом*</span>
-                  <input type="text" name="house" />
-                </label>
-              </div>
-
-              <div class="cart-form__input cart-form__input--small">
-                <label class="input">
-                  <span>Квартира</span>
-                  <input type="text" name="apartment" />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CartForm />
       </div>
     </main>
 
@@ -84,7 +42,7 @@
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: {{ $store.getters["Cart/getAdditionalsPrice"] }} ₽</b>
+        <b>Итого: {{ $store.getters["Cart/getTotalPrice"] }} ₽</b>
       </div>
 
       <div class="footer__submit">
@@ -98,7 +56,7 @@
       </div>
     </section>
 
-    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="isPopupOpen = false" />
+    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="orderHandler" />
   </form>
 </template>
 
@@ -106,10 +64,19 @@
 import AppPopup from "@/common/components/AppPopup";
 import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
+import CartForm from "@/modules/cart/CartForm";
 import { mapGetters } from "vuex";
+import axios from "axios";
+
+const BACKEND_URI = "http://localhost:3000/orders";
 
 export default {
-  components: { AppPopup, CartAdditionalItem, CartPizzaItem },
+  components: {
+    AppPopup,
+    CartAdditionalItem,
+    CartPizzaItem,
+    CartForm,
+  },
 
   data() {
     return {
@@ -118,10 +85,32 @@ export default {
   },
 
   computed: {
-    ...mapGetters("Cart", {
-      additionalItems: "getAdditionals",
-      pizzas: "getPizzas",
+    ...mapGetters({
+      additionalItems: "Cart/getAdditionals",
+      pizzas: "Cart/getPizzas",
+      isAuthorized: "Auth/getAuthStatus",
     }),
+  },
+
+  methods: {
+    orderHandler() {
+      this.isPopupOpen = false;
+
+      if (this.isAuthorized) {
+        axios
+          .post(BACKEND_URI, { userId: "1" })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        this.$router.push({ name: "Orders" });
+      } else {
+        axios.post(BACKEND_URI, { userId: null });
+        this.$router.push({ name: "Main" });
+      }
+    },
   },
 };
 </script>

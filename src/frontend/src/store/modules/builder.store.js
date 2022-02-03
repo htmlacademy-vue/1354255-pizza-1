@@ -115,6 +115,7 @@ const getters = {
     );
   },
   getCurrentPizza: (state, getters) => ({
+    id: `${state.pizzaName}-${getters.getPizzaPrice}`,
     name: state.pizzaName,
     price: getters.getPizzaPrice,
     dough: state.selectedDough,

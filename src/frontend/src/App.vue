@@ -8,30 +8,16 @@
 
 <script>
 import AppLayout from "@/layouts/AppLayout.vue";
-import EventBus from "@/eventBus";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: { AppLayout },
 
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
-
-  mounted() {
-    EventBus.$on("login", this.login);
-    EventBus.$on("logout", this.logout);
-  },
-
-  methods: {
-    login() {
-      this.isLoggedIn = true;
-    },
-    logout() {
-      this.isLoggedIn = false;
-    },
+  computed: {
+    ...mapGetters("Auth", {
+      isLoggedIn: "getAuthStatus",
+    }),
   },
 };
 </script>

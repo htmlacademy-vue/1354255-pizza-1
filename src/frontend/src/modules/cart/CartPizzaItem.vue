@@ -25,7 +25,7 @@
       <button
         type="button"
         class="counter__button counter__button--minus"
-        @click="decreaseCounter"
+        @click="decreasePizza(pizza.id)"
       >
         <span class="visually-hidden">Меньше</span>
       </button>
@@ -35,12 +35,11 @@
         name="counter"
         class="counter__input"
         :value="pizza.amount"
-        @input="countValue($event.target.value)"
       />
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
-        @click="increaseCounter"
+        @click="increasePizza(pizza.id)"
       >
         <span class="visually-hidden">Больше</span>
       </button>
@@ -96,7 +95,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("Cart", ["changePizzaAmount"]),
+    ...mapActions("Cart", ["increasePizza", "decreasePizza"]),
 
     doughDeclension(dough) {
       if (dough.toLowerCase() === "тонкое") {
@@ -104,17 +103,6 @@ export default {
       } else {
         return "толстом";
       }
-    },
-    countValue(value) {
-      this.changePizzaAmount({ pizzaName: this.pizza.name, amount: +value });
-    },
-
-    decreaseCounter() {
-      this.countValue(this.pizza.amount - 1);
-    },
-
-    increaseCounter() {
-      this.countValue(this.pizza.amount + 1);
     },
   },
 };
