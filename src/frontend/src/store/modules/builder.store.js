@@ -14,6 +14,8 @@ const setupState = () => ({
   pizzaPrice: 0,
 });
 
+const state = setupState();
+
 const mutations = {
   SELECT_DOUGH: (state, selectedDough) => {
     state.selectedDough = selectedDough;
@@ -91,7 +93,7 @@ const actions = {
     return await getters.getPizzaPrice;
   },
 
-  resetState({ commit }) {
+  resetBuilder({ commit }) {
     commit("RESET_STATE");
   },
 };
@@ -139,7 +141,7 @@ const getters = {
 
 export default {
   namespaced: true,
-  state: setupState(),
+  state,
   mutations,
   actions,
   getters,

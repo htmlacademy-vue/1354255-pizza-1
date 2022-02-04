@@ -3,7 +3,7 @@
     <p>В корзине нет ни одного товара</p>
   </div>
 
-  <form action="test.html" method="post" class="layout-form" v-else>
+  <form action="#" method="post" class="layout-form" v-else>
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
@@ -34,9 +34,12 @@
 
     <section class="footer">
       <div class="footer__more">
-        <a href="#" class="button button--border button--arrow"
-          >Хочу еще одну</a
+        <button
+          @click="addAnotherPizza"
+          class="button button--border button--arrow"
         >
+          Хочу еще одну
+        </button>
       </div>
       <p class="footer__text">
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
@@ -110,6 +113,14 @@ export default {
         axios.post(BACKEND_URI, { userId: null });
         this.$router.push({ name: "Main" });
       }
+
+      this.$store.dispatch("Builder/resetBuilder");
+      this.$store.dispatch("Cart/resetCart");
+    },
+
+    addAnotherPizza() {
+      this.$store.dispatch("Builder/resetBuilder");
+      this.$router.push("/");
     },
   },
 };
@@ -118,5 +129,8 @@ export default {
 <style lang="scss">
 .cart {
   min-height: calc(100vh - 170px);
+}
+.footer .button--arrow {
+  padding: 16px;
 }
 </style>

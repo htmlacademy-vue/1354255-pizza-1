@@ -1,10 +1,12 @@
 import data from "@/static/misc.json";
 import { getAdditionalItems } from "@/common/helpers.js";
 
-const state = () => ({
+const setupState = () => ({
   additionals: [],
   pizzas: [],
 });
+
+const state = setupState();
 
 const mutations = {
   SET_ADDITIONALS: (state, additionals) => {
@@ -45,6 +47,10 @@ const mutations = {
 
   ADD_PIZZA: (state, pizza) => {
     state.pizzas.push(pizza);
+  },
+
+  RESET_STATE: (state) => {
+    Object.assign(state, setupState());
   },
 };
 
@@ -91,6 +97,10 @@ const actions = {
     await dispatch("Builder/setIngredients", pizza.ingredients, { root: true });
 
     commit("REMOVE_PIZZA", pizzaId);
+  },
+
+  resetCart({ commit }) {
+    commit("RESET_STATE");
   },
 };
 
