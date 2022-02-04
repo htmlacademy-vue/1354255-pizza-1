@@ -8,6 +8,9 @@
           <p>Основной соус:</p>
 
           <radio-button
+            :checked="
+              sauce.sauce === $store.getters['Builder/getSelectedSauce'].sauce
+            "
             v-for="sauce in sauces"
             :key="sauce.id"
             :labelClasses="['radio', 'ingredients__input']"

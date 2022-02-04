@@ -38,6 +38,10 @@ const mutations = {
     };
   },
 
+  SET_INGREDIENTS: (state, newIngredientsSet) => {
+    state.selectedIngredients = newIngredientsSet;
+  },
+
   SET_PIZZA_PRICE: (state, price) => {
     state.pizzaPrice = price;
   },
@@ -73,6 +77,13 @@ const actions = {
     const price = await dispatch("countPizzaPrice");
 
     commit("UPDATE_INGREDIENTS", ingredientSet);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
+  async setIngredients({ commit, dispatch }, ingredientSet) {
+    const price = await dispatch("countPizzaPrice");
+
+    commit("SET_INGREDIENTS", ingredientSet);
     commit("SET_PIZZA_PRICE", price);
   },
 

@@ -5,6 +5,9 @@
 
       <div class="sheet__content diameter">
         <radio-button
+          :checked="
+            size.size === $store.getters['Builder/getSelectedSize'].size
+          "
           v-for="size in sizes"
           :key="size.id"
           :labelClasses="['diameter__input', `diameter__input--${size.size}`]"

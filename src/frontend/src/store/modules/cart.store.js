@@ -81,6 +81,17 @@ const actions = {
     commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
     dispatch("loadAdditionals");
   },
+
+  async changePizzaParams({ state, commit, dispatch }, pizzaId) {
+    const pizza = state.pizzas.find((item) => item.id === pizzaId);
+
+    await dispatch("Builder/selectDough", pizza.dough, { root: true });
+    await dispatch("Builder/selectSize", pizza.size, { root: true });
+    await dispatch("Builder/selectSauce", pizza.sauce, { root: true });
+    await dispatch("Builder/setIngredients", pizza.ingredients, { root: true });
+
+    commit("REMOVE_PIZZA", pizzaId);
+  },
 };
 
 const getters = {

@@ -50,7 +50,13 @@
     </div>
 
     <div class="cart-list__button">
-      <button type="button" class="cart-list__edit">Изменить</button>
+      <button
+        type="button"
+        class="cart-list__edit"
+        @click="changePizza(pizza.id)"
+      >
+        Изменить
+      </button>
     </div>
   </li>
 </template>
@@ -95,7 +101,11 @@ export default {
   },
 
   methods: {
-    ...mapActions("Cart", ["increasePizza", "decreasePizza"]),
+    ...mapActions("Cart", [
+      "increasePizza",
+      "decreasePizza",
+      "changePizzaParams",
+    ]),
 
     doughDeclension(dough) {
       if (dough.toLowerCase() === "тонкое") {
@@ -103,6 +113,11 @@ export default {
       } else {
         return "толстом";
       }
+    },
+
+    changePizza(pizzaId) {
+      this.changePizzaParams(pizzaId);
+      this.$router.push("/");
     },
   },
 };

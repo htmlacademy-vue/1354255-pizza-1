@@ -5,6 +5,9 @@
 
       <div class="sheet__content dough">
         <radio-button
+          :checked="
+            element.type === $store.getters['Builder/getSelectedDough'].type
+          "
           v-for="element in dough"
           :key="element.id"
           :labelClasses="['dough__input', `dough__input--${element.type}`]"
@@ -32,12 +35,6 @@ import { mapGetters } from "vuex";
 
 export default {
   components: { RadioButton },
-
-  data() {
-    return {
-      checkedDough: "large",
-    };
-  },
 
   computed: {
     ...mapGetters("Builder", {
