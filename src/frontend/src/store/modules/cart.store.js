@@ -33,9 +33,7 @@ const mutations = {
 
   CHANGE_PIZZA_PRICE: (state, { pizzaIndex, decrease }) => {
     if (decrease) {
-      console.log("am", state.pizzas[pizzaIndex].amount);
-      state.pizzas[pizzaIndex].price -=
-        state.pizzas[pizzaIndex].price / state.pizzas[pizzaIndex].amount;
+      state.pizzas[pizzaIndex].price -= decrease;
     } else {
       state.pizzas[pizzaIndex].price *= state.pizzas[pizzaIndex].amount;
     }
@@ -69,11 +67,13 @@ const actions = {
   decreasePizza({ commit, state }, pizzaId) {
     const pizzaIndex = state.pizzas.findIndex((item) => item.id === pizzaId);
 
-    if (state.pizzas[pizzaIndex].amount === 0) {
+    if (state.pizzas[pizzaIndex].amount === 1) {
       commit("REMOVE_PIZZA", pizzaId);
     } else {
+      const priceForOne =
+        state.pizzas[pizzaIndex].price / state.pizzas[pizzaIndex].amount;
       commit("DECREASE_PIZZA", pizzaIndex);
-      commit("CHANGE_PIZZA_PRICE", { pizzaIndex, decrease: true });
+      commit("CHANGE_PIZZA_PRICE", { pizzaIndex, decrease: priceForOne });
     }
   },
 

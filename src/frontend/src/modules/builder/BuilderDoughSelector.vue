@@ -33,6 +33,12 @@ import { mapGetters } from "vuex";
 export default {
   components: { RadioButton },
 
+  data() {
+    return {
+      checkedDough: "large",
+    };
+  },
+
   computed: {
     ...mapGetters("Builder", {
       dough: "getDough",
