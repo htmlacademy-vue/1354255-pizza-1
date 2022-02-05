@@ -45,9 +45,7 @@ export default {
       this.$store.dispatch("Builder/selectDough", selectedDough);
     },
     isChecked(doughType) {
-      return this.$store.getters["Builder/getSelectedDough"].type
-        ? this.$store.getters["Builder/getSelectedDough"].type === doughType
-        : doughType === "large";
+      return this.$store.getters["Builder/getSelectedDough"].type === doughType;
     },
   },
 };

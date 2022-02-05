@@ -43,9 +43,7 @@ export default {
       this.$store.dispatch("Builder/selectSize", selectedSize);
     },
     isChecked(size) {
-      return this.$store.getters["Builder/getSelectedSize"].size
-        ? this.$store.getters["Builder/getSelectedSize"].size === size
-        : size === "big";
+      return this.$store.getters["Builder/getSelectedSize"].size === size;
     },
   },
 };

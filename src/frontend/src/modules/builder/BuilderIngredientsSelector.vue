@@ -88,9 +88,7 @@ export default {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
     isChecked(sauce) {
-      return this.$store.getters["Builder/getSelectedSauce"].sauce
-        ? this.$store.getters["Builder/getSelectedSauce"].sauce === sauce
-        : sauce === "tomato";
+      return this.$store.getters["Builder/getSelectedSauce"].sauce === sauce;
     },
   },
 };
