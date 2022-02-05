@@ -5,9 +5,7 @@
 
       <div class="sheet__content dough">
         <radio-button
-          :checked="
-            element.type === $store.getters['Builder/getSelectedDough'].type
-          "
+          :checked="isChecked(element.type)"
           v-for="element in dough"
           :key="element.id"
           :labelClasses="['dough__input', `dough__input--${element.type}`]"
@@ -45,6 +43,11 @@ export default {
   methods: {
     selectDough(selectedDough) {
       this.$store.dispatch("Builder/selectDough", selectedDough);
+    },
+    isChecked(doughType) {
+      return this.$store.getters["Builder/getSelectedDough"].type
+        ? this.$store.getters["Builder/getSelectedDough"].type === doughType
+        : doughType === "large";
     },
   },
 };

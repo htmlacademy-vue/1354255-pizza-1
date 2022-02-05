@@ -8,9 +8,7 @@
           <p>Основной соус:</p>
 
           <radio-button
-            :checked="
-              sauce.sauce === $store.getters['Builder/getSelectedSauce'].sauce
-            "
+            :checked="isChecked(sauce.sauce)"
             v-for="sauce in sauces"
             :key="sauce.id"
             :labelClasses="['radio', 'ingredients__input']"
@@ -88,6 +86,11 @@ export default {
     },
     selectSauce(selectedSauce) {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
+    },
+    isChecked(sauce) {
+      return this.$store.getters["Builder/getSelectedSauce"].sauce
+        ? this.$store.getters["Builder/getSelectedSauce"].sauce === sauce
+        : sauce === "tomato";
     },
   },
 };

@@ -5,9 +5,7 @@
 
       <div class="sheet__content diameter">
         <radio-button
-          :checked="
-            size.size === $store.getters['Builder/getSelectedSize'].size
-          "
+          :checked="isChecked(size.size)"
           v-for="size in sizes"
           :key="size.id"
           :labelClasses="['diameter__input', `diameter__input--${size.size}`]"
@@ -43,6 +41,11 @@ export default {
   methods: {
     selectSize(selectedSize) {
       this.$store.dispatch("Builder/selectSize", selectedSize);
+    },
+    isChecked(size) {
+      return this.$store.getters["Builder/getSelectedSize"].size
+        ? this.$store.getters["Builder/getSelectedSize"].size === size
+        : size === "big";
     },
   },
 };
