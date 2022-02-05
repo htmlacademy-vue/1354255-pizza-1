@@ -29,15 +29,13 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: { RadioButton },
 
   computed: {
-    ...mapGetters("Builder", {
-      dough: "getDough",
-    }),
+    ...mapState("Builder", ["dough", "selectedDough"]),
   },
 
   methods: {
@@ -45,7 +43,7 @@ export default {
       this.$store.dispatch("Builder/selectDough", selectedDough);
     },
     isChecked(doughType) {
-      return this.$store.getters["Builder/getSelectedDough"].type === doughType;
+      return this.selectedDough.type === doughType;
     },
   },
 };

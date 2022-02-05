@@ -61,17 +61,18 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
   computed: {
-    ...mapGetters("Builder", {
-      sauces: "getSauces",
-      ingredients: "getIngredients",
-      selectedIngredients: "getSelectedIngredients",
-    }),
+    ...mapState("Builder", [
+      "sauces",
+      "ingredients",
+      "selectedIngredients",
+      "selectedSauce",
+    ]),
   },
 
   methods: {
@@ -88,7 +89,7 @@ export default {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
     isChecked(sauce) {
-      return this.$store.getters["Builder/getSelectedSauce"].sauce === sauce;
+      return this.selectedSauce.sauce === sauce;
     },
   },
 };

@@ -27,15 +27,13 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: { RadioButton },
 
   computed: {
-    ...mapGetters("Builder", {
-      sizes: "getSizes",
-    }),
+    ...mapState("Builder", ["sizes", "selectedSize"]),
   },
 
   methods: {
@@ -43,7 +41,7 @@ export default {
       this.$store.dispatch("Builder/selectSize", selectedSize);
     },
     isChecked(size) {
-      return this.$store.getters["Builder/getSelectedSize"].size === size;
+      return this.selectedSize.size === size;
     },
   },
 };

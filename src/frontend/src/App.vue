@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppLayout :isLoggedIn="isLoggedIn">
+    <AppLayout>
       <router-view />
     </AppLayout>
   </div>
@@ -8,17 +8,10 @@
 
 <script>
 import AppLayout from "@/layouts/AppLayout.vue";
-import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: { AppLayout },
-
-  computed: {
-    ...mapGetters("Auth", {
-      isLoggedIn: "getAuthStatus",
-    }),
-  },
 };
 </script>
 

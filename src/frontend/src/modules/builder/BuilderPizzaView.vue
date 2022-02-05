@@ -36,20 +36,20 @@
 <script>
 import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/BuilderPriceCounter";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: { BuilderPriceCounter, AppDrop },
 
   computed: {
-    ...mapGetters("Builder", {
-      selectedDough: "getSelectedDough",
-      selectedSize: "getSelectedSize",
-      selectedSauce: "getSelectedSauce",
-      pizza: "getPizzaName",
-      allIngredients: "getIngredients",
-      selectedIngredients: "getSelectedIngredients",
-    }),
+    ...mapState(
+      "Builder",
+      ["selectedDough", "selectedSize", "selectedSauce", "selectedIngredients"],
+      {
+        pizza: (state) => state.pizzaName,
+        allIngredients: (state) => state.ingredients,
+      }
+    ),
     pizzaName: {
       get() {
         return this.pizza;

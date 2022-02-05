@@ -105,8 +105,6 @@ const actions = {
 };
 
 const getters = {
-  getAdditionals: (state) => state.additionals,
-
   getAdditionalsPrice: (state) => {
     return state.additionals.reduce((sum, item) => {
       sum += item.amount * item.price;
@@ -114,8 +112,6 @@ const getters = {
       return sum;
     }, 0);
   },
-
-  getPizzas: (state) => state.pizzas,
 
   getPizzasPrice: (state) =>
     state.pizzas.reduce((sum, pizza) => {

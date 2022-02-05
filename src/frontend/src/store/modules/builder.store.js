@@ -111,18 +111,9 @@ const actions = {
 };
 
 const getters = {
-  getDough: (state) => state.dough,
-  getSizes: (state) => state.sizes,
-  getSauces: (state) => state.sauces,
-  getIngredients: (state) => state.ingredients,
-  getSelectedDough: (state) => state.selectedDough,
-  getSelectedSize: (state) => state.selectedSize,
-  getSelectedSauce: (state) => state.selectedSauce,
-  getPizzaName: (state) => state.pizzaName,
   getDoughPrice: (state) => state.selectedDough.price || 0,
   getSizePrice: (state) => state.selectedSize.multiplier || 0,
   getSaucePrice: (state) => state.selectedSauce.price || 0,
-  getSelectedIngredients: (state) => state.selectedIngredients,
   getIngredientsPrice: (state) => {
     return Object.entries(state.selectedIngredients).reduce((result, item) => {
       const price =

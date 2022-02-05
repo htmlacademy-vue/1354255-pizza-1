@@ -17,14 +17,9 @@ const actions = {
   },
 };
 
-const getters = {
-  getAuthStatus: (state) => state.isAuthorized,
-};
-
 export default {
   namespaced: true,
   state,
   mutations,
   actions,
-  getters,
 };

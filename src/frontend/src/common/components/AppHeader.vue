@@ -15,7 +15,7 @@
       <router-link :to="{ name: 'Cart' }">{{ totalPrice }} ₽</router-link>
     </div>
 
-    <div class="header__user" v-if="isLoggedIn">
+    <div class="header__user" v-if="isAuthorized">
       <router-link :to="{ name: 'Profile' }">
         <picture>
           <source
@@ -49,16 +49,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      required: true,
-    },
-  },
-
   data() {
     return {
       username: "Василий Ложкин",
@@ -69,6 +62,7 @@ export default {
     ...mapGetters("Cart", {
       totalPrice: "getTotalPrice",
     }),
+    ...mapState("Auth", ["isAuthorized"]),
   },
 
   methods: {

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   computed: {
@@ -21,9 +21,9 @@ export default {
       doughPrice: "getDoughPrice",
       sizePrice: "getSizePrice",
       saucePrice: "getSaucePrice",
-      pizzaName: "getPizzaName",
       ingredientsPrice: "getIngredientsPrice",
     }),
+    ...mapState("Builder", ["pizzaName"]),
     finalPrice() {
       return this.$store.getters["Builder/getPizzaPrice"];
     },

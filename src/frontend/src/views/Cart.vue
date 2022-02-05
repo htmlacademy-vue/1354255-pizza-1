@@ -68,7 +68,7 @@ import AppPopup from "@/common/components/AppPopup";
 import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
 import CartForm from "@/modules/cart/CartForm";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import axios from "axios";
 
 const BACKEND_URI = "http://localhost:3000/orders";
@@ -88,10 +88,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      additionalItems: "Cart/getAdditionals",
-      pizzas: "Cart/getPizzas",
-      isAuthorized: "Auth/getAuthStatus",
+    ...mapState("Auth", {
+      isAuthorized: (state) => state.isAuthorized,
+    }),
+    ...mapState("Cart", {
+      additionalItems: (state) => state.additionals,
+      pizzas: (state) => state.pizzas,
     }),
   },
 

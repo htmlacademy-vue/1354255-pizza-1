@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
@@ -73,8 +73,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters("Builder", {
-      allIngredients: "getIngredients",
+    ...mapState("Builder", {
+      allIngredients: (state) => state.ingredients,
     }),
     fillings() {
       const pizzaFillings = Object.entries(this.pizza.ingredients).reduce(
