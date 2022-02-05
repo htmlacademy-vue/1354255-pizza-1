@@ -5,6 +5,7 @@
 
       <div class="sheet__content diameter">
         <radio-button
+          :checked="isChecked(size.size)"
           v-for="size in sizes"
           :key="size.id"
           :labelClasses="['diameter__input', `diameter__input--${size.size}`]"
@@ -12,9 +13,10 @@
           :inputValue="size.size"
           inputName="diameter"
           @change="
-            $emit('selectSize', {
+            selectSize({
               size: size.size,
               multiplier: size.multiplier,
+              name: size.name,
             })
           "
         ></radio-button>
@@ -25,14 +27,21 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapState } from "vuex";
 
 export default {
   components: { RadioButton },
 
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
+  computed: {
+    ...mapState("Builder", ["sizes", "selectedSize"]),
+  },
+
+  methods: {
+    selectSize(selectedSize) {
+      this.$store.dispatch("Builder/selectSize", selectedSize);
+    },
+    isChecked(size) {
+      return this.selectedSize.size === size;
     },
   },
 };

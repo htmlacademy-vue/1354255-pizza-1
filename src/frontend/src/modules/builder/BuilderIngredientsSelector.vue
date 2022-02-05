@@ -8,6 +8,7 @@
           <p>Основной соус:</p>
 
           <radio-button
+            :checked="isChecked(sauce.sauce)"
             v-for="sauce in sauces"
             :key="sauce.id"
             :labelClasses="['radio', 'ingredients__input']"
@@ -15,7 +16,11 @@
             :inputValue="sauce.sauce"
             inputName="sauce"
             @change="
-              $emit('selectSauce', { sauce: sauce.sauce, price: sauce.price })
+              selectSauce({
+                sauce: sauce.sauce,
+                price: sauce.price,
+                name: sauce.name,
+              })
             "
           ></radio-button>
         </div>
@@ -56,31 +61,35 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
+import { mapState } from "vuex";
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
-  props: {
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-    selectedIngredients: {
-      type: Object,
-      default: () => {},
-    },
+  computed: {
+    ...mapState("Builder", [
+      "sauces",
+      "ingredients",
+      "selectedIngredients",
+      "selectedSauce",
+    ]),
   },
 
   methods: {
     selectIngredients(amount, filling) {
-      this.$emit("selectIngredients", { [filling]: amount });
+      this.$store.dispatch("Builder/updateIngredients", {
+        name: filling,
+        amount,
+      });
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
+    },
+    selectSauce(selectedSauce) {
+      this.$store.dispatch("Builder/selectSauce", selectedSauce);
+    },
+    isChecked(sauce) {
+      return this.selectedSauce.sauce === sauce;
     },
   },
 };

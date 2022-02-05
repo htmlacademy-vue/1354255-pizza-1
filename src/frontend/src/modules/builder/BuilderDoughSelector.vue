@@ -5,6 +5,7 @@
 
       <div class="sheet__content dough">
         <radio-button
+          :checked="isChecked(element.type)"
           v-for="element in dough"
           :key="element.id"
           :labelClasses="['dough__input', `dough__input--${element.type}`]"
@@ -12,7 +13,11 @@
           :inputValue="element.type"
           inputName="dough"
           @change="
-            $emit('selectDough', { type: element.type, price: element.price })
+            selectDough({
+              type: element.type,
+              price: element.price,
+              name: element.name,
+            })
           "
         >
           <b>{{ element.name }}</b>
@@ -24,14 +29,21 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapState } from "vuex";
 
 export default {
   components: { RadioButton },
 
-  props: {
-    dough: {
-      type: Array,
-      required: true,
+  computed: {
+    ...mapState("Builder", ["dough", "selectedDough"]),
+  },
+
+  methods: {
+    selectDough(selectedDough) {
+      this.$store.dispatch("Builder/selectDough", selectedDough);
+    },
+    isChecked(doughType) {
+      return this.selectedDough.type === doughType;
     },
   },
 };

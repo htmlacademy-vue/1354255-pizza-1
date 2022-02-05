@@ -5,6 +5,7 @@
       type="button"
       class="button"
       :disabled="!(ingredientsPrice && isNameFilled && isPizzaSelected)"
+      @click="$store.dispatch('Cart/addPizzaToCart')"
     >
       Готовьте!
     </button>
@@ -12,47 +13,25 @@
 </template>
 
 <script>
-import EventBus from "@/eventBus";
+import { mapGetters, mapState } from "vuex";
 
 export default {
-  props: {
-    doughPrice: {
-      type: Number,
-      default: 0,
-    },
-    sizePrice: {
-      type: Number,
-      default: 0,
-    },
-    saucePrice: {
-      type: Number,
-      default: 0,
-    },
-    isNameFilled: {
-      type: Boolean,
-      default: false,
-    },
-    ingredientsPrice: {
-      type: Number,
-      default: 0,
-    },
-  },
-
   computed: {
+    ...mapGetters("Builder", {
+      doughPrice: "getDoughPrice",
+      sizePrice: "getSizePrice",
+      saucePrice: "getSaucePrice",
+      ingredientsPrice: "getIngredientsPrice",
+    }),
+    ...mapState("Builder", ["pizzaName"]),
     finalPrice() {
-      return (
-        (this.doughPrice + this.saucePrice + this.ingredientsPrice) *
-        this.sizePrice
-      );
+      return this.$store.getters["Builder/getPizzaPrice"];
     },
     isPizzaSelected() {
       return this.saucePrice && this.sizePrice && this.doughPrice;
     },
-  },
-
-  watch: {
-    finalPrice(newVal) {
-      EventBus.$emit("priceChange", newVal);
+    isNameFilled() {
+      return !!this.pizzaName;
     },
   },
 };

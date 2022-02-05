@@ -30,6 +30,10 @@ const getSauce = (sauceName) => {
   }
 };
 
+const getAdditionalItemSlug = (pathToImg) => {
+  return pathToImg.replace(/\/public\/img\/([\D]+)\.svg/, "$1");
+};
+
 export const getDough = (doughArray) => {
   return doughArray.reduce((newArr, dough) => {
     newArr.push({
@@ -77,6 +81,18 @@ export const getSauces = (saucesArray) => {
       name: sauce.name,
       sauce: getSauce(sauce.name),
       price: sauce.price,
+    });
+
+    return newArr;
+  }, []);
+};
+
+export const getAdditionalItems = (itemsArray) => {
+  return itemsArray.reduce((newArr, item) => {
+    newArr.push({
+      ...item,
+      slug: getAdditionalItemSlug(item.image),
+      amount: 2,
     });
 
     return newArr;

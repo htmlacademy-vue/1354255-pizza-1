@@ -1,6 +1,7 @@
 <template>
   <label :class="labelClasses">
     <input
+      :checked="checked"
       :name="inputName"
       :value="inputValue"
       type="radio"
@@ -30,6 +31,10 @@ export default {
     description: {
       type: String,
       default: "",
+    },
+    checked: {
+      type: Boolean,
+      default: false,
     },
   },
 };

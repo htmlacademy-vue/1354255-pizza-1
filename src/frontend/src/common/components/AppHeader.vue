@@ -12,10 +12,10 @@
     </div>
 
     <div class="header__cart">
-      <router-link :to="{ name: 'Cart' }">{{ pizzaPrice }} ₽</router-link>
+      <router-link :to="{ name: 'Cart' }">{{ totalPrice }} ₽</router-link>
     </div>
 
-    <div class="header__user" v-if="isLoggedIn">
+    <div class="header__user" v-if="isAuthorized">
       <router-link :to="{ name: 'Profile' }">
         <picture>
           <source
@@ -49,38 +49,30 @@
 </template>
 
 <script>
-import EventBus from "@/eventBus";
+import { mapGetters, mapState } from "vuex";
 
 export default {
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      required: true,
-    },
-  },
-
   data() {
     return {
       username: "Василий Ложкин",
-      pizzaPrice: 0,
     };
   },
 
-  mounted() {
-    EventBus.$on("priceChange", this.pizzaPriceHandler);
+  computed: {
+    ...mapGetters("Cart", {
+      totalPrice: "getTotalPrice",
+    }),
+    ...mapState("Auth", ["isAuthorized"]),
   },
 
   methods: {
     loginHandler() {
-      EventBus.$emit("login");
+      this.$store.dispatch("Auth/login");
       this.$router.push({ name: "Login" });
     },
     logoutHandler() {
-      EventBus.$emit("logout");
+      this.$store.dispatch("Auth/logout");
       this.$router.push({ name: "Main" });
-    },
-    pizzaPriceHandler(price) {
-      this.pizzaPrice = price;
     },
   },
 };

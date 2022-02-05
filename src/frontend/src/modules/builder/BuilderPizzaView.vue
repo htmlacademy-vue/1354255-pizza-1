@@ -29,53 +29,35 @@
       </div>
     </app-drop>
 
-    <builder-price-counter
-      :doughPrice="selectedDough.price"
-      :sizePrice="selectedSize.multiplier"
-      :saucePrice="selectedSauce.price"
-      :isNameFilled="!!pizzaName"
-      :ingredientsPrice="ingredientsPrice"
-    ></builder-price-counter>
+    <builder-price-counter></builder-price-counter>
   </div>
 </template>
 
 <script>
 import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/BuilderPriceCounter";
+import { mapState } from "vuex";
 
 export default {
   components: { BuilderPriceCounter, AppDrop },
 
-  props: {
-    selectedDough: {
-      type: Object,
-      default: () => {},
-    },
-    selectedSauce: {
-      type: Object,
-      default: () => {},
-    },
-    selectedSize: {
-      type: Object,
-      default: () => {},
-    },
-    selectedIngredients: {
-      type: Object,
-      required: true,
-    },
-    allIngredients: {
-      type: Array,
-      required: true,
-    },
-  },
-
-  data() {
-    return {
-      pizzaName: "",
-    };
-  },
-
   computed: {
+    ...mapState(
+      "Builder",
+      ["selectedDough", "selectedSize", "selectedSauce", "selectedIngredients"],
+      {
+        pizza: (state) => state.pizzaName,
+        allIngredients: (state) => state.ingredients,
+      }
+    ),
+    pizzaName: {
+      get() {
+        return this.pizza;
+      },
+      set(value) {
+        this.$store.commit("Builder/SET_PIZZA_NAME", value);
+      },
+    },
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";
     },
@@ -90,20 +72,16 @@ export default {
 
       return amount;
     },
-    ingredientsPrice() {
-      return Object.entries(this.selectedIngredients).reduce((result, item) => {
-        const price =
-          this.allIngredients.find(
-            (ingredient) => ingredient.filling === item[0]
-          ).price * item[1];
-        return (result += price);
-      }, 0);
-    },
   },
 
   methods: {
-    addIngredient(ingredient) {
-      this.$emit("updateIngredients", ingredient);
+    addIngredient(filling) {
+      this.$store.dispatch("Builder/updateIngredients", {
+        name: filling,
+        amount: this.selectedIngredients[filling]
+          ? this.selectedIngredients[filling] + 1
+          : 1,
+      });
     },
     showIngredientAmount(amount) {
       switch (amount) {

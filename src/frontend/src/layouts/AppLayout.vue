@@ -1,5 +1,5 @@
 <template>
-  <component :is="layout" :isLoggedIn="isLoggedIn">
+  <component :is="layout">
     <slot></slot>
   </component>
 </template>
@@ -9,13 +9,6 @@ const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "AppLayout",
-
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      required: true,
-    },
-  },
 
   computed: {
     layout() {
