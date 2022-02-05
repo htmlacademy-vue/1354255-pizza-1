@@ -33,14 +33,6 @@ const mutations = {
     state.pizzas[pizzaIndex].amount += 1;
   },
 
-  CHANGE_PIZZA_PRICE: (state, { pizzaIndex, decrease }) => {
-    if (decrease) {
-      state.pizzas[pizzaIndex].price -= decrease;
-    } else {
-      state.pizzas[pizzaIndex].price *= state.pizzas[pizzaIndex].amount;
-    }
-  },
-
   REMOVE_PIZZA: (state, pizzaId) => {
     state.pizzas = state.pizzas.filter((item) => item.id !== pizzaId);
   },
@@ -67,7 +59,6 @@ const actions = {
     const pizzaIndex = state.pizzas.findIndex((item) => item.id === pizzaId);
 
     commit("INCREASE_PIZZA", pizzaIndex);
-    commit("CHANGE_PIZZA_PRICE", { pizzaIndex });
   },
 
   decreasePizza({ commit, state }, pizzaId) {
@@ -76,10 +67,7 @@ const actions = {
     if (state.pizzas[pizzaIndex].amount === 1) {
       commit("REMOVE_PIZZA", pizzaId);
     } else {
-      const priceForOne =
-        state.pizzas[pizzaIndex].price / state.pizzas[pizzaIndex].amount;
       commit("DECREASE_PIZZA", pizzaIndex);
-      commit("CHANGE_PIZZA_PRICE", { pizzaIndex, decrease: priceForOne });
     }
   },
 
@@ -115,10 +103,16 @@ const getters = {
 
   getPizzasPrice: (state) =>
     state.pizzas.reduce((sum, pizza) => {
-      sum += pizza.price;
+      sum += pizza.price * pizza.amount;
 
       return sum;
     }, 0),
+
+  getPizzaPrice: (state) => (pizzaId) => {
+    const currentPizza = state.pizzas.find((pizza) => pizza.id === pizzaId);
+
+    return currentPizza.price * currentPizza.amount;
+  },
 
   getTotalPrice: (state, getters) =>
     getters.getAdditionalsPrice + getters.getPizzasPrice,

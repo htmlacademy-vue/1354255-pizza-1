@@ -46,7 +46,7 @@
     </div>
 
     <div class="cart-list__price">
-      <b>{{ pizza.price }} ₽</b>
+      <b>{{ getPizzaPrice(pizza.id) }} ₽</b>
     </div>
 
     <div class="cart-list__button">
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -76,6 +76,7 @@ export default {
     ...mapState("Builder", {
       allIngredients: (state) => state.ingredients,
     }),
+    ...mapGetters("Cart", ["getPizzaPrice"]),
     fillings() {
       const pizzaFillings = Object.entries(this.pizza.ingredients).reduce(
         (acc, item) => {
