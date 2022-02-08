@@ -1,23 +1,20 @@
-import data from "@/static/pizza.json";
-import { getDough, getSizes, getSauces, getFilling } from "@/common/helpers.js";
-
 const setupState = () => ({
-  dough: getDough(data.dough),
-  sizes: getSizes(data.sizes),
-  sauces: getSauces(data.sauces),
-  ingredients: getFilling(data.ingredients),
+  dough: [],
+  sizes: [],
+  sauces: [],
+  ingredients: [],
   selectedDough: {
     type: "large",
     price: 300,
     name: "Толстое",
   },
   selectedSauce: {
-    sauce: "tomato",
+    type: "tomato",
     price: 50,
     name: "Томатный",
   },
   selectedSize: {
-    size: "big",
+    type: "big",
     multiplier: 3,
     name: "45 см",
   },
@@ -63,6 +60,22 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, setupState());
   },
+
+  SET_DOUGH_LIST: (state, dough) => {
+    state.dough = dough;
+  },
+
+  SET_SIZE_LIST: (state, sizes) => {
+    state.sizes = sizes;
+  },
+
+  SET_SAUCE_LIST: (state, sauces) => {
+    state.sauces = sauces;
+  },
+
+  SET_INGREDIENT_LIST: (state, ingredients) => {
+    state.ingredients = ingredients;
+  },
 };
 
 const actions = {
@@ -107,6 +120,25 @@ const actions = {
 
   resetBuilder({ commit }) {
     commit("RESET_STATE");
+  },
+
+  async loadAllPizzaStuff({ commit }) {
+    try {
+      const [doughList, sauceList, sizeList, ingredientList] =
+        await Promise.all([
+          this.$api.dough.query(),
+          this.$api.sauce.query(),
+          this.$api.size.query(),
+          this.$api.ingredients.query(),
+        ]);
+
+      commit("SET_DOUGH_LIST", doughList);
+      commit("SET_SAUCE_LIST", sauceList);
+      commit("SET_SIZE_LIST", sizeList);
+      commit("SET_INGREDIENT_LIST", ingredientList);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

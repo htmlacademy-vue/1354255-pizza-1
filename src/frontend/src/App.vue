@@ -12,6 +12,10 @@ import AppLayout from "@/layouts/AppLayout.vue";
 export default {
   name: "App",
   components: { AppLayout },
+
+  created() {
+    this.$store.dispatch("Builder/loadAllPizzaStuff");
+  },
 };
 </script>
 

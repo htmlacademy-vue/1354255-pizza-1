@@ -5,16 +5,16 @@
 
       <div class="sheet__content diameter">
         <radio-button
-          :checked="isChecked(size.size)"
+          :checked="isChecked(size.type)"
           v-for="size in sizes"
           :key="size.id"
-          :labelClasses="['diameter__input', `diameter__input--${size.size}`]"
+          :labelClasses="['diameter__input', `diameter__input--${size.type}`]"
           :description="size.name"
-          :inputValue="size.size"
+          :inputValue="size.type"
           inputName="diameter"
           @change="
             selectSize({
-              size: size.size,
+              type: size.type,
               multiplier: size.multiplier,
               name: size.name,
             })
@@ -41,7 +41,7 @@ export default {
       this.$store.dispatch("Builder/selectSize", selectedSize);
     },
     isChecked(size) {
-      return this.selectedSize.size === size;
+      return this.selectedSize.type === size;
     },
   },
 };

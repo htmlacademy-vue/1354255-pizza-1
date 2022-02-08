@@ -1,6 +1,3 @@
-import data from "@/static/misc.json";
-import { getAdditionalItems } from "@/common/helpers.js";
-
 const setupState = () => ({
   additionals: [],
   pizzas: [],
@@ -47,8 +44,9 @@ const mutations = {
 };
 
 const actions = {
-  loadAdditionals({ commit }) {
-    commit("SET_ADDITIONALS", getAdditionalItems(data));
+  async loadAdditionals({ commit }) {
+    const additionals = await this.$api.misc.query();
+    commit("SET_ADDITIONALS", additionals);
   },
 
   changeAdditionalsAmount({ commit }, { itemId, amount }) {

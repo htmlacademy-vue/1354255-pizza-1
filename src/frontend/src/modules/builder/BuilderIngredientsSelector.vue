@@ -8,16 +8,16 @@
           <p>Основной соус:</p>
 
           <radio-button
-            :checked="isChecked(sauce.sauce)"
+            :checked="isChecked(sauce.type)"
             v-for="sauce in sauces"
             :key="sauce.id"
             :labelClasses="['radio', 'ingredients__input']"
             :description="sauce.name"
-            :inputValue="sauce.sauce"
+            :inputValue="sauce.type"
             inputName="sauce"
             @change="
               selectSauce({
-                sauce: sauce.sauce,
+                type: sauce.type,
                 price: sauce.price,
                 name: sauce.name,
               })
@@ -89,7 +89,7 @@ export default {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
     isChecked(sauce) {
-      return this.selectedSauce.sauce === sauce;
+      return this.selectedSauce.type === sauce;
     },
   },
 };

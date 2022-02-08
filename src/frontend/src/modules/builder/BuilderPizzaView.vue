@@ -13,7 +13,7 @@
     <app-drop @drop="addIngredient" class="content__constructor">
       <div
         class="pizza"
-        :class="`pizza--foundation--${doughSize}-${selectedSauce.sauce}`"
+        :class="`pizza--foundation--${doughSize}-${selectedSauce.type}`"
       >
         <div class="pizza__wrapper">
           <div
