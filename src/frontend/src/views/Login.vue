@@ -78,7 +78,7 @@ export default {
     authorize() {
       this.login({ email: this.email, password: this.password })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push({ name: "Main" });
         })
         .catch((e) => {
           this.postError = e;
