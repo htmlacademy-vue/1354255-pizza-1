@@ -87,9 +87,7 @@ export class DoughApiService extends ReadOnlyApiService {
 
   async query(config = {}) {
     const doughList = await super.query(config);
-    return doughList
-      .map((item) => this._normalize(item))
-      .slice(0, Math.ceil(doughList.length / 2));
+    return doughList.map((item) => this._normalize(item));
   }
 }
 
@@ -115,9 +113,7 @@ export class SauceApiService extends ReadOnlyApiService {
 
   async query(config = {}) {
     const sauceList = await super.query(config);
-    return sauceList
-      .map((item) => this._normalize(item))
-      .slice(0, Math.ceil(sauceList.length / 2));
+    return sauceList.map((item) => this._normalize(item));
   }
 }
 
@@ -139,9 +135,7 @@ export class FillingApiService extends ReadOnlyApiService {
 
   async query(config = {}) {
     const ingredients = await super.query(config);
-    return ingredients
-      .map((item) => this._normalize(item))
-      .slice(0, Math.ceil(ingredients.length / 2));
+    return ingredients.map((item) => this._normalize(item));
   }
 }
 
@@ -175,9 +169,7 @@ export class SizeApiService extends ReadOnlyApiService {
 
   async query(config = {}) {
     const sizes = await super.query(config);
-    return sizes
-      .map((item) => this._normalize(item))
-      .slice(0, Math.ceil(sizes.length / 2));
+    return sizes.map((item) => this._normalize(item));
   }
 }
 
@@ -200,8 +192,6 @@ export class MiscApiService extends ReadOnlyApiService {
 
   async query(config = {}) {
     const miscList = await super.query(config);
-    return miscList
-      .map((item) => this._normalize(item))
-      .slice(0, Math.ceil(miscList.length / 2));
+    return miscList.map((item) => this._normalize(item));
   }
 }

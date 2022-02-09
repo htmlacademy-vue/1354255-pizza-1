@@ -67,7 +67,6 @@ export default {
 
   methods: {
     loginHandler() {
-      this.$store.dispatch("Auth/login");
       this.$router.push({ name: "Login" });
     },
     logoutHandler() {
