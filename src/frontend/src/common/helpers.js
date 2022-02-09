@@ -21,3 +21,8 @@ export const createResources = () => {
     [resources.MISC]: new MiscApiService(),
   };
 };
+
+export const setAuth = (store) => {
+  store.$api.auth.setAuthHeader();
+  store.dispatch("Auth/getMe");
+};
