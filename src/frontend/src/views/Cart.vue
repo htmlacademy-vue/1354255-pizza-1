@@ -90,6 +90,7 @@ export default {
   computed: {
     ...mapState("Auth", {
       isAuthorized: (state) => state.isAuthorized,
+      userId: (state) => state.user.id,
     }),
     ...mapState("Cart", {
       additionalItems: (state) => state.additionals,
@@ -103,7 +104,7 @@ export default {
 
       if (this.isAuthorized) {
         axios
-          .post(BACKEND_URI, { userId: "1" })
+          .post(BACKEND_URI, { userId: this.userId })
           .then(function (response) {
             console.log(response);
           })
