@@ -14,6 +14,7 @@
           inputName="diameter"
           @change="
             selectSize({
+              id: size.id,
               type: size.type,
               multiplier: size.multiplier,
               name: size.name,

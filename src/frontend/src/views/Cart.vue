@@ -3,7 +3,7 @@
     <p>В корзине нет ни одного товара</p>
   </div>
 
-  <form action="#" method="post" class="layout-form" v-else>
+  <form class="layout-form" v-else>
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
@@ -28,7 +28,7 @@
           </ul>
         </div>
 
-        <CartForm />
+        <CartForm @passContacts="passContacts" />
       </div>
     </main>
 
@@ -49,11 +49,7 @@
       </div>
 
       <div class="footer__submit">
-        <button
-          type="submit"
-          class="button"
-          @click.prevent="isPopupOpen = true"
-        >
+        <button type="submit" class="button" @click.prevent="placeOrder">
           Оформить заказ
         </button>
       </div>
@@ -69,9 +65,7 @@ import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
 import CartForm from "@/modules/cart/CartForm";
 import { mapState } from "vuex";
-import axios from "axios";
-
-const BACKEND_URI = "http://localhost:3000/orders";
+import EventBus from "@/eventBus";
 
 export default {
   components: {
@@ -84,6 +78,10 @@ export default {
   data() {
     return {
       isPopupOpen: false,
+      phone: "",
+      street: "",
+      building: "",
+      flat: "",
     };
   },
 
@@ -96,24 +94,52 @@ export default {
       additionalItems: (state) => state.additionals,
       pizzas: (state) => state.pizzas,
     }),
+    ...mapState("Builder", {
+      allIngredients: (state) => state.ingredients,
+    }),
   },
 
   methods: {
     orderHandler() {
       this.isPopupOpen = false;
 
+      const pizzas = this.pizzas.map((pizza) => ({
+        name: pizza.name,
+        quantity: pizza.amount,
+        sauceId: pizza.sauce.id,
+        doughId: pizza.dough.id,
+        sizeId: pizza.size.id,
+        ingredients: [],
+      }));
+
+      const misc = this.additionalItems.map((item) => ({
+        miscId: item.id,
+        quantity: item.amount,
+      }));
+
       if (this.isAuthorized) {
-        axios
-          .post(BACKEND_URI, { userId: this.userId })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        this.$api.orders.post({
+          userId: this.userId,
+          phone: this.phone,
+          address: {
+            street: this.street,
+            building: this.building,
+            flat: this.flat,
+            comment: "string",
+          },
+          pizzas,
+          misc,
+        });
+
         this.$router.push({ name: "Orders" });
       } else {
-        axios.post(BACKEND_URI, { userId: null });
+        this.$api.orders.post({
+          userId: null,
+          phone: this.phone,
+          pizzas,
+          misc,
+        });
+
         this.$router.push({ name: "Main" });
       }
 
@@ -124,6 +150,18 @@ export default {
     addAnotherPizza() {
       this.$store.dispatch("Builder/resetBuilder");
       this.$router.push("/");
+    },
+
+    placeOrder() {
+      this.isPopupOpen = true;
+      EventBus.$emit("placeOrder");
+    },
+
+    passContacts({ phone, street, building, flat }) {
+      this.phone = phone;
+      this.street = street;
+      this.building = building;
+      this.flat = flat;
     },
   },
 };

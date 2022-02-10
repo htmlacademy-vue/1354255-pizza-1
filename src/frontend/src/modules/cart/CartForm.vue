@@ -13,7 +13,12 @@
 
       <label class="input input--big-label">
         <span>Контактный телефон:</span>
-        <input type="text" name="tel" placeholder="+7 999-999-99-99" />
+        <input
+          type="text"
+          name="tel"
+          placeholder="+7 999-999-99-99"
+          v-model="phone"
+        />
       </label>
 
       <div class="cart-form__address" v-if="selectedOption !== '1'">
@@ -22,21 +27,36 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input type="text" name="street" :readonly="isAuthorized" />
+            <input
+              type="text"
+              name="street"
+              :readonly="isAuthorized && selectedOption !== '2'"
+              v-model="street"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Дом*</span>
-            <input type="text" name="house" :readonly="isAuthorized" />
+            <input
+              type="text"
+              name="house"
+              :readonly="isAuthorized && selectedOption !== '2'"
+              v-model="building"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Квартира</span>
-            <input type="text" name="apartment" :readonly="isAuthorized" />
+            <input
+              type="text"
+              name="apartment"
+              :readonly="isAuthorized && selectedOption !== '2'"
+              v-model="flat"
+            />
           </label>
         </div>
       </div>
@@ -46,16 +66,36 @@
 
 <script>
 import { mapState } from "vuex";
+import EventBus from "@/eventBus";
 
 export default {
   data() {
     return {
       selectedOption: "2",
+      phone: "",
+      street: "",
+      building: "",
+      flat: "",
     };
   },
 
   computed: {
     ...mapState("Auth", ["isAuthorized"]),
+  },
+
+  mounted() {
+    EventBus.$on("placeOrder", this.passData);
+  },
+
+  methods: {
+    passData() {
+      this.$emit("passContacts", {
+        phone: this.phone,
+        street: this.street,
+        building: this.building,
+        flat: this.flat,
+      });
+    },
   },
 };
 </script>

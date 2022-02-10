@@ -18,8 +18,6 @@ export default {
     if (this.$jwt.getToken()) {
       setAuth(this.$store);
     }
-
-    this.$store.dispatch("Builder/loadAllPizzaStuff");
   },
 };
 </script>

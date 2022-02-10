@@ -25,5 +25,9 @@ export default {
     BuilderSizeSelector,
     BuilderDoughSelector,
   },
+
+  created() {
+    this.$store.dispatch("Builder/loadAllPizzaStuff");
+  },
 };
 </script>

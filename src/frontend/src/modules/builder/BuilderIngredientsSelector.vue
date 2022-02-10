@@ -17,6 +17,7 @@
             inputName="sauce"
             @change="
               selectSauce({
+                id: sauce.id,
                 type: sauce.type,
                 price: sauce.price,
                 name: sauce.name,

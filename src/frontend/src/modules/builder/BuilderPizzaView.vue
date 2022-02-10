@@ -42,14 +42,15 @@ export default {
   components: { BuilderPriceCounter, AppDrop },
 
   computed: {
-    ...mapState(
-      "Builder",
-      ["selectedDough", "selectedSize", "selectedSauce", "selectedIngredients"],
-      {
-        pizza: (state) => state.pizzaName,
-        allIngredients: (state) => state.ingredients,
-      }
-    ),
+    ...mapState("Builder", [
+      "selectedDough",
+      "selectedSize",
+      "selectedSauce",
+      "selectedIngredients",
+    ]),
+    ...mapState("Builder", {
+      pizza: (state) => state.pizzaName,
+    }),
     pizzaName: {
       get() {
         return this.pizza;

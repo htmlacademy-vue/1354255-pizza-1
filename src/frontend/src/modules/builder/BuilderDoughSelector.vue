@@ -14,6 +14,7 @@
           inputName="dough"
           @change="
             selectDough({
+              id: element.id,
               type: element.type,
               price: element.price,
               name: element.name,
