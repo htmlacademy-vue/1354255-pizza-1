@@ -7,7 +7,7 @@
         <select name="test" class="select" v-model="selectedOption">
           <option value="1">Заберу сам</option>
           <option value="2">Новый адрес</option>
-          <option value="3" v-if="isAuthorized">Дом</option>
+          <option value="3" v-if="isAuthorized">Существующий адрес</option>
         </select>
       </label>
 
