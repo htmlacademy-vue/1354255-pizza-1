@@ -6,7 +6,7 @@
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
-    <form method="post" @submit.prevent>
+    <form method="post" @submit.prevent="authorize">
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
@@ -15,7 +15,6 @@
             v-model.trim="email"
             name="email"
             placeholder="example@mail.ru"
-            @keyup.enter="authorize"
           />
         </label>
         <span class="error" v-if="!isEmailValid"
@@ -32,7 +31,6 @@
             v-model.trim="password"
             name="pass"
             placeholder="***********"
-            @keyup.enter="authorize"
           />
         </label>
         <span class="error" v-if="!isPasswordValid"
@@ -40,9 +38,7 @@
         >
       </div>
 
-      <button type="submit" class="button" @click.prevent="authorize">
-        Авторизоваться
-      </button>
+      <button type="submit" class="button">Авторизоваться</button>
     </form>
 
     <span class="error" v-if="postError">{{ postError }}</span>
