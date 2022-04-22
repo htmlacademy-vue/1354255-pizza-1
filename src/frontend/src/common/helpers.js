@@ -26,3 +26,7 @@ export const setAuth = (store) => {
   store.$api.auth.setAuthHeader();
   store.dispatch("Auth/getMe");
 };
+
+export const generateId = () => {
+  return Date.now();
+};

@@ -1,3 +1,5 @@
+import { generateId } from "@/common/helpers.js";
+
 const setupState = () => ({
   dough: [],
   sizes: [],
@@ -54,6 +56,10 @@ const mutations = {
       (item) => item.filling === ingredientName
     );
     state.selectedIngredients.splice(firstIngredientIndex, 1);
+  },
+
+  SET_INGREDIENTS: (state, newIngredientsSet) => {
+    state.selectedIngredients = newIngredientsSet;
   },
 
   SET_PIZZA_PRICE: (state, price) => {
@@ -117,6 +123,13 @@ const actions = {
     commit("SET_PIZZA_PRICE", price);
   },
 
+  async setIngredients({ commit, dispatch }, ingredientSet) {
+    const price = await dispatch("countPizzaPrice");
+
+    commit("SET_INGREDIENTS", ingredientSet);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
   async countPizzaPrice({ getters }) {
     return await getters.getPizzaPrice;
   },
@@ -169,7 +182,7 @@ const getters = {
     );
   },
   getCurrentPizza: (state, getters) => ({
-    id: `${state.pizzaName}-${getters.getPizzaPrice}`,
+    id: `${state.pizzaName}-${generateId()}`,
     name: state.pizzaName,
     price: getters.getPizzaPrice,
     dough: state.selectedDough,

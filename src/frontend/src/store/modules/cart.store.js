@@ -80,7 +80,9 @@ const actions = {
     await dispatch("Builder/selectDough", pizza.dough, { root: true });
     await dispatch("Builder/selectSize", pizza.size, { root: true });
     await dispatch("Builder/selectSauce", pizza.sauce, { root: true });
-    await dispatch("Builder/setIngredients", pizza.ingredients, { root: true });
+    await dispatch("Builder/setIngredients", pizza.ingredients, {
+      root: true,
+    });
 
     commit("REMOVE_PIZZA", pizzaId);
   },
