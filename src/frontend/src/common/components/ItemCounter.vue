@@ -14,7 +14,7 @@
       name="counter"
       class="counter__input"
       :value="startValue"
-      @input="emitCountValue($event.target.value)"
+      readonly
     />
 
     <button
@@ -37,23 +37,17 @@ export default {
     },
   },
 
-  watch: {
-    startValue(newVal) {
-      if (newVal >= 3) this.$emit("changeAmount", 3);
-    },
-  },
-
   methods: {
     emitCountValue(value) {
-      this.$emit("changeAmount", +value);
+      this.$emit("changeAmount", value);
     },
 
     decreaseCounter() {
-      this.emitCountValue(this.startValue - 1);
+      this.emitCountValue("decrease");
     },
 
     increaseCounter() {
-      this.emitCountValue(this.startValue + 1);
+      this.emitCountValue("increase");
     },
   },
 };

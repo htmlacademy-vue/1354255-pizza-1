@@ -21,7 +21,7 @@ const setupState = () => ({
     name: "45 см",
     id: 3,
   },
-  selectedIngredients: {},
+  selectedIngredients: [],
   pizzaName: "",
   pizzaPrice: 0,
 });
@@ -45,15 +45,15 @@ const mutations = {
     state.pizzaName = pizzaName;
   },
 
-  UPDATE_INGREDIENTS: (state, ingredientSet) => {
-    state.selectedIngredients = {
-      ...state.selectedIngredients,
-      [ingredientSet.name]: ingredientSet.amount,
-    };
+  SELECT_INGREDIENTS: (state, ingredient) => {
+    state.selectedIngredients.push(ingredient);
   },
 
-  SET_INGREDIENTS: (state, newIngredientsSet) => {
-    state.selectedIngredients = newIngredientsSet;
+  REMOVE_INGREDIENT: (state, ingredientName) => {
+    const firstIngredientIndex = state.selectedIngredients.findIndex(
+      (item) => item.filling === ingredientName
+    );
+    state.selectedIngredients.splice(firstIngredientIndex, 1);
   },
 
   SET_PIZZA_PRICE: (state, price) => {
@@ -103,17 +103,17 @@ const actions = {
     commit("SET_PIZZA_PRICE", price);
   },
 
-  async updateIngredients({ commit, dispatch }, ingredientSet) {
+  async selectIngredients({ commit, dispatch }, ingredient) {
     const price = await dispatch("countPizzaPrice");
 
-    commit("UPDATE_INGREDIENTS", ingredientSet);
+    commit("SELECT_INGREDIENTS", ingredient);
     commit("SET_PIZZA_PRICE", price);
   },
 
-  async setIngredients({ commit, dispatch }, ingredientSet) {
+  async removeIngredient({ commit, dispatch }, ingredientName) {
     const price = await dispatch("countPizzaPrice");
 
-    commit("SET_INGREDIENTS", ingredientSet);
+    commit("REMOVE_INGREDIENT", ingredientName);
     commit("SET_PIZZA_PRICE", price);
   },
 
@@ -146,15 +146,18 @@ const actions = {
 };
 
 const getters = {
+  getSelectedIngredients: (state) =>
+    state.selectedIngredients.reduce((obj, item) => {
+      return (
+        obj[item.filling] ? obj[item.filling]++ : (obj[item.filling] = 1), obj
+      );
+    }, {}),
   getDoughPrice: (state) => state.selectedDough.price || 0,
   getSizePrice: (state) => state.selectedSize.multiplier || 0,
   getSaucePrice: (state) => state.selectedSauce.price || 0,
   getIngredientsPrice: (state) => {
-    return Object.entries(state.selectedIngredients).reduce((result, item) => {
-      const price =
-        state.ingredients.find((ingredient) => ingredient.filling === item[0])
-          .price * item[1];
-      return (result += price);
+    return state.selectedIngredients.reduce((result, item) => {
+      return (result += item.price);
     }, 0);
   },
   getPizzaPrice: (state, getters) => {

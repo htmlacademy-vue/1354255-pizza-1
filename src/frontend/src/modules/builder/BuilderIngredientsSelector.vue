@@ -36,7 +36,7 @@
               :key="ingredient.id"
             >
               <app-drag
-                :transfer-data="ingredient.filling"
+                :transfer-data="ingredient"
                 :isDraggable="canDrag(selectedIngredients[ingredient.filling])"
               >
                 <span
@@ -48,7 +48,7 @@
 
               <item-counter
                 :startValue="selectedIngredients[ingredient.filling]"
-                @changeAmount="selectIngredients($event, ingredient.filling)"
+                @changeAmount="selectIngredients($event, ingredient)"
               ></item-counter>
             </li>
           </ul>
@@ -62,26 +62,27 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
-import { mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState, mapGetters } = createNamespacedHelpers("Builder");
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
   computed: {
-    ...mapState("Builder", [
-      "sauces",
-      "ingredients",
-      "selectedIngredients",
-      "selectedSauce",
-    ]),
+    ...mapState(["sauces", "ingredients", "selectedSauce"]),
+    ...mapGetters({
+      selectedIngredients: "getSelectedIngredients",
+    }),
   },
 
   methods: {
-    selectIngredients(amount, filling) {
-      this.$store.dispatch("Builder/updateIngredients", {
-        name: filling,
-        amount,
-      });
+    selectIngredients(status, ingredient) {
+      if (status === "decrease") {
+        this.$store.dispatch("Builder/removeIngredient", ingredient.filling);
+      } else {
+        this.$store.dispatch("Builder/selectIngredients", ingredient);
+      }
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
