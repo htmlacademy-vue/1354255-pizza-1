@@ -140,6 +140,7 @@ export default {
       }
 
       e.target.reset();
+      this.$emit("submit");
     },
     deleteAddress() {
       this.$api.addresses.delete(this.addressToEdit.id);

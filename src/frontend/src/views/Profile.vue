@@ -43,6 +43,7 @@
         v-if="isFormShown"
         :addressToEdit="addressToEdit"
         @deleteAddress="deleteAddress"
+        @submit="updateAddress"
       />
     </div>
 
@@ -89,7 +90,11 @@ export default {
     },
     deleteAddress() {
       this.isFormShown = false;
-      this.$router.go(0);
+      location.reload();
+    },
+    updateAddress() {
+      this.isFormShown = false;
+      location.reload();
     },
   },
 };
