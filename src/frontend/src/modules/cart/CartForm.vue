@@ -59,6 +59,17 @@
             />
           </label>
         </div>
+
+        <div class="cart-form__input">
+          <label class="input">
+            <span>Комментарий</span>
+            <input
+              type="text"
+              name="comment"
+              v-model="comment"
+            />
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -76,6 +87,7 @@ export default {
       street: "",
       building: "",
       flat: "",
+      comment: "",
     };
   },
 
@@ -94,6 +106,7 @@ export default {
         street: this.street,
         building: this.building,
         flat: this.flat,
+        comment: this.comment,
       });
     },
   },

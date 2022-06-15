@@ -82,6 +82,7 @@ export default {
       street: "",
       building: "",
       flat: "",
+      comment: "",
     };
   },
 
@@ -103,14 +104,34 @@ export default {
     orderHandler() {
       this.isPopupOpen = false;
 
-      const pizzas = this.pizzas.map((pizza) => ({
-        name: pizza.name,
-        quantity: pizza.amount,
-        sauceId: pizza.sauce.id,
-        doughId: pizza.dough.id,
-        sizeId: pizza.size.id,
-        ingredients: [],
-      }));
+      const pizzas = this.pizzas.map((pizza) => {
+        const ingredients = [];
+        const formattedIngredients = pizza.ingredients.reduce((stack, item) => {
+          if (stack[item.id]) {
+            stack[item.id] += 1;
+          } else {
+            stack[item.id] = 1;
+          }
+
+          return stack;
+        }, {});
+
+        for (const itemId in formattedIngredients) {
+          ingredients.push({
+            ingredientId: itemId,
+            quantity: formattedIngredients[itemId],
+          });
+        }
+
+        return {
+          name: pizza.name,
+          sauceId: pizza.sauce.id,
+          doughId: pizza.dough.id,
+          sizeId: pizza.size.id,
+          quantity: pizza.amount,
+          ingredients,
+        };
+      });
 
       const misc = this.additionalItems.map((item) => ({
         miscId: item.id,
@@ -125,7 +146,7 @@ export default {
             street: this.street,
             building: this.building,
             flat: this.flat,
-            comment: "string",
+            comment: this.comment,
           },
           pizzas,
           misc,
@@ -157,11 +178,12 @@ export default {
       EventBus.$emit("placeOrder");
     },
 
-    passContacts({ phone, street, building, flat }) {
+    passContacts({ phone, street, building, flat, comment }) {
       this.phone = phone;
       this.street = street;
       this.building = building;
       this.flat = flat;
+      this.comment = comment;
     },
   },
 };
