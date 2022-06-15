@@ -63,11 +63,7 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Комментарий</span>
-            <input
-              type="text"
-              name="comment"
-              v-model="comment"
-            />
+            <input type="text" name="comment" v-model="comment" />
           </label>
         </div>
       </div>
