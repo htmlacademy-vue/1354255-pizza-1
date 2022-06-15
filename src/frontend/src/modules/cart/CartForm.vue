@@ -4,10 +4,26 @@
       <label class="cart-form__select">
         <span class="cart-form__label">Получение заказа:</span>
 
-        <select name="test" class="select" v-model="selectedOption">
-          <option value="1">Заберу сам</option>
-          <option value="2">Новый адрес</option>
-          <option value="3" v-if="isAuthorized">Существующий адрес</option>
+        <select
+          name="test"
+          class="select"
+          :selected="selectedOption"
+          @change="onChange"
+        >
+          <option :value="BY_MYSELF">Заберу сам</option>
+          <option :value="NEW_ADDRESS">Новый адрес</option>
+          <optgroup
+            v-if="isAuthorized && addressList"
+            label="Существующий адрес"
+          >
+            <option
+              v-for="({ name }, index) in addressList"
+              :value="index"
+              :key="index"
+            >
+              {{ name }}
+            </option>
+          </optgroup>
         </select>
       </label>
 
@@ -21,7 +37,7 @@
         />
       </label>
 
-      <div class="cart-form__address" v-if="selectedOption !== '1'">
+      <div class="cart-form__address" v-if="selectedOption !== BY_MYSELF">
         <span class="cart-form__label">Новый адрес:</span>
 
         <div class="cart-form__input">
@@ -30,7 +46,7 @@
             <input
               type="text"
               name="street"
-              :readonly="isAuthorized && selectedOption !== '2'"
+              :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
               v-model="street"
             />
           </label>
@@ -42,7 +58,7 @@
             <input
               type="text"
               name="house"
-              :readonly="isAuthorized && selectedOption !== '2'"
+              :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
               v-model="building"
             />
           </label>
@@ -54,7 +70,7 @@
             <input
               type="text"
               name="apartment"
-              :readonly="isAuthorized && selectedOption !== '2'"
+              :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
               v-model="flat"
             />
           </label>
@@ -75,20 +91,33 @@
 import { mapState } from "vuex";
 import EventBus from "@/eventBus";
 
+const ORDER_RECEIVE_STATUS = {
+  BY_MYSELF: "-2",
+  NEW_ADDRESS: "-1",
+};
+
 export default {
   data() {
     return {
-      selectedOption: "2",
+      selectedOption: ORDER_RECEIVE_STATUS.NEW_ADDRESS,
       phone: "",
       street: "",
       building: "",
       flat: "",
       comment: "",
+      addressList: [],
+      ...ORDER_RECEIVE_STATUS,
     };
   },
 
   computed: {
     ...mapState("Auth", ["isAuthorized"]),
+  },
+
+  async created() {
+    if (this.isAuthorized) {
+      this.addressList = await this.$api.addresses.query();
+    }
   },
 
   mounted() {
@@ -104,6 +133,23 @@ export default {
         flat: this.flat,
         comment: this.comment,
       });
+    },
+    selectExistingAddress(addressIndex) {
+      const address = this.addressList[addressIndex];
+
+      this.street = address.street;
+      this.building = address.building;
+      this.flat = address.flat;
+      this.comment = address.comment;
+    },
+    onChange(e) {
+      const value = e.target.value;
+
+      this.selectedOption = value;
+
+      if (this.selectedOption >= 0) {
+        this.selectExistingAddress(this.selectedOption);
+      }
     },
   },
 };

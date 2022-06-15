@@ -90,11 +90,11 @@ export default {
     },
     deleteAddress() {
       this.isFormShown = false;
-      location.reload();
+      this.$router.go(0);
     },
     updateAddress() {
       this.isFormShown = false;
-      location.reload();
+      this.$router.go(0);
     },
   },
 };
