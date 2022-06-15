@@ -15,7 +15,11 @@
               <span>Сумма заказа: 1&nbsp;564 ₽</span>
             </div>
             <div class="order__button">
-              <button type="button" class="button button--border">
+              <button
+                type="button"
+                class="button button--border"
+                @click="deleteOrder(order.id)"
+              >
                 Удалить
               </button>
             </div>
@@ -95,6 +99,13 @@ export default {
   created() {
     this.$store.dispatch("Orders/loadOrders");
     this.$store.dispatch("Orders/loadMisc");
+  },
+
+  methods: {
+    async deleteOrder(orderId) {
+      await this.$api.orders.delete(orderId);
+      this.$router.go(0);
+    },
   },
 };
 </script>
