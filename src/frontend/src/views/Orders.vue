@@ -1,6 +1,6 @@
 <template>
   <main class="layout">
-    <div class="layout__content">
+    <div class="layout__content" v-if="isLoaded">
       <div class="layout__title">
         <h1 class="title title--big">История заказов</h1>
       </div>
@@ -24,7 +24,9 @@
               </button>
             </div>
             <div class="order__button">
-              <button type="button" class="button">Повторить</button>
+              <button type="button" class="button" @click="repeatOrder(order)">
+                Повторить
+              </button>
             </div>
           </div>
 
@@ -45,12 +47,12 @@
                 <div class="product__text">
                   <h2>{{ pizza.name }}</h2>
                   <ul>
-                    <li>{{ pizza.sizeId }} см, на {{ pizza.doughId }} тесте</li>
-                    <li>Соус: {{ pizza.sauceId }}</li>
                     <li>
-                      Начинка: грибы, лук, ветчина, пармезан, ананас, бекон, блю
-                      чиз
+                      {{ getSize(pizza.sizeId) }}, на
+                      {{ getDough(pizza.doughId) }} тесте
                     </li>
+                    <li>Соус: {{ getSauce(pizza.sauceId) }}</li>
+                    <li>Начинка: {{ getIngredients(pizza.ingredients) }}</li>
                   </ul>
                 </div>
               </div>
@@ -79,11 +81,14 @@
           </ul>
 
           <p class="order__address">
-            Адрес доставки: Тест (или если адрес новый - писать целиком)
+            Адрес доставки:
+            {{ order.orderAddress ? order.orderAddress.name : "Тест" }}
           </p>
         </div>
       </section>
     </div>
+
+    <div class="lds-hourglass" v-else></div>
   </main>
 </template>
 
@@ -91,20 +96,42 @@
 import { mapState, mapGetters } from "vuex";
 
 export default {
-  computed: {
-    ...mapState("Orders", ["orderList"]),
-    ...mapGetters("Orders", ["getMisc"]),
+  data() {
+    return {
+      isLoaded: false,
+    };
   },
 
-  created() {
-    this.$store.dispatch("Orders/loadOrders");
-    this.$store.dispatch("Orders/loadMisc");
+  computed: {
+    ...mapState("Orders", ["orderList"]),
+    ...mapGetters("Orders", [
+      "getMisc",
+      "getDough",
+      "getSize",
+      "getSauce",
+      "getIngredients",
+    ]),
+  },
+
+  async created() {
+    await this.$store.dispatch("Orders/loadOrders");
+    await this.$store.dispatch("loadAllPizzaStuff");
+    this.isLoaded = true;
   },
 
   methods: {
     async deleteOrder(orderId) {
       await this.$api.orders.delete(orderId);
       this.$router.go(0);
+    },
+
+    repeatOrder(order) {
+      const additionals = order.orderMisc;
+      order.orderPizzas.forEach(pizza => {
+        this.$store.dispatch("Cart/addPizza", pizza);
+      })
+      this.$store.dispatch("Cart/setAdditionals", additionals);
+      console.log(order);
     },
   },
 };
@@ -120,6 +147,42 @@ export default {
     margin-left: 5px;
     display: block;
     color: #777;
+  }
+}
+
+$loader-color: #777;
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid $loader-color;
+  border-color: $loader-color transparent $loader-color transparent;
+  animation: hourglass 1.2s infinite;
+}
+@keyframes hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
   }
 }
 </style>

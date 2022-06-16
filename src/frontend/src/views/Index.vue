@@ -27,7 +27,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("Builder/loadAllPizzaStuff");
+    this.$store.dispatch("loadAllPizzaStuff");
   },
 };
 </script>

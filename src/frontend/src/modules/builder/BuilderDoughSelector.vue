@@ -36,7 +36,10 @@ export default {
   components: { RadioButton },
 
   computed: {
-    ...mapState("Builder", ["dough", "selectedDough"]),
+    ...mapState({
+      dough: (state) => state.doughData,
+      selectedDough: (state) => state.Builder.selectedDough,
+    }),
   },
 
   methods: {

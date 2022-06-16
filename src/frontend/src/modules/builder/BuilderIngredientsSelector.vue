@@ -62,17 +62,19 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
-import { createNamespacedHelpers } from "vuex";
-
-const { mapState, mapGetters } = createNamespacedHelpers("Builder");
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
   computed: {
-    ...mapState(["sauces", "ingredients", "selectedSauce"]),
+    ...mapState({
+      sauces: (state) => state.saucesData,
+      ingredients: (state) => state.ingredientsData,
+      selectedSauce: (state) => state.Builder.selectedSauce,
+    }),
     ...mapGetters({
-      selectedIngredients: "getSelectedIngredients",
+      selectedIngredients: "Builder/getSelectedIngredients",
     }),
   },
 

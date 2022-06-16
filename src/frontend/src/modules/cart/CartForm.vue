@@ -7,7 +7,7 @@
         <select
           name="test"
           class="select"
-          :selected="selectedOption"
+          :value="selectedOption"
           @change="onChange"
         >
           <option :value="BY_MYSELF">Заберу сам</option>
@@ -16,11 +16,7 @@
             v-if="isAuthorized && addressList"
             label="Существующий адрес"
           >
-            <option
-              v-for="({ name }, index) in addressList"
-              :value="index"
-              :key="index"
-            >
+            <option v-for="{ name, id } in addressList" :value="id" :key="id">
               {{ name }}
             </option>
           </optgroup>
@@ -134,8 +130,8 @@ export default {
         comment: this.comment,
       });
     },
-    selectExistingAddress(addressIndex) {
-      const address = this.addressList[addressIndex];
+    selectExistingAddress(addressId) {
+      const address = this.addressList.find((item) => +item.id === +addressId);
 
       this.street = address.street;
       this.building = address.building;
@@ -147,7 +143,7 @@ export default {
 
       this.selectedOption = value;
 
-      if (this.selectedOption >= 0) {
+      if (this.selectedOption > 0) {
         this.selectExistingAddress(this.selectedOption);
       }
     },
@@ -158,5 +154,9 @@ export default {
 <style lang="scss">
 .cart__form {
   margin-bottom: 25px;
+}
+
+.input--big-label {
+  max-width: 48%;
 }
 </style>

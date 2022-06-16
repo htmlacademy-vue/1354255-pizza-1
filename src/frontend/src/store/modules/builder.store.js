@@ -1,10 +1,6 @@
 import { generateId } from "@/common/helpers.js";
 
 const setupState = () => ({
-  dough: [],
-  sizes: [],
-  sauces: [],
-  ingredients: [],
   selectedDough: {
     type: "large",
     price: 300,
@@ -69,22 +65,6 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, setupState());
   },
-
-  SET_DOUGH_LIST: (state, dough) => {
-    state.dough = dough;
-  },
-
-  SET_SIZE_LIST: (state, sizes) => {
-    state.sizes = sizes;
-  },
-
-  SET_SAUCE_LIST: (state, sauces) => {
-    state.sauces = sauces;
-  },
-
-  SET_INGREDIENT_LIST: (state, ingredients) => {
-    state.ingredients = ingredients;
-  },
 };
 
 const actions = {
@@ -136,25 +116,6 @@ const actions = {
 
   resetBuilder({ commit }) {
     commit("RESET_STATE");
-  },
-
-  async loadAllPizzaStuff({ commit }) {
-    try {
-      const [doughList, sauceList, sizeList, ingredientList] =
-        await Promise.all([
-          this.$api.dough.query(),
-          this.$api.sauce.query(),
-          this.$api.size.query(),
-          this.$api.ingredients.query(),
-        ]);
-
-      commit("SET_DOUGH_LIST", doughList);
-      commit("SET_SAUCE_LIST", sauceList);
-      commit("SET_SIZE_LIST", sizeList);
-      commit("SET_INGREDIENT_LIST", ingredientList);
-    } catch (error) {
-      console.log(error);
-    }
   },
 };
 

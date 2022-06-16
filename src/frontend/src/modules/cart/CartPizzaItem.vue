@@ -63,6 +63,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { doughDeclension } from "@/common/helpers";
 
 export default {
   props: {
@@ -84,19 +85,12 @@ export default {
   },
 
   methods: {
+    doughDeclension,
     ...mapActions("Cart", [
       "increasePizza",
       "decreasePizza",
       "changePizzaParams",
     ]),
-
-    doughDeclension(dough) {
-      if (dough.toLowerCase() === "тонкое") {
-        return "тонком";
-      } else {
-        return "толстом";
-      }
-    },
 
     changePizza(pizzaId) {
       this.changePizzaParams(pizzaId);

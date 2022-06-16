@@ -34,7 +34,10 @@ export default {
   components: { RadioButton },
 
   computed: {
-    ...mapState("Builder", ["sizes", "selectedSize"]),
+    ...mapState({
+      sizes: (state) => state.sizesData,
+      selectedSize: (state) => state.Builder.selectedSize,
+    }),
   },
 
   methods: {

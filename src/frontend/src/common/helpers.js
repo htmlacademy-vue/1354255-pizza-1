@@ -30,3 +30,11 @@ export const setAuth = (store) => {
 export const generateId = () => {
   return Date.now();
 };
+
+export const doughDeclension = (dough) => {
+  if (dough.toLowerCase() === "тонкое") {
+    return "тонком";
+  } else {
+    return "толстом";
+  }
+};
