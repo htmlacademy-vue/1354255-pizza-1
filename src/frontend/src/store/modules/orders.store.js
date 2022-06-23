@@ -15,6 +15,14 @@ const actions = {
     const orders = await this.$api.orders.query();
     commit("SET_ORDERS", orders);
   },
+
+  addPizzaToCart({ commit }, pizza) {
+    commit("Cart/ADD_PIZZA", pizza, { root: true });
+  },
+
+  addMiscToCart({ commit }, misc) {
+    commit("Cart/SET_ADDITIONALS", misc, { root: true });
+  },
 };
 
 const getters = {

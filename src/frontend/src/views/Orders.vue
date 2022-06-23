@@ -128,11 +128,73 @@ export default {
     },
 
     repeatOrder(order) {
-      const additionals = order.orderMisc;
       order.orderPizzas.forEach((pizza) => {
-        this.$store.dispatch("Cart/addPizza", pizza);
+        const normalizedDough = this.$store.state.doughData.find(
+          (item) => item.id === pizza.doughId
+        );
+
+        const normalizedSauce = this.$store.state.saucesData.find(
+          (item) => item.id === pizza.sauceId
+        );
+
+        const normalizedSize = this.$store.state.sizesData.find(
+          (item) => item.id === pizza.sizeId
+        );
+
+        const normalizedIngredients = pizza.ingredients.reduce(
+          (result, item) => {
+            const normalizedItem = this.$store.state.ingredientsData.find(
+              (elem) => elem.id === item.ingredientId
+            );
+
+            for (let i = 0; i < item.quantity; i++) {
+              result.push(normalizedItem);
+            }
+
+            return result;
+          },
+          []
+        );
+
+        const normalizedPizza = {
+          id: pizza.id,
+          name: pizza.name,
+          price: this.getPizzaPrice(pizza) / pizza.quantity,
+          dough: {
+            type: normalizedDough.type,
+            price: normalizedDough.price,
+            name: normalizedDough.name,
+            id: normalizedDough.id,
+          },
+          sauce: {
+            type: normalizedSauce.type,
+            price: normalizedSauce.price,
+            name: normalizedSauce.name,
+            id: normalizedSauce.id,
+          },
+          ingredients: normalizedIngredients,
+          size: {
+            type: normalizedSize.type,
+            multiplier: normalizedSize.multiplier,
+            name: normalizedSize.name,
+            id: normalizedSize.id,
+          },
+          amount: pizza.quantity,
+        };
+
+        this.$store.dispatch("Orders/addPizzaToCart", normalizedPizza);
       });
-      this.$store.dispatch("Cart/setAdditionals", additionals);
+
+      const normalizedMisc = order.orderMisc.map((item) => {
+        const result = this.$store.state.miscData.find(
+          (elem) => elem.id === item.miscId
+        );
+
+        return { ...result, amount: item.quantity };
+      });
+      this.$store.dispatch("Orders/addMiscToCart", normalizedMisc);
+
+      this.$router.push({ name: "Cart" });
     },
 
     getOrderSum(order) {
