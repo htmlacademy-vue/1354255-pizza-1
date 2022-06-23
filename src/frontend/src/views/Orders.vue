@@ -12,7 +12,7 @@
               <b>Заказ #{{ order.id }}</b>
             </div>
             <div class="order__sum">
-              <span>Сумма заказа: 1&nbsp;564 ₽</span>
+              <span>Сумма заказа: {{ getOrderSum(order) }}&nbsp;₽ </span>
             </div>
             <div class="order__button">
               <button
@@ -56,7 +56,7 @@
                   </ul>
                 </div>
               </div>
-              <p class="order__price">782 ₽</p>
+              <p class="order__price">{{ getPizzaPrice(pizza) }} ₽</p>
             </li>
           </ul>
 
@@ -110,6 +110,8 @@ export default {
       "getSize",
       "getSauce",
       "getIngredients",
+      "getPizzaPrice",
+      "getMiscPrice",
     ]),
   },
 
@@ -127,11 +129,19 @@ export default {
 
     repeatOrder(order) {
       const additionals = order.orderMisc;
-      order.orderPizzas.forEach(pizza => {
+      order.orderPizzas.forEach((pizza) => {
         this.$store.dispatch("Cart/addPizza", pizza);
-      })
+      });
       this.$store.dispatch("Cart/setAdditionals", additionals);
-      console.log(order);
+    },
+
+    getOrderSum(order) {
+      return (
+        this.getMiscPrice(order.orderMisc) +
+        order.orderPizzas.reduce((sum, item) => {
+          return (sum += this.getPizzaPrice(item));
+        }, 0)
+      );
     },
   },
 };

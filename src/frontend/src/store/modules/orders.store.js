@@ -49,6 +49,37 @@ const getters = {
     const currentSize = rootState.sizesData.find((item) => item.id === sizeId);
     return currentSize.name;
   },
+  getPizzaPrice: (state, getters, rootState) => (pizza) => {
+    const doughPrice = rootState.doughData.find(
+      (item) => item.id === pizza.doughId
+    ).price;
+    const saucePrice = rootState.saucesData.find(
+      (item) => item.id === pizza.sauceId
+    ).price;
+    const sizePrice = rootState.sizesData.find(
+      (item) => item.id === pizza.sizeId
+    ).multiplier;
+    const ingredientsPrice = pizza.ingredients.reduce((sum, item) => {
+      const result =
+        rootState.ingredientsData.find((elem) => elem.id === item.ingredientId)
+          .price * item.quantity;
+
+      return (sum += result);
+    }, 0);
+
+    return (
+      (doughPrice + saucePrice + ingredientsPrice) * sizePrice * pizza.quantity
+    );
+  },
+  getMiscPrice: (state, getters, rootState) => (orderMisc) => {
+    return orderMisc.reduce((sum, item) => {
+      const itemPrice =
+        rootState.miscData.find((elem) => elem.id === item.miscId).price *
+        item.quantity;
+
+      return (sum += itemPrice);
+    }, 0);
+  },
 };
 
 export default {
