@@ -64,7 +64,7 @@ import AppPopup from "@/common/components/AppPopup";
 import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
 import CartForm from "@/modules/cart/CartForm";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   components: {
@@ -87,7 +87,6 @@ export default {
 
   computed: {
     ...mapState("Auth", {
-      isAuthorized: (state) => state.isAuthorized,
       userId: (state) => state.user.id,
     }),
     ...mapState("Cart", {
@@ -97,6 +96,7 @@ export default {
     ...mapState("Builder", {
       allIngredients: (state) => state.ingredients,
     }),
+    ...mapGetters("Auth", ["isAuthorized"]),
   },
 
   methods: {

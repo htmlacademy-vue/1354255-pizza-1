@@ -1,13 +1,8 @@
 const state = () => ({
-  isAuthorized: false,
   user: null,
 });
 
 const mutations = {
-  SET_AUTH: (state, authStatus) => {
-    state.isAuthorized = authStatus;
-  },
-
   SET_USER: (state, user) => {
     state.user = user;
   },
@@ -28,14 +23,12 @@ const actions = {
 
     this.$jwt.destroyToken();
     this.$api.auth.setAuthHeader();
-    commit("SET_AUTH", false);
     commit("SET_USER", null);
   },
 
   async getMe({ commit, dispatch }) {
     try {
       const data = await this.$api.auth.getMe();
-      commit("SET_AUTH", true);
       commit("SET_USER", data);
     } catch {
       // Если токен авторизации  невалиден, или мы не смогли получить
@@ -48,6 +41,7 @@ const actions = {
 const getters = {
   // геттер-функция для получения параметра по его названию из объекта user
   getUserAttribute: (state) => (attr) => state.user ? state.user[attr] : "",
+  isAuthorized: (state) => !!state.user,
 };
 
 export default {

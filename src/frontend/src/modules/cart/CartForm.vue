@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 const ORDER_RECEIVE_STATUS = {
   BY_MYSELF: "-2",
@@ -106,7 +106,7 @@ export default {
   },
 
   computed: {
-    ...mapState("Auth", ["isAuthorized"]),
+    ...mapGetters("Auth", ["isAuthorized"]),
   },
 
   async created() {
