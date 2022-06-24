@@ -65,7 +65,6 @@ import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
 import CartForm from "@/modules/cart/CartForm";
 import { mapState } from "vuex";
-import EventBus from "@/eventBus";
 
 export default {
   components: {
@@ -175,7 +174,7 @@ export default {
 
     placeOrder() {
       this.isPopupOpen = true;
-      EventBus.$emit("placeOrder");
+      this.$emit("getContacts");
     },
 
     passContacts({ phone, street, building, flat, comment }) {

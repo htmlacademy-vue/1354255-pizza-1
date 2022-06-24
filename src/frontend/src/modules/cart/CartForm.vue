@@ -85,7 +85,6 @@
 
 <script>
 import { mapState } from "vuex";
-import EventBus from "@/eventBus";
 
 const ORDER_RECEIVE_STATUS = {
   BY_MYSELF: "-2",
@@ -117,7 +116,7 @@ export default {
   },
 
   mounted() {
-    EventBus.$on("placeOrder", this.passData);
+    this.$parent.$on("getContacts", this.passData);
   },
 
   methods: {
