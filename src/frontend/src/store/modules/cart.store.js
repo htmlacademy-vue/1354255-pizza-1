@@ -13,7 +13,7 @@ const mutations = {
   CHANGE_ADDITIONALS_AMOUNT: (state, { itemId, amount }) => {
     const itemIndex = state.additionals.findIndex((item) => item.id === itemId);
 
-    if (amount <= 0) {
+    if (amount < 0) {
       state.additionals = state.additionals.filter(
         (item) => item.id !== itemId
       );
@@ -46,7 +46,11 @@ const mutations = {
 const actions = {
   async loadAdditionals({ commit }) {
     const additionals = await this.$api.misc.query();
-    commit("SET_ADDITIONALS", additionals);
+    const normalizedAdditionals = additionals.map((item) => ({
+      ...item,
+      amount: 0,
+    }));
+    commit("SET_ADDITIONALS", normalizedAdditionals);
   },
 
   changeAdditionalsAmount({ commit }, { itemId, amount }) {
