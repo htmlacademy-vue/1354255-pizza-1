@@ -127,7 +127,7 @@ export default {
   methods: {
     async deleteOrder(orderId) {
       await this.$api.orders.delete(orderId);
-      this.$router.go(0);
+      await this.$store.dispatch("Orders/loadOrders");
     },
 
     repeatOrder(order) {

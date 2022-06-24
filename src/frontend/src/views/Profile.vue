@@ -75,10 +75,17 @@ export default {
   },
 
   async created() {
-    this.addressList = await this.$api.addresses.query();
+    await this.fetchAll();
+  },
+
+  update() {
+    console.log("updated");
   },
 
   methods: {
+    async fetchAll() {
+      this.addressList = await this.$api.addresses.query();
+    },
     addAddress() {
       this.isFormShown = true;
     },
@@ -88,13 +95,13 @@ export default {
       );
       this.isFormShown = true;
     },
-    deleteAddress() {
+    async deleteAddress() {
       this.isFormShown = false;
-      this.$router.go(0);
+      await this.fetchAll();
     },
-    updateAddress() {
+    async updateAddress() {
       this.isFormShown = false;
-      this.$router.go(0);
+      await this.fetchAll();
     },
   },
 };
