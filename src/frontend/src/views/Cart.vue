@@ -150,10 +150,13 @@ export default {
       }));
 
       if (this.isAuthorized) {
+        const addressId = this.selectedOption > 0 ? this.selectedOption : null;
+
         this.$api.orders.post({
           userId: this.userId,
           phone: this.phone,
           address: {
+            ...(addressId && { id: addressId }),
             street: this.street,
             building: this.building,
             flat: this.flat,
