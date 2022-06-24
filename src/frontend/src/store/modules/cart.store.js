@@ -1,4 +1,5 @@
 import { ORDER_RECEIVE_STATUS } from "@/common/constants";
+import Vue from "vue";
 
 const setupState = () => ({
   additionals: [],
@@ -9,6 +10,7 @@ const setupState = () => ({
   flat: "",
   comment: "",
   selectedOption: ORDER_RECEIVE_STATUS.NEW_ADDRESS,
+  pizzaToChangeId: "",
 });
 
 const state = setupState();
@@ -73,6 +75,14 @@ const mutations = {
   SET_SELECTED_OPTION: (state, option) => {
     state.selectedOption = option;
   },
+
+  SET_PIZZA_TO_CHANGE_ID: (state, id) => {
+    state.pizzaToChangeId = id;
+  },
+
+  CHANGE_PIZZA: (state, { index, updatedPizza }) => {
+    Vue.set(state.pizzas, index, updatedPizza);
+  },
 };
 
 const actions = {
@@ -105,13 +115,25 @@ const actions = {
     }
   },
 
-  addPizzaToCart({ commit, dispatch, rootGetters }) {
-    commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
+  addPizzaToCart({ commit, state, dispatch, rootGetters }) {
+    const currentPizza = rootGetters["Builder/getCurrentPizza"];
+    const pizzaToChangeIndex = state.pizzas.findIndex(
+      (item) => item.id === state.pizzaToChangeId
+    );
+
+    if (pizzaToChangeIndex >= 0) {
+      commit("CHANGE_PIZZA", {
+        index: pizzaToChangeIndex,
+        updatedPizza: { ...currentPizza, id: state.pizzaToChangeId },
+      });
+    } else {
+      commit("ADD_PIZZA", currentPizza);
+    }
 
     dispatch("loadAdditionals");
   },
 
-  async changePizzaParams({ state, commit, dispatch }, pizzaId) {
+  async changePizzaParams({ commit, state, dispatch }, pizzaId) {
     const pizza = state.pizzas.find((item) => item.id === pizzaId);
 
     await dispatch("Builder/selectDough", pizza.dough, { root: true });
@@ -124,7 +146,7 @@ const actions = {
       root: true,
     });
 
-    commit("REMOVE_PIZZA", pizzaId);
+    commit("SET_PIZZA_TO_CHANGE_ID", pizzaId);
   },
 
   resetCart({ commit }) {
@@ -165,9 +187,7 @@ const getters = {
 
   getPizzasPrice: (state) =>
     state.pizzas.reduce((sum, pizza) => {
-      sum += pizza.price * pizza.amount;
-
-      return sum;
+      return sum + pizza.price * pizza.amount;
     }, 0),
 
   getPizzaPrice: (state) => (pizzaId) => {
