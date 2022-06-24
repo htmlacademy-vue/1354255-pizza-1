@@ -13,11 +13,15 @@
           />
         </router-link>
 
-        <router-link class="layout__link" :to="{ name: 'Orders' }"
+        <router-link
+          class="layout__link"
+          active-class="layout__link--active"
+          :to="{ name: 'Orders' }"
           >История заказов</router-link
         >
         <router-link
-          class="layout__link layout__link--active"
+          class="layout__link"
+          active-class="layout__link--active"
           :to="{ name: 'Profile' }"
           >Мои данные</router-link
         >
