@@ -1,24 +1,9 @@
 import { generateId } from "@/common/helpers.js";
 
 const setupState = () => ({
-  selectedDough: {
-    type: "large",
-    price: 300,
-    name: "Толстое",
-    id: 2,
-  },
-  selectedSauce: {
-    type: "tomato",
-    price: 50,
-    name: "Томатный",
-    id: 2,
-  },
-  selectedSize: {
-    type: "big",
-    multiplier: 3,
-    name: "45 см",
-    id: 3,
-  },
+  selectedDough: {},
+  selectedSauce: {},
+  selectedSize: {},
   selectedIngredients: [],
   pizzaName: "",
   pizzaPrice: 0,
