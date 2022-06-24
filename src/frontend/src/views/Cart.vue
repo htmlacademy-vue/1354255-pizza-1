@@ -55,7 +55,7 @@
       </div>
     </section>
 
-    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="orderHandler" />
+    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="closePopup" />
   </form>
 </template>
 
@@ -101,8 +101,6 @@ export default {
 
   methods: {
     orderHandler() {
-      this.isPopupOpen = false;
-
       const pizzas = this.pizzas.map((pizza) => {
         const ingredients = [];
         const formattedIngredients = pizza.ingredients.reduce((stack, item) => {
@@ -175,6 +173,11 @@ export default {
     placeOrder() {
       this.isPopupOpen = true;
       this.$emit("getContacts");
+      this.orderHandler();
+    },
+
+    closePopup() {
+      this.isPopupOpen = false;
     },
 
     passContacts({ phone, street, building, flat, comment }) {
