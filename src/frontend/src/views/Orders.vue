@@ -210,7 +210,7 @@ export default {
       return (
         this.getMiscPrice(order.orderMisc) +
         order.orderPizzas.reduce((sum, item) => {
-          return (sum += this.getPizzaPrice(item));
+          return sum + this.getPizzaPrice(item);
         }, 0)
       );
     },

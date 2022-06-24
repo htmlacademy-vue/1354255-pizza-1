@@ -155,9 +155,7 @@ const actions = {
 const getters = {
   getAdditionalsPrice: (state) => {
     return state.additionals.reduce((sum, item) => {
-      sum += item.amount * item.price;
-
-      return sum;
+      return sum + item.amount * item.price;
     }, 0);
   },
 

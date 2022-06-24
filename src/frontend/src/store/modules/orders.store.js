@@ -85,7 +85,7 @@ const getters = {
         rootState.miscData.find((elem) => elem.id === item.miscId).price *
         item.quantity;
 
-      return (sum += itemPrice);
+      return sum + itemPrice;
     }, 0);
   },
 };

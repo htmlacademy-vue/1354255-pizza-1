@@ -117,7 +117,7 @@ const getters = {
   getSaucePrice: (state) => state.selectedSauce.price || 0,
   getIngredientsPrice: (state) => {
     return state.selectedIngredients.reduce((result, item) => {
-      return (result += item.price);
+      return result + item.price;
     }, 0);
   },
   getPizzaPrice: (state, getters) => {
