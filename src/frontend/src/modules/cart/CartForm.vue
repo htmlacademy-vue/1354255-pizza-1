@@ -1,5 +1,5 @@
 <template>
-  <div class="cart__form">
+  <div class="cart__form" v-if="isLoaded">
     <div class="cart-form">
       <label class="cart-form__select">
         <span class="cart-form__label">Получение заказа:</span>
@@ -81,15 +81,21 @@
       </div>
     </div>
   </div>
+
+  <app-loader v-else></app-loader>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
 import { ORDER_RECEIVE_STATUS } from "@/common/constants";
+import AppLoader from "@/common/components/AppLoader";
 
 export default {
+  components: { AppLoader },
+
   data() {
     return {
+      isLoaded: false,
       addressList: [],
       ...ORDER_RECEIVE_STATUS,
     };
@@ -151,6 +157,7 @@ export default {
     if (this.isAuthorized) {
       this.addressList = await this.$api.addresses.query();
     }
+    this.isLoaded = true;
   },
 
   methods: {
@@ -166,7 +173,7 @@ export default {
     onChange(e) {
       const value = e.target.value;
 
-      this.$store.dispatch("Cart/setSelectedOption", value);
+      this.$store.dispatch("Cart/setSelectedOption", +value);
 
       if (this.selectedOption > 0) {
         this.selectExistingAddress(this.selectedOption);

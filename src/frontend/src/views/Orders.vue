@@ -195,7 +195,13 @@ export default {
 
         return { ...result, amount: item.quantity };
       });
+
       this.$store.dispatch("Orders/addMiscToCart", normalizedMisc);
+      this.$store.dispatch("Cart/setStreet", order.orderAddress.street);
+      this.$store.dispatch("Cart/setBuilding", order.orderAddress.building);
+      this.$store.dispatch("Cart/setFlat", order.orderAddress.flat);
+      this.$store.dispatch("Cart/setComment", order.orderAddress.comment);
+      this.$store.dispatch("Cart/setSelectedOption", order.orderAddress.id);
 
       this.$router.push({ name: "Cart" });
     },
