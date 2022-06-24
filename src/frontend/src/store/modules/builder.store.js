@@ -7,6 +7,7 @@ const setupState = () => ({
   selectedIngredients: [],
   pizzaName: "",
   pizzaPrice: 0,
+  pizzaAmount: 1,
 });
 
 const state = setupState();
@@ -45,6 +46,10 @@ const mutations = {
 
   SET_PIZZA_PRICE: (state, price) => {
     state.pizzaPrice = price;
+  },
+
+  SET_PIZZA_AMOUNT: (state, amount) => {
+    state.pizzaAmount = amount;
   },
 
   RESET_STATE: (state) => {
@@ -99,6 +104,10 @@ const actions = {
     return await getters.getPizzaPrice;
   },
 
+  async setPizzaAmount({ commit }, amount) {
+    commit("SET_PIZZA_AMOUNT", amount);
+  },
+
   resetBuilder({ commit }) {
     commit("RESET_STATE");
   },
@@ -129,14 +138,14 @@ const getters = {
     );
   },
   getCurrentPizza: (state, getters) => ({
-    id: `${state.pizzaName}-${generateId()}`,
+    id: `${state.pizzaName.replace(/\s+/g, "")}-${generateId()}`,
     name: state.pizzaName,
     price: getters.getPizzaPrice,
     dough: state.selectedDough,
     sauce: state.selectedSauce,
     ingredients: state.selectedIngredients,
     size: state.selectedSize,
-    amount: 1,
+    amount: state.pizzaAmount,
   }),
 };
 

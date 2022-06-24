@@ -105,8 +105,9 @@ const actions = {
     }
   },
 
-  addPizzaToCart({ commit, dispatch, rootGetters }) {
+  addPizzaToCart({ commit, state, dispatch, rootGetters }) {
     commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
+
     dispatch("loadAdditionals");
   },
 
@@ -117,6 +118,9 @@ const actions = {
     await dispatch("Builder/selectSize", pizza.size, { root: true });
     await dispatch("Builder/selectSauce", pizza.sauce, { root: true });
     await dispatch("Builder/setIngredients", pizza.ingredients, {
+      root: true,
+    });
+    await dispatch("Builder/setPizzaAmount", pizza.amount, {
       root: true,
     });
 
