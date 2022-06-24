@@ -1,6 +1,14 @@
+import { ORDER_RECEIVE_STATUS } from "@/common/constants";
+
 const setupState = () => ({
   additionals: [],
   pizzas: [],
+  phone: "",
+  street: "",
+  building: "",
+  flat: "",
+  comment: "",
+  selectedOption: ORDER_RECEIVE_STATUS.NEW_ADDRESS,
 });
 
 const state = setupState();
@@ -40,6 +48,30 @@ const mutations = {
 
   RESET_STATE: (state) => {
     Object.assign(state, setupState());
+  },
+
+  SET_PHONE: (state, phone) => {
+    state.phone = phone;
+  },
+
+  SET_STREET: (state, street) => {
+    state.street = street;
+  },
+
+  SET_BUILDING: (state, building) => {
+    state.building = building;
+  },
+
+  SET_FLAT: (state, flat) => {
+    state.flat = flat;
+  },
+
+  SET_COMMENT: (state, comment) => {
+    state.comment = comment;
+  },
+
+  SET_SELECTED_OPTION: (state, option) => {
+    state.selectedOption = option;
   },
 };
 
@@ -94,6 +126,30 @@ const actions = {
   resetCart({ commit }) {
     commit("RESET_STATE");
   },
+
+  setPhone({ commit }, phone) {
+    commit("SET_PHONE", phone);
+  },
+
+  setStreet({ commit }, street) {
+    commit("SET_STREET", street);
+  },
+
+  setBuilding({ commit }, building) {
+    commit("SET_BUILDING", building);
+  },
+
+  setFlat({ commit }, flat) {
+    commit("SET_FLAT", flat);
+  },
+
+  setComment({ commit }, comment) {
+    commit("SET_COMMENT", comment);
+  },
+
+  setSelectedOption({ commit }, option) {
+    commit("SET_SELECTED_OPTION", option);
+  },
 };
 
 const getters = {
@@ -120,6 +176,10 @@ const getters = {
 
   getTotalPrice: (state, getters) =>
     getters.getAdditionalsPrice + getters.getPizzasPrice,
+
+  isStreetValid: (state) => !!state.street,
+
+  isBuildingValid: (state) => !!state.building,
 };
 
 export default {

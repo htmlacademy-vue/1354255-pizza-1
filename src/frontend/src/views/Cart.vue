@@ -28,7 +28,7 @@
           </ul>
         </div>
 
-        <CartForm @passContacts="passContacts" />
+        <CartForm />
       </div>
     </main>
 
@@ -49,7 +49,12 @@
       </div>
 
       <div class="footer__submit">
-        <button type="submit" class="button" @click.prevent="placeOrder">
+        <button
+          type="submit"
+          class="button"
+          @click.prevent="placeOrder"
+          :disabled="!isAddressValid"
+        >
           Оформить заказ
         </button>
       </div>
@@ -65,6 +70,7 @@ import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
 import CartForm from "@/modules/cart/CartForm";
 import { mapGetters, mapState } from "vuex";
+import { ORDER_RECEIVE_STATUS } from "@/common/constants";
 
 export default {
   components: {
@@ -77,11 +83,6 @@ export default {
   data() {
     return {
       isPopupOpen: false,
-      phone: "",
-      street: "",
-      building: "",
-      flat: "",
-      comment: "",
     };
   },
 
@@ -92,11 +93,24 @@ export default {
     ...mapState("Cart", {
       additionalItems: (state) => state.additionals,
       pizzas: (state) => state.pizzas,
+      phone: (state) => state.phone,
+      street: (state) => state.street,
+      building: (state) => state.building,
+      flat: (state) => state.flat,
+      comment: (state) => state.comment,
+      selectedOption: (state) => state.selectedOption,
     }),
     ...mapState("Builder", {
       allIngredients: (state) => state.ingredients,
     }),
     ...mapGetters("Auth", ["isAuthorized"]),
+    ...mapGetters("Cart", ["isStreetValid", "isBuildingValid"]),
+    isAddressValid() {
+      return (
+        (this.isStreetValid && this.isBuildingValid) ||
+        this.$store.state.Cart.selectedOption === ORDER_RECEIVE_STATUS.BY_MYSELF
+      );
+    },
   },
 
   methods: {
@@ -172,20 +186,11 @@ export default {
 
     placeOrder() {
       this.isPopupOpen = true;
-      this.$emit("getContacts");
       this.orderHandler();
     },
 
     closePopup() {
       this.isPopupOpen = false;
-    },
-
-    passContacts({ phone, street, building, flat, comment }) {
-      this.phone = phone;
-      this.street = street;
-      this.building = building;
-      this.flat = flat;
-      this.comment = comment;
     },
   },
 };

@@ -29,7 +29,7 @@
           type="text"
           name="tel"
           placeholder="+7 999-999-99-99"
-          v-model="phone"
+          v-model.trim="phone"
         />
       </label>
 
@@ -43,7 +43,7 @@
               type="text"
               name="street"
               :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
-              v-model="street"
+              v-model.trim="street"
             />
           </label>
         </div>
@@ -55,7 +55,7 @@
               type="text"
               name="house"
               :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
-              v-model="building"
+              v-model.trim="building"
             />
           </label>
         </div>
@@ -67,7 +67,7 @@
               type="text"
               name="apartment"
               :readonly="isAuthorized && selectedOption !== NEW_ADDRESS"
-              v-model="flat"
+              v-model.trim="flat"
             />
           </label>
         </div>
@@ -75,7 +75,7 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Комментарий</span>
-            <input type="text" name="comment" v-model="comment" />
+            <input type="text" name="comment" v-model.trim="comment" />
           </label>
         </div>
       </div>
@@ -84,22 +84,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
-const ORDER_RECEIVE_STATUS = {
-  BY_MYSELF: "-2",
-  NEW_ADDRESS: "-1",
-};
+import { mapGetters, mapState } from "vuex";
+import { ORDER_RECEIVE_STATUS } from "@/common/constants";
 
 export default {
   data() {
     return {
-      selectedOption: ORDER_RECEIVE_STATUS.NEW_ADDRESS,
-      phone: "",
-      street: "",
-      building: "",
-      flat: "",
-      comment: "",
       addressList: [],
       ...ORDER_RECEIVE_STATUS,
     };
@@ -107,6 +97,54 @@ export default {
 
   computed: {
     ...mapGetters("Auth", ["isAuthorized"]),
+    ...mapState("Cart", {
+      phoneState: (state) => state.phone,
+      streetState: (state) => state.street,
+      buildingState: (state) => state.building,
+      flatState: (state) => state.flat,
+      commentState: (state) => state.comment,
+      selectedOption: (state) => state.selectedOption,
+    }),
+    phone: {
+      get() {
+        return this.phoneState;
+      },
+      set(value) {
+        this.$store.commit("Cart/SET_PHONE", value);
+      },
+    },
+    street: {
+      get() {
+        return this.streetState;
+      },
+      set(value) {
+        this.$store.commit("Cart/SET_STREET", value);
+      },
+    },
+    building: {
+      get() {
+        return this.buildingState;
+      },
+      set(value) {
+        this.$store.commit("Cart/SET_BUILDING", value);
+      },
+    },
+    flat: {
+      get() {
+        return this.flatState;
+      },
+      set(value) {
+        this.$store.commit("Cart/SET_FLAT", value);
+      },
+    },
+    comment: {
+      get() {
+        return this.commentState;
+      },
+      set(value) {
+        this.$store.commit("Cart/SET_COMMENT", value);
+      },
+    },
   },
 
   async created() {
@@ -115,32 +153,20 @@ export default {
     }
   },
 
-  mounted() {
-    this.$parent.$on("getContacts", this.passData);
-  },
-
   methods: {
-    passData() {
-      this.$emit("passContacts", {
-        phone: this.phone,
-        street: this.street,
-        building: this.building,
-        flat: this.flat,
-        comment: this.comment,
-      });
-    },
     selectExistingAddress(addressId) {
       const address = this.addressList.find((item) => +item.id === +addressId);
 
-      this.street = address.street;
-      this.building = address.building;
-      this.flat = address.flat;
-      this.comment = address.comment;
+      this.$store.dispatch("Cart/setStreet", address.street);
+      this.$store.dispatch("Cart/setBuilding", address.building);
+      this.$store.dispatch("Cart/setFlat", address.flat);
+      this.$store.dispatch("Cart/setComment", address.comment);
+      this.$store.dispatch("Cart/setPhone", address.phone || "");
     },
     onChange(e) {
       const value = e.target.value;
 
-      this.selectedOption = value;
+      this.$store.dispatch("Cart/setSelectedOption", value);
 
       if (this.selectedOption > 0) {
         this.selectExistingAddress(this.selectedOption);
