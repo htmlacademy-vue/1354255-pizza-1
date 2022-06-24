@@ -107,9 +107,10 @@ const actions = {
 const getters = {
   getSelectedIngredients: (state) =>
     state.selectedIngredients.reduce((obj, item) => {
-      return (
-        obj[item.filling] ? obj[item.filling]++ : (obj[item.filling] = 1), obj
-      );
+      return {
+        ...obj,
+        [item.filling]: obj[item.filling] ? obj[item.filling] + 1 : 1,
+      };
     }, {}),
   getDoughPrice: (state) => state.selectedDough.price || 0,
   getSizePrice: (state) => state.selectedSize.multiplier || 0,
