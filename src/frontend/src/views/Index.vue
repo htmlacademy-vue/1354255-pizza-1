@@ -20,6 +20,7 @@ import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSele
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
 import AppLoader from "@/common/components/AppLoader";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -36,14 +37,33 @@ export default {
     };
   },
 
+  computed: {
+    ...mapState("Builder", ["selectedDough", "selectedSize", "selectedSauce"]),
+  },
+
   async created() {
     await this.$store.dispatch("loadAllPizzaStuff");
-    this.$store.dispatch("Builder/selectDough", this.$store.state.doughData[0]);
-    this.$store.dispatch("Builder/selectSize", this.$store.state.sizesData[0]);
-    this.$store.dispatch(
-      "Builder/selectSauce",
-      this.$store.state.saucesData[0]
-    );
+
+    if (Object.keys(this.selectedDough).length === 0) {
+      this.$store.dispatch(
+        "Builder/selectDough",
+        this.$store.state.doughData[0]
+      );
+    }
+
+    if (Object.keys(this.selectedSize).length === 0) {
+      this.$store.dispatch(
+        "Builder/selectSize",
+        this.$store.state.sizesData[0]
+      );
+    }
+
+    if (Object.keys(this.selectedSauce).length === 0) {
+      this.$store.dispatch(
+        "Builder/selectSauce",
+        this.$store.state.saucesData[0]
+      );
+    }
 
     this.isLoaded = true;
   },
