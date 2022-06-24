@@ -105,7 +105,7 @@ const actions = {
     }
   },
 
-  addPizzaToCart({ commit, state, dispatch, rootGetters }) {
+  addPizzaToCart({ commit, dispatch, rootGetters }) {
     commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
 
     dispatch("loadAdditionals");
