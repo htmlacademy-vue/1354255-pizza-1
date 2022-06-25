@@ -37,7 +37,7 @@
 
   color: $black;
 
-  &--active {
+  &.router-link-exact-active {
     background-color: rgba($green-500, 0.1);
   }
 

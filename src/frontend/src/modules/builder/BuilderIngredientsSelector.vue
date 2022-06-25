@@ -8,16 +8,17 @@
           <p>Основной соус:</p>
 
           <radio-button
-            :checked="isChecked(sauce.sauce)"
+            :checked="isChecked(sauce.type)"
             v-for="sauce in sauces"
             :key="sauce.id"
             :labelClasses="['radio', 'ingredients__input']"
             :description="sauce.name"
-            :inputValue="sauce.sauce"
+            :inputValue="sauce.type"
             inputName="sauce"
             @change="
               selectSauce({
-                sauce: sauce.sauce,
+                id: sauce.id,
+                type: sauce.type,
                 price: sauce.price,
                 name: sauce.name,
               })
@@ -35,7 +36,7 @@
               :key="ingredient.id"
             >
               <app-drag
-                :transfer-data="ingredient.filling"
+                :transfer-data="ingredient"
                 :isDraggable="canDrag(selectedIngredients[ingredient.filling])"
               >
                 <span
@@ -47,7 +48,7 @@
 
               <item-counter
                 :startValue="selectedIngredients[ingredient.filling]"
-                @changeAmount="selectIngredients($event, ingredient.filling)"
+                @changeAmount="selectIngredients($event, ingredient)"
               ></item-counter>
             </li>
           </ul>
@@ -61,26 +62,29 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import AppDrag from "@/common/components/AppDrag";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: { ItemCounter, RadioButton, AppDrag },
 
   computed: {
-    ...mapState("Builder", [
-      "sauces",
-      "ingredients",
-      "selectedIngredients",
-      "selectedSauce",
-    ]),
+    ...mapState({
+      sauces: (state) => state.saucesData,
+      ingredients: (state) => state.ingredientsData,
+      selectedSauce: (state) => state.Builder.selectedSauce,
+    }),
+    ...mapGetters({
+      selectedIngredients: "Builder/getSelectedIngredients",
+    }),
   },
 
   methods: {
-    selectIngredients(amount, filling) {
-      this.$store.dispatch("Builder/updateIngredients", {
-        name: filling,
-        amount,
-      });
+    selectIngredients(status, ingredient) {
+      if (status === "decrease") {
+        this.$store.dispatch("Builder/removeIngredient", ingredient.filling);
+      } else {
+        this.$store.dispatch("Builder/selectIngredients", ingredient);
+      }
     },
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
@@ -89,7 +93,7 @@ export default {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
     isChecked(sauce) {
-      return this.selectedSauce.sauce === sauce;
+      return this.selectedSauce.type === sauce;
     },
   },
 };

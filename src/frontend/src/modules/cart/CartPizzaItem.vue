@@ -62,7 +62,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { doughDeclension } from "@/common/helpers";
 
 export default {
   props: {
@@ -73,48 +74,23 @@ export default {
   },
 
   computed: {
-    ...mapState("Builder", {
-      allIngredients: (state) => state.ingredients,
-    }),
     ...mapGetters("Cart", ["getPizzaPrice"]),
     fillings() {
-      const pizzaFillings = Object.entries(this.pizza.ingredients).reduce(
-        (acc, item) => {
-          if (item[1]) {
-            acc.push(item[0]);
-          }
-
-          return acc;
-        },
-        []
+      const pizzaFillings = new Set(
+        this.pizza.ingredients.map((item) => item.name)
       );
 
-      const fillingsList = this.allIngredients.reduce((list, item) => {
-        if (pizzaFillings.includes(item.filling)) {
-          list.push(item.name);
-        }
-
-        return list;
-      }, []);
-
-      return fillingsList.join(", ");
+      return Array.from(pizzaFillings).join(", ");
     },
   },
 
   methods: {
+    doughDeclension,
     ...mapActions("Cart", [
       "increasePizza",
       "decreasePizza",
       "changePizzaParams",
     ]),
-
-    doughDeclension(dough) {
-      if (dough.toLowerCase() === "тонкое") {
-        return "тонком";
-      } else {
-        return "толстом";
-      }
-    },
 
     changePizza(pizzaId) {
       this.changePizzaParams(pizzaId);

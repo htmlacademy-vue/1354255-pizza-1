@@ -5,7 +5,7 @@
       type="button"
       class="button"
       :disabled="!(ingredientsPrice && isNameFilled && isPizzaSelected)"
-      @click="$store.dispatch('Cart/addPizzaToCart')"
+      @click="addToCart"
     >
       Готовьте!
     </button>
@@ -32,6 +32,13 @@ export default {
     },
     isNameFilled() {
       return !!this.pizzaName;
+    },
+  },
+
+  methods: {
+    addToCart() {
+      this.$store.dispatch("Cart/addPizzaToCart");
+      this.$router.push({ name: "Cart" });
     },
   },
 };

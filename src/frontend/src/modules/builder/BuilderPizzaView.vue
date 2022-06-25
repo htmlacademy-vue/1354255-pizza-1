@@ -13,7 +13,7 @@
     <app-drop @drop="addIngredient" class="content__constructor">
       <div
         class="pizza"
-        :class="`pizza--foundation--${doughSize}-${selectedSauce.sauce}`"
+        :class="`pizza--foundation--${doughSize}-${selectedSauce.type}`"
       >
         <div class="pizza__wrapper">
           <div
@@ -36,20 +36,26 @@
 <script>
 import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/BuilderPriceCounter";
-import { mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState, mapGetters } = createNamespacedHelpers("Builder");
 
 export default {
   components: { BuilderPriceCounter, AppDrop },
 
   computed: {
-    ...mapState(
-      "Builder",
-      ["selectedDough", "selectedSize", "selectedSauce", "selectedIngredients"],
-      {
-        pizza: (state) => state.pizzaName,
-        allIngredients: (state) => state.ingredients,
-      }
-    ),
+    ...mapState([
+      "selectedDough",
+      "selectedSize",
+      "selectedSauce",
+      "selectedIngredients",
+    ]),
+    ...mapState({
+      pizza: (state) => state.pizzaName,
+    }),
+    ...mapGetters({
+      ingredientsList: "getSelectedIngredients",
+    }),
     pizzaName: {
       get() {
         return this.pizza;
@@ -62,26 +68,21 @@ export default {
       return this.selectedDough.type === "light" ? "small" : "big";
     },
     chosenIngredients() {
-      const amount = [];
+      const fullList = [];
 
-      Object.keys(this.selectedIngredients).forEach((item) => {
-        for (let i = 0; i < this.selectedIngredients[item]; i++) {
-          amount.push({ name: item, amount: i + 1 });
+      Object.keys(this.ingredientsList).forEach((item) => {
+        for (let i = 0; i < this.ingredientsList[item]; i++) {
+          fullList.push({ name: item, amount: i + 1 });
         }
       });
 
-      return amount;
+      return fullList;
     },
   },
 
   methods: {
-    addIngredient(filling) {
-      this.$store.dispatch("Builder/updateIngredients", {
-        name: filling,
-        amount: this.selectedIngredients[filling]
-          ? this.selectedIngredients[filling] + 1
-          : 1,
-      });
+    addIngredient(ingredient) {
+      this.$store.dispatch("Builder/selectIngredients", ingredient);
     },
     showIngredientAmount(amount) {
       switch (amount) {

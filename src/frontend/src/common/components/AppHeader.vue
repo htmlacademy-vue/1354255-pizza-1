@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -62,12 +62,11 @@ export default {
     ...mapGetters("Cart", {
       totalPrice: "getTotalPrice",
     }),
-    ...mapState("Auth", ["isAuthorized"]),
+    ...mapGetters("Auth", ["isAuthorized"]),
   },
 
   methods: {
     loginHandler() {
-      this.$store.dispatch("Auth/login");
       this.$router.push({ name: "Login" });
     },
     logoutHandler() {

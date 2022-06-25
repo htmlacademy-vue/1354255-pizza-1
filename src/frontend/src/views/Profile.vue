@@ -1,141 +1,117 @@
 <template>
-  <main class="layout">
-    <div class="layout__sidebar sidebar">
-      <a href="index.html" class="logo layout__logo">
-        <img
-          src="img/logo.svg"
-          alt="V!U!E! Pizza logo"
-          width="90"
-          height="40"
-        />
-      </a>
-
-      <a class="layout__link" href="#">История заказов</a>
-      <a class="layout__link layout__link--active" href="#">Мои данные</a>
+  <div class="layout__content" v-if="user">
+    <div class="layout__title">
+      <h1 class="title title--big">Мои данные</h1>
     </div>
 
-    <div class="layout__content">
-      <div class="layout__title">
-        <h1 class="title title--big">Мои данные</h1>
+    <div class="user">
+      <picture>
+        <img :src="user.avatar" :alt="user.name" width="72" height="72" />
+      </picture>
+      <div class="user__name">
+        <span>{{ user.name }}</span>
       </div>
+      <p class="user__phone">
+        Контактный телефон: <span>{{ user.phone }}</span>
+      </p>
+    </div>
 
-      <div class="user">
-        <picture>
-          <source
-            type="image/webp"
-            srcset="img/users/user5@2x.webp 1x, img/users/user5@4x.webp 2x"
-          />
-          <img
-            src="img/users/user5@2x.jpg"
-            srcset="img/users/user5@4x.jpg"
-            alt="Василий Ложкин"
-            width="72"
-            height="72"
-          />
-        </picture>
-        <div class="user__name">
-          <span>Василий Ложкин</span>
-        </div>
-        <p class="user__phone">
-          Контактный телефон: <span>+7 999-999-99-99</span>
-        </p>
-      </div>
-
-      <div class="layout__address">
-        <div class="sheet address-form">
-          <div class="address-form__header">
-            <b>Адрес №1. Тест</b>
-            <div class="address-form__edit">
-              <button type="button" class="icon">
-                <span class="visually-hidden">Изменить адрес</span>
-              </button>
-            </div>
-          </div>
-          <p>Невский пр., д. 22, кв. 46</p>
-          <small>Позвоните, пожалуйста, от проходной</small>
-        </div>
-      </div>
-
-      <div class="layout__address">
-        <form
-          action="test.html"
-          method="post"
-          class="address-form address-form--opened sheet"
-        >
-          <div class="address-form__header">
-            <b>Адрес №1</b>
-          </div>
-
-          <div class="address-form__wrapper">
-            <div class="address-form__input">
-              <label class="input">
-                <span>Название адреса*</span>
-                <input
-                  type="text"
-                  name="addr-name"
-                  placeholder="Введите название адреса"
-                  required
-                />
-              </label>
-            </div>
-            <div class="address-form__input address-form__input--size--normal">
-              <label class="input">
-                <span>Улица*</span>
-                <input
-                  type="text"
-                  name="addr-street"
-                  placeholder="Введите название улицы"
-                  required
-                />
-              </label>
-            </div>
-            <div class="address-form__input address-form__input--size--small">
-              <label class="input">
-                <span>Дом*</span>
-                <input
-                  type="text"
-                  name="addr-house"
-                  placeholder="Введите номер дома"
-                  required
-                />
-              </label>
-            </div>
-            <div class="address-form__input address-form__input--size--small">
-              <label class="input">
-                <span>Квартира</span>
-                <input
-                  type="text"
-                  name="addr-apartment"
-                  placeholder="Введите № квартиры"
-                />
-              </label>
-            </div>
-            <div class="address-form__input">
-              <label class="input">
-                <span>Комментарий</span>
-                <input
-                  type="text"
-                  name="addr-comment"
-                  placeholder="Введите комментарий"
-                />
-              </label>
-            </div>
-          </div>
-
-          <div class="address-form__buttons">
-            <button type="button" class="button button--transparent">
-              Удалить
+    <div class="layout__address" v-if="addressList.length">
+      <div
+        class="sheet address-form"
+        v-for="address in addressList"
+        :key="address.id"
+      >
+        <div class="address-form__header">
+          <b>{{ address.name }}</b>
+          <div class="address-form__edit">
+            <button type="button" class="icon" @click="editAddress(address.id)">
+              <span class="visually-hidden">Изменить адрес</span>
             </button>
-            <button type="submit" class="button">Сохранить</button>
           </div>
-        </form>
-      </div>
-
-      <div class="layout__button">
-        <button type="button" class="button button--border">
-          Добавить новый адрес
-        </button>
+        </div>
+        <p>
+          {{ address.street }}, д. {{ address.building }}, кв.
+          {{ address.flat }}
+        </p>
+        <small>{{ address.comment }}</small>
       </div>
     </div>
-  </main>
+
+    <div class="layout__address">
+      <address-form
+        v-if="isFormShown"
+        :addressToEdit="addressToEdit"
+        @deleteAddress="deleteAddress"
+        @submit="updateAddress"
+      />
+    </div>
+
+    <div class="layout__button">
+      <button type="button" class="button button--border" @click="addAddress">
+        Добавить новый адрес
+      </button>
+    </div>
+  </div>
 </template>
+
+<script>
+import { mapState } from "vuex";
+import AddressForm from "@/modules/profile/AddressForm";
+
+export default {
+  components: { AddressForm },
+
+  data() {
+    return {
+      addressList: [],
+      isFormShown: false,
+      addressToEdit: null,
+    };
+  },
+
+  computed: {
+    ...mapState("Auth", ["user"]),
+  },
+
+  async created() {
+    await this.fetchAll();
+  },
+
+  update() {
+    console.log("updated");
+  },
+
+  methods: {
+    async fetchAll() {
+      this.addressList = await this.$api.addresses.query();
+    },
+    addAddress() {
+      this.isFormShown = true;
+    },
+    editAddress(addressId) {
+      this.addressToEdit = this.addressList.find(
+        (item) => item.id === addressId
+      );
+      this.isFormShown = true;
+    },
+    async deleteAddress() {
+      this.isFormShown = false;
+      await this.fetchAll();
+    },
+    async updateAddress() {
+      this.isFormShown = false;
+      await this.fetchAll();
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.user__phone {
+  margin-left: 15px;
+}
+button.icon {
+  cursor: pointer;
+}
+</style>

@@ -23,12 +23,14 @@ export default new Router({
       name: "Orders",
       component: () =>
         import(/* webpackChunkName: "orders" */ "@/views/Orders.vue"),
+      meta: { layout: "AppLayoutSidebar" },
     },
     {
       path: "/profile",
       name: "Profile",
       component: () =>
         import(/* webpackChunkName: "profile" */ "@/views/Profile.vue"),
+      meta: { layout: "AppLayoutSidebar" },
     },
     {
       path: "/login",

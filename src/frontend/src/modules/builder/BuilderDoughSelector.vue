@@ -14,6 +14,7 @@
           inputName="dough"
           @change="
             selectDough({
+              id: element.id,
               type: element.type,
               price: element.price,
               name: element.name,
@@ -35,7 +36,10 @@ export default {
   components: { RadioButton },
 
   computed: {
-    ...mapState("Builder", ["dough", "selectedDough"]),
+    ...mapState({
+      dough: (state) => state.doughData,
+      selectedDough: (state) => state.Builder.selectedDough,
+    }),
   },
 
   methods: {

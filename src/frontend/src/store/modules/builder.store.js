@@ -1,29 +1,13 @@
-import data from "@/static/pizza.json";
-import { getDough, getSizes, getSauces, getFilling } from "@/common/helpers.js";
+import { generateId } from "@/common/helpers.js";
 
 const setupState = () => ({
-  dough: getDough(data.dough),
-  sizes: getSizes(data.sizes),
-  sauces: getSauces(data.sauces),
-  ingredients: getFilling(data.ingredients),
-  selectedDough: {
-    type: "large",
-    price: 300,
-    name: "Толстое",
-  },
-  selectedSauce: {
-    sauce: "tomato",
-    price: 50,
-    name: "Томатный",
-  },
-  selectedSize: {
-    size: "big",
-    multiplier: 3,
-    name: "45 см",
-  },
-  selectedIngredients: {},
+  selectedDough: {},
+  selectedSauce: {},
+  selectedSize: {},
+  selectedIngredients: [],
   pizzaName: "",
   pizzaPrice: 0,
+  pizzaAmount: 1,
 });
 
 const state = setupState();
@@ -45,11 +29,15 @@ const mutations = {
     state.pizzaName = pizzaName;
   },
 
-  UPDATE_INGREDIENTS: (state, ingredientSet) => {
-    state.selectedIngredients = {
-      ...state.selectedIngredients,
-      [ingredientSet.name]: ingredientSet.amount,
-    };
+  SELECT_INGREDIENTS: (state, ingredient) => {
+    state.selectedIngredients.push(ingredient);
+  },
+
+  REMOVE_INGREDIENT: (state, ingredientName) => {
+    const firstIngredientIndex = state.selectedIngredients.findIndex(
+      (item) => item.filling === ingredientName
+    );
+    state.selectedIngredients.splice(firstIngredientIndex, 1);
   },
 
   SET_INGREDIENTS: (state, newIngredientsSet) => {
@@ -58,6 +46,10 @@ const mutations = {
 
   SET_PIZZA_PRICE: (state, price) => {
     state.pizzaPrice = price;
+  },
+
+  SET_PIZZA_AMOUNT: (state, amount) => {
+    state.pizzaAmount = amount;
   },
 
   RESET_STATE: (state) => {
@@ -87,10 +79,17 @@ const actions = {
     commit("SET_PIZZA_PRICE", price);
   },
 
-  async updateIngredients({ commit, dispatch }, ingredientSet) {
+  async selectIngredients({ commit, dispatch }, ingredient) {
     const price = await dispatch("countPizzaPrice");
 
-    commit("UPDATE_INGREDIENTS", ingredientSet);
+    commit("SELECT_INGREDIENTS", ingredient);
+    commit("SET_PIZZA_PRICE", price);
+  },
+
+  async removeIngredient({ commit, dispatch }, ingredientName) {
+    const price = await dispatch("countPizzaPrice");
+
+    commit("REMOVE_INGREDIENT", ingredientName);
     commit("SET_PIZZA_PRICE", price);
   },
 
@@ -105,21 +104,29 @@ const actions = {
     return await getters.getPizzaPrice;
   },
 
+  async setPizzaAmount({ commit }, amount) {
+    commit("SET_PIZZA_AMOUNT", amount);
+  },
+
   resetBuilder({ commit }) {
     commit("RESET_STATE");
   },
 };
 
 const getters = {
+  getSelectedIngredients: (state) =>
+    state.selectedIngredients.reduce((obj, item) => {
+      return {
+        ...obj,
+        [item.filling]: obj[item.filling] ? obj[item.filling] + 1 : 1,
+      };
+    }, {}),
   getDoughPrice: (state) => state.selectedDough.price || 0,
   getSizePrice: (state) => state.selectedSize.multiplier || 0,
   getSaucePrice: (state) => state.selectedSauce.price || 0,
   getIngredientsPrice: (state) => {
-    return Object.entries(state.selectedIngredients).reduce((result, item) => {
-      const price =
-        state.ingredients.find((ingredient) => ingredient.filling === item[0])
-          .price * item[1];
-      return (result += price);
+    return state.selectedIngredients.reduce((result, item) => {
+      return result + item.price;
     }, 0);
   },
   getPizzaPrice: (state, getters) => {
@@ -131,14 +138,14 @@ const getters = {
     );
   },
   getCurrentPizza: (state, getters) => ({
-    id: `${state.pizzaName}-${getters.getPizzaPrice}`,
+    id: `${state.pizzaName.replace(/\s+/g, "")}-${generateId()}`,
     name: state.pizzaName,
     price: getters.getPizzaPrice,
     dough: state.selectedDough,
     sauce: state.selectedSauce,
     ingredients: state.selectedIngredients,
     size: state.selectedSize,
-    amount: 1,
+    amount: state.pizzaAmount,
   }),
 };
 

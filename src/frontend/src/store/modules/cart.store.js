@@ -1,9 +1,16 @@
-import data from "@/static/misc.json";
-import { getAdditionalItems } from "@/common/helpers.js";
+import { ORDER_RECEIVE_STATUS } from "@/common/constants";
+import Vue from "vue";
 
 const setupState = () => ({
   additionals: [],
   pizzas: [],
+  phone: "",
+  street: "",
+  building: "",
+  flat: "",
+  comment: "",
+  selectedOption: ORDER_RECEIVE_STATUS.NEW_ADDRESS,
+  pizzaToChangeId: "",
 });
 
 const state = setupState();
@@ -16,7 +23,7 @@ const mutations = {
   CHANGE_ADDITIONALS_AMOUNT: (state, { itemId, amount }) => {
     const itemIndex = state.additionals.findIndex((item) => item.id === itemId);
 
-    if (amount <= 0) {
+    if (amount < 0) {
       state.additionals = state.additionals.filter(
         (item) => item.id !== itemId
       );
@@ -44,11 +51,48 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, setupState());
   },
+
+  SET_PHONE: (state, phone) => {
+    state.phone = phone;
+  },
+
+  SET_STREET: (state, street) => {
+    state.street = street;
+  },
+
+  SET_BUILDING: (state, building) => {
+    state.building = building;
+  },
+
+  SET_FLAT: (state, flat) => {
+    state.flat = flat;
+  },
+
+  SET_COMMENT: (state, comment) => {
+    state.comment = comment;
+  },
+
+  SET_SELECTED_OPTION: (state, option) => {
+    state.selectedOption = option;
+  },
+
+  SET_PIZZA_TO_CHANGE_ID: (state, id) => {
+    state.pizzaToChangeId = id;
+  },
+
+  CHANGE_PIZZA: (state, { index, updatedPizza }) => {
+    Vue.set(state.pizzas, index, updatedPizza);
+  },
 };
 
 const actions = {
-  loadAdditionals({ commit }) {
-    commit("SET_ADDITIONALS", getAdditionalItems(data));
+  async loadAdditionals({ commit }) {
+    const additionals = await this.$api.misc.query();
+    const normalizedAdditionals = additionals.map((item) => ({
+      ...item,
+      amount: 0,
+    }));
+    commit("SET_ADDITIONALS", normalizedAdditionals);
   },
 
   changeAdditionalsAmount({ commit }, { itemId, amount }) {
@@ -71,41 +115,79 @@ const actions = {
     }
   },
 
-  addPizzaToCart({ commit, dispatch, rootGetters }) {
-    commit("ADD_PIZZA", rootGetters["Builder/getCurrentPizza"]);
+  addPizzaToCart({ commit, state, dispatch, rootGetters }) {
+    const currentPizza = rootGetters["Builder/getCurrentPizza"];
+    const pizzaToChangeIndex = state.pizzas.findIndex(
+      (item) => item.id === state.pizzaToChangeId
+    );
+
+    if (pizzaToChangeIndex >= 0) {
+      commit("CHANGE_PIZZA", {
+        index: pizzaToChangeIndex,
+        updatedPizza: { ...currentPizza, id: state.pizzaToChangeId },
+      });
+    } else {
+      commit("ADD_PIZZA", currentPizza);
+    }
+
     dispatch("loadAdditionals");
   },
 
-  async changePizzaParams({ state, commit, dispatch }, pizzaId) {
+  async changePizzaParams({ commit, state, dispatch }, pizzaId) {
     const pizza = state.pizzas.find((item) => item.id === pizzaId);
 
     await dispatch("Builder/selectDough", pizza.dough, { root: true });
     await dispatch("Builder/selectSize", pizza.size, { root: true });
     await dispatch("Builder/selectSauce", pizza.sauce, { root: true });
-    await dispatch("Builder/setIngredients", pizza.ingredients, { root: true });
+    await dispatch("Builder/setIngredients", pizza.ingredients, {
+      root: true,
+    });
+    await dispatch("Builder/setPizzaAmount", pizza.amount, {
+      root: true,
+    });
 
-    commit("REMOVE_PIZZA", pizzaId);
+    commit("SET_PIZZA_TO_CHANGE_ID", pizzaId);
   },
 
   resetCart({ commit }) {
     commit("RESET_STATE");
+  },
+
+  setPhone({ commit }, phone) {
+    commit("SET_PHONE", phone);
+  },
+
+  setStreet({ commit }, street) {
+    commit("SET_STREET", street);
+  },
+
+  setBuilding({ commit }, building) {
+    commit("SET_BUILDING", building);
+  },
+
+  setFlat({ commit }, flat) {
+    commit("SET_FLAT", flat);
+  },
+
+  setComment({ commit }, comment) {
+    commit("SET_COMMENT", comment);
+  },
+
+  setSelectedOption({ commit }, option) {
+    commit("SET_SELECTED_OPTION", option);
   },
 };
 
 const getters = {
   getAdditionalsPrice: (state) => {
     return state.additionals.reduce((sum, item) => {
-      sum += item.amount * item.price;
-
-      return sum;
+      return sum + item.amount * item.price;
     }, 0);
   },
 
   getPizzasPrice: (state) =>
     state.pizzas.reduce((sum, pizza) => {
-      sum += pizza.price * pizza.amount;
-
-      return sum;
+      return sum + pizza.price * pizza.amount;
     }, 0),
 
   getPizzaPrice: (state) => (pizzaId) => {
@@ -116,6 +198,10 @@ const getters = {
 
   getTotalPrice: (state, getters) =>
     getters.getAdditionalsPrice + getters.getPizzasPrice,
+
+  isStreetValid: (state) => !!state.street,
+
+  isBuildingValid: (state) => !!state.building,
 };
 
 export default {
