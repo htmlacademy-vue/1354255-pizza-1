@@ -113,6 +113,16 @@ export default {
     },
   },
 
+  watch: {
+    isPopupOpen: {
+      // the callback will be called immediately after the start of the observation
+      immediate: true,
+      handler(val, oldVal) {
+        console.log("from cart: ", val, " | was: ", oldVal);
+      },
+    },
+  },
+
   methods: {
     orderHandler() {
       const pizzas = this.pizzas.map((pizza) => {
@@ -188,12 +198,19 @@ export default {
     },
 
     placeOrder() {
-      this.isPopupOpen = true;
-      this.orderHandler();
+      // this.isPopupOpen = true;
+      this.openPopup().then(() => {
+        console.log("open popup");
+        this.orderHandler();
+      });
     },
 
     closePopup() {
       this.isPopupOpen = false;
+    },
+
+    async openPopup() {
+      this.isPopupOpen = true;
     },
   },
 };
