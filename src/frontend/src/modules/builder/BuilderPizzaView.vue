@@ -10,13 +10,13 @@
       />
     </label>
 
-    <transition name="tasks">
-      <app-drop @drop="addIngredient" class="content__constructor">
-        <div
-          class="pizza"
-          :class="`pizza--foundation--${doughSize}-${selectedSauce.type}`"
-        >
-          <div class="pizza__wrapper">
+    <app-drop @drop="addIngredient" class="content__constructor">
+      <div
+        class="pizza"
+        :class="`pizza--foundation--${doughSize}-${selectedSauce.type}`"
+      >
+        <div class="pizza__wrapper">
+          <transition-group name="ingredients">
             <div
               v-for="ingredient in chosenIngredients"
               :key="`${ingredient.name}-${ingredient.amount}`"
@@ -26,10 +26,10 @@
                 showIngredientAmount(ingredient.amount),
               ]"
             ></div>
-          </div>
+          </transition-group>
         </div>
-      </app-drop>
-    </transition>
+      </div>
+    </app-drop>
 
     <builder-price-counter></builder-price-counter>
   </div>
@@ -101,16 +101,15 @@ export default {
 </script>
 
 <style lang="scss">
-.tasks-enter-active,
-.tasks-leave-active {
-  transform: scale(0.1);
-  transition: all 5.4s ease;
-  transform: rotate(45deg);
+.ingredients-enter-active,
+.ingredients-leave-active {
+  transform: scale(0.4);
+  transition: all 0.4s ease-out;
 }
 
-.tasks-enter,
-.tasks-leave-to {
+.ingredients-enter,
+.ingredients-leave-to {
   transform: scale(1.1);
-  // opacity: 0;
+  opacity: 0;
 }
 </style>
