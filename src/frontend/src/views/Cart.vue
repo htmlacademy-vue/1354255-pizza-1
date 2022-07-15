@@ -113,16 +113,6 @@ export default {
     },
   },
 
-  watch: {
-    isPopupOpen: {
-      // the callback will be called immediately after the start of the observation
-      immediate: true,
-      handler(val, oldVal) {
-        console.log("from cart: ", val, " | was: ", oldVal);
-      },
-    },
-  },
-
   methods: {
     orderHandler() {
       const pizzas = this.pizzas.map((pizza) => {
@@ -175,8 +165,6 @@ export default {
           pizzas,
           misc,
         });
-
-        this.$router.push({ name: "Orders" });
       } else {
         this.$api.orders.post({
           userId: null,
@@ -184,12 +172,7 @@ export default {
           pizzas,
           misc,
         });
-
-        this.$router.push({ name: "Main" });
       }
-
-      this.$store.dispatch("Builder/resetBuilder");
-      this.$store.dispatch("Cart/resetCart");
     },
 
     addAnotherPizza() {
@@ -198,18 +181,24 @@ export default {
     },
 
     placeOrder() {
-      // this.isPopupOpen = true;
-      this.openPopup().then(() => {
-        console.log("open popup");
-        this.orderHandler();
-      });
+      this.openPopup();
+      this.orderHandler();
     },
 
     closePopup() {
       this.isPopupOpen = false;
+
+      this.$store.dispatch("Builder/resetBuilder");
+      this.$store.dispatch("Cart/resetCart");
+
+      if (this.isAuthorized) {
+        this.$router.push({ name: "Orders" });
+      } else {
+        this.$router.push({ name: "Main" });
+      }
     },
 
-    async openPopup() {
+    openPopup() {
       this.isPopupOpen = true;
     },
   },

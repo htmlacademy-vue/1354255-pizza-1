@@ -28,14 +28,14 @@ export default {
 @import "~@/assets/scss/app";
 
 .slide-enter-active {
-  transition: all 1.4s;
+  transition: all 0.4s;
 }
 .slide-enter {
   opacity: 0;
   margin-left: 90px;
 }
 .slide-leave-active {
-  transition: all 1.4s;
+  transition: all 0.4s;
   opacity: 0;
   margin-left: -100px;
 }

@@ -1,6 +1,6 @@
 <template>
   <transition name="pop">
-    <div class="popup" :style="showPopup">
+    <div class="popup" v-if="isPopupOpen">
       <button class="close" @click.prevent="$emit('closePopup')">
         <span class="visually-hidden">Закрыть попап</span>
       </button>
@@ -23,22 +23,7 @@ export default {
     isPopupOpen: {
       type: Boolean,
       required: true,
-    },
-  },
-
-  computed: {
-    showPopup() {
-      return this.isPopupOpen ? "" : `display: none`;
-    },
-  },
-
-  watch: {
-    isPopupOpen: {
-      // the callback will be called immediately after the start of the observation
-      immediate: true,
-      handler(val, oldVal) {
-        console.log("Prop changed: ", val, " | was: ", oldVal);
-      },
+      default: false,
     },
   },
 };
