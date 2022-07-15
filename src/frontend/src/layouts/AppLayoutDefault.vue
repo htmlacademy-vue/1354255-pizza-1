@@ -13,3 +13,17 @@ export default {
   components: { AppHeader },
 };
 </script>
+
+<style lang="scss">
+// .app-layout-default {
+//   &.slide-leave-active,
+//   &.slide-enter,
+//   &.slide-enter-to {
+//     .header,
+//     .footer {
+//       opacity: 1;
+//       margin-left: 0;
+//     }
+//   }
+// }
+</style>
