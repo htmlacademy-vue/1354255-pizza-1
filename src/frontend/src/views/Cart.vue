@@ -165,8 +165,6 @@ export default {
           pizzas,
           misc,
         });
-
-        this.$router.push({ name: "Orders" });
       } else {
         this.$api.orders.post({
           userId: null,
@@ -174,12 +172,7 @@ export default {
           pizzas,
           misc,
         });
-
-        this.$router.push({ name: "Main" });
       }
-
-      this.$store.dispatch("Builder/resetBuilder");
-      this.$store.dispatch("Cart/resetCart");
     },
 
     addAnotherPizza() {
@@ -188,12 +181,25 @@ export default {
     },
 
     placeOrder() {
-      this.isPopupOpen = true;
+      this.openPopup();
       this.orderHandler();
     },
 
     closePopup() {
       this.isPopupOpen = false;
+
+      this.$store.dispatch("Builder/resetBuilder");
+      this.$store.dispatch("Cart/resetCart");
+
+      if (this.isAuthorized) {
+        this.$router.push({ name: "Orders" });
+      } else {
+        this.$router.push({ name: "Main" });
+      }
+    },
+
+    openPopup() {
+      this.isPopupOpen = true;
     },
   },
 };

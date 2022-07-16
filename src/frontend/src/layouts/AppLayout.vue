@@ -5,15 +5,14 @@
 </template>
 
 <script>
-const defaultLayout = "AppLayoutDefault";
+const defaultLayout = () => import("@/layouts/AppLayoutDefault.vue");
 
 export default {
   name: "AppLayout",
 
   computed: {
     layout() {
-      const layout = this.$route.meta.layout || defaultLayout;
-      return () => import(`@/layouts/${layout}.vue`);
+      return this.$route.meta.layout || defaultLayout;
     },
   },
 };

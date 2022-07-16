@@ -16,15 +16,17 @@
         :class="`pizza--foundation--${doughSize}-${selectedSauce.type}`"
       >
         <div class="pizza__wrapper">
-          <div
-            v-for="ingredient in chosenIngredients"
-            :key="`${ingredient.name}-${ingredient.amount}`"
-            class="pizza__filling"
-            :class="[
-              `pizza__filling--${ingredient.name}`,
-              showIngredientAmount(ingredient.amount),
-            ]"
-          ></div>
+          <transition-group name="ingredients">
+            <div
+              v-for="ingredient in chosenIngredients"
+              :key="`${ingredient.name}-${ingredient.amount}`"
+              class="pizza__filling"
+              :class="[
+                `pizza__filling--${ingredient.name}`,
+                showIngredientAmount(ingredient.amount),
+              ]"
+            ></div>
+          </transition-group>
         </div>
       </div>
     </app-drop>
@@ -97,3 +99,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.ingredients-enter-active,
+.ingredients-leave-active {
+  transform: scale(0.4);
+  transition: all 0.4s ease-out;
+}
+
+.ingredients-enter,
+.ingredients-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
+}
+</style>
