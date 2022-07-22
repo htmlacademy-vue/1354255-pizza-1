@@ -38,3 +38,15 @@ export const doughDeclension = (dough) => {
     return "толстом";
   }
 };
+
+export const authenticateUser = (store) => {
+  const user = {
+    name: "Вася Пупкин",
+    email: "user@example.com",
+    password: "user@example.com",
+    avatar: "/public/img/users/user.jpg",
+    phone: "+777 777 777",
+  };
+
+  store.commit("Auth/SET_USER", user, { root: true });
+};

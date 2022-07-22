@@ -1,7 +1,7 @@
 <template>
   <div class="app-layout-default">
     <app-header />
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
