@@ -12,7 +12,6 @@ describe("Cart", () => {
   let actions;
   let state;
   let wrapper;
-  let stubs;
 
   const createComponent = (options = {}) => {
     wrapper = mount(Cart, options);
