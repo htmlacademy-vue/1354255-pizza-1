@@ -8,21 +8,17 @@ localVue.use(Vuex);
 
 describe("Login", () => {
   let wrapper;
-  let dispatch;
-  let login;
   let actions;
-
-  const methods = {
-    login,
-  };
+  let store;
 
   const mocks = {
     $router: {
       push: jest.fn(),
     },
-    $store: {
-      dispatch,
-    },
+  };
+
+  const createComponent = (options) => {
+    wrapper = mount(Login, options);
   };
 
   beforeEach(() => {
@@ -32,28 +28,20 @@ describe("Login", () => {
       },
     };
     store = generateMockStore(actions);
-    dispatch = jest.fn();
-    login = jest.fn();
-    methods.login = login;
     mocks.$router.push = jest.fn();
-    mocks.$store.dispatch = dispatch;
-  });
 
-  const createComponent = (options) => {
-    wrapper = mount(Login, options);
-  };
+    createComponent({ localVue, mocks, store });
+  });
 
   afterEach(() => {
     wrapper.destroy();
   });
 
   it("is rendered", () => {
-    createComponent({ localVue, mocks });
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it.only("calls login and redirects to index if credentials are valid", async () => {
-    createComponent({ localVue, mocks });
+  it("calls login and redirects to index if credentials are valid", async () => {
     const userCredentials = {
       email: "user@example.com",
       password: "user@example.com",
@@ -68,8 +56,10 @@ describe("Login", () => {
     await passInput.trigger("input");
 
     await wrapper.find("form").trigger("submit");
-    // expect(dispatch).toHaveBeenCalled();
-    expect(actions.Auth.login).toHaveBeenCalled("Auth");
-    // expect(mocks.$router.push).toHaveBeenCalledWith({ name: "Main" });
+    expect(actions.Auth.login).toHaveBeenCalledWith(
+      expect.anything(),
+      userCredentials
+    );
+    expect(mocks.$router.push).toHaveBeenCalledWith({ name: "Main" });
   });
 });
