@@ -57,23 +57,5 @@ describe("BuilderDoughSelector", () => {
     console.log(wrapper.html());
     // await radioBtns.at(0).trigger("change");
     // expect(actions.Builder.selectDough).toHaveBeenCalled();
-    // expect(pizzaParams.at(1).text()).toBe(`Соус: ${testPizza.sauce.name}`);
-    // expect(pizzaParams.at(2).text()).toBe("Начинка: Грибы");
   });
-
-  // it("increases pizza", async () => {
-  //   await wrapper.find(".counter__button--plus").trigger("click");
-  //   expect(actions.Cart.increasePizza).toHaveBeenCalled();
-  // });
-
-  // it("decreases pizza", async () => {
-  //   await wrapper.find(".counter__button--minus").trigger("click");
-  //   expect(actions.Cart.decreasePizza).toHaveBeenCalled();
-  // });
-
-  // it("changes amount and goes to main", async () => {
-  //   await wrapper.find(".cart-list__edit").trigger("click");
-  //   expect(actions.Cart.changePizzaParams).toHaveBeenCalled();
-  //   expect(mocks.$router.push).toHaveBeenCalledWith("/");
-  // });
 });

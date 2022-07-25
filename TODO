@@ -5,7 +5,7 @@
   [] BuilderPriceCounter @builder
   [] BuilderSizeSelector @builder
 
-  [] Orders @view - vuex: getter Orders/getMiscData doesn't exist !
+  [] Orders @view - [vuex] unknown getter: Orders/getMiscPrice, TypeError: this.getMiscPrice is not a function
 Archive:
   ✔ CartPizzaItem @cart - как можно протестировать @done(22-07-25 16:07) @project(Итого)
   ✔ Profile @view - как правильно замокать fetchAll(), ошибка TypeError: Cannot read properties of undefined (reading 'addresses') на 87 @done(22-07-25 13:40) @project(Итого)
