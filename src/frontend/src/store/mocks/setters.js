@@ -32,7 +32,7 @@ const testIngredients = [
   },
 ];
 
-const testPizza = {
+export const testPizza = {
   id: "testpizza-1234",
   name: "test pizza",
   price: 383,

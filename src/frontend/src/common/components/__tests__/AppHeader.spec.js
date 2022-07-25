@@ -29,7 +29,6 @@ describe("AppHeader", () => {
         logout: jest.fn(),
       },
     };
-    mocks.$router.push = jest.fn();
     store = generateMockStore(actions);
   });
 

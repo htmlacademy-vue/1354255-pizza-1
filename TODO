@@ -5,9 +5,9 @@
   [] BuilderPriceCounter @builder
   [] BuilderSizeSelector @builder
 
-  [] CartPizzaItem @cart - как можно протестировать
-  [] Orders @view - можешь показать, как написать тест с асинхронным created, где вызываются 2 dispatch
+  [] Orders @view - vuex: getter Orders/getMiscData doesn't exist
 Archive:
+  ✔ CartPizzaItem @cart - как можно протестировать @done(22-07-25 16:07) @project(Итого)
   ✔ Profile @view - как правильно замокать fetchAll(), ошибка TypeError: Cannot read properties of undefined (reading 'addresses') на 87 @done(22-07-25 13:40) @project(Итого)
   ✔ Index @view - [vuex] unknown action type: loadAllPizzaStuff, не вызываются actions @done(22-07-25 13:05) @project(Итого)
   ✔ CartForm @cart @done(22-07-22 16:17) @project(Итого)
