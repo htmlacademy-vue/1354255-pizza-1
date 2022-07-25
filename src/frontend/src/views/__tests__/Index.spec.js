@@ -12,6 +12,7 @@ import {
   selectSize,
   selectSauce,
 } from "@/store/mocks/setters.js";
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -27,6 +28,9 @@ describe("Index", () => {
 
   beforeEach(() => {
     actions = {
+      Common: {
+        loadAllPizzaStuff: jest.fn(),
+      },
       Builder: {
         selectDough: jest.fn(),
         selectSize: jest.fn(),
@@ -48,40 +52,24 @@ describe("Index", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it("calls actions if nothing was selected", () => {
-    const selectedDough = {
-      id: 1,
-      name: "Тонкое",
-      image: "/public/img/dough-light.svg",
-      description: "Из твердых сортов пшеницы",
-      price: 300,
-    };
-
-    const selectedSauce = {
-      id: 1,
-      name: "Томатный",
-      price: 50,
-    };
-
-    const selectedSize = {
-      id: 1,
-      name: "23 см",
-      image: "/public/img/diameter.svg",
-      multiplier: 1,
-    };
-
+  it("calls actions if nothing was selected", async () => {
     createComponent({ localVue, store });
-    expect(actions.Builder.selectDough).toHaveBeenCalledWith(
-      expect.anything(),
-      selectedDough
-    );
-    expect(actions.Builder.selectedSauce).toHaveBeenCalledWith(
-      expect.anything(),
-      selectedSauce
-    );
-    expect(actions.Builder.selectedSize).toHaveBeenCalledWith(
-      expect.anything(),
-      selectedSize
-    );
+    expect(actions.Common.loadAllPizzaStuff).toHaveBeenCalled();
+    await flushPromises();
+    expect(actions.Builder.selectDough).toHaveBeenCalled();
+    expect(actions.Builder.selectSize).toHaveBeenCalled();
+    expect(actions.Builder.selectSauce).toHaveBeenCalled();
+  });
+
+  it("calls only load stuff if there're selected items", async () => {
+    selectDough(store);
+    selectSize(store);
+    selectSauce(store);
+    createComponent({ localVue, store });
+    expect(actions.Common.loadAllPizzaStuff).toHaveBeenCalled();
+    await flushPromises();
+    expect(actions.Builder.selectDough).not.toHaveBeenCalled();
+    expect(actions.Builder.selectSize).not.toHaveBeenCalled();
+    expect(actions.Builder.selectSauce).not.toHaveBeenCalled();
   });
 });

@@ -40,23 +40,23 @@ export const setPizza = (store) => {
 };
 
 export const setMiscData = (store) => {
-  store.commit("SET_MISC_DATA", miscData);
+  store.commit("Common/SET_MISC_DATA", miscData);
 };
 
 export const setDoughData = (store) => {
-  store.commit("SET_DOUGH_DATA", pizzaData.dough);
+  store.commit("Common/SET_DOUGH_DATA", pizzaData.dough);
 };
 
 export const setSaucesData = (store) => {
-  store.commit("SET_SAUCES_DATA", pizzaData.sauces);
+  store.commit("Common/SET_SAUCES_DATA", pizzaData.sauces);
 };
 
 export const setSizesData = (store) => {
-  store.commit("SET_SIZES_DATA", pizzaData.sizes);
+  store.commit("Common/SET_SIZES_DATA", pizzaData.sizes);
 };
 
 export const setIngredientsData = (store) => {
-  store.commit("SET_INGREDIENTS_DATA", pizzaData.ingredients);
+  store.commit("Common/SET_INGREDIENTS_DATA", pizzaData.ingredients);
 };
 
 export const selectDough = (store) => {

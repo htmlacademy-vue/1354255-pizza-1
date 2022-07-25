@@ -120,7 +120,7 @@ export default {
 
   async created() {
     await this.$store.dispatch("Orders/loadOrders");
-    await this.$store.dispatch("loadAllPizzaStuff");
+    await this.$store.dispatch("Common/loadAllPizzaStuff");
     this.isLoaded = true;
   },
 

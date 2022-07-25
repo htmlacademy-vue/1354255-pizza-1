@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import Profile from "@/views/Profile.vue";
 import { generateMockStore } from "@/store/mocks";
 import { setUser } from "@/store/mocks/setters";
-import flushPromises from 'flush-promises'
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

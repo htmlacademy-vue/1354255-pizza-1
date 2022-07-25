@@ -5,10 +5,10 @@ describe("CartAdditionalItem", () => {
   const propsData = {
     item: {
       id: 3,
-      name: 'Картошка из печи',
+      name: "Картошка из печи",
       amount: 2,
-      price: '170',
-      slug: 'potato',
+      price: "170",
+      slug: "potato",
     },
   };
 
@@ -27,7 +27,7 @@ describe("CartAdditionalItem", () => {
   });
 
   it("shows item name", () => {
-    const name = wrapper.find(".additional-list__description > span")
+    const name = wrapper.find(".additional-list__description > span");
     expect(name.html()).toContain(propsData.item.name);
   });
 

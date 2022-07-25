@@ -1,0 +1,15 @@
+Итого:
+  [] BuilderDoughSelector @builder
+  [] BuilderIngredientsSelector @builder
+  [] BuilderPizzaView @builder
+  [] BuilderPriceCounter @builder
+  [] BuilderSizeSelector @builder
+
+  [] CartPizzaItem @cart - как можно протестировать
+  [] Orders @view - можешь показать, как написать тест с асинхронным created, где вызываются 2 dispatch
+  [] Profile @view - как правильно замокать fetchAll(), ошибка TypeError: Cannot read properties of undefined (reading 'addresses') на 87
+Archive:
+  ✔ Index @view - [vuex] unknown action type: loadAllPizzaStuff, не вызываются actions @done(22-07-25 13:05) @project(Итого)
+  ✔ CartForm @cart @done(22-07-22 16:17) @project(Итого)
+  ✔ Cart @view @done(22-07-22 13:02) @project(Итого)
+  ✔ Login @view @done(22-07-22 12:11) @project(Итого)

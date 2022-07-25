@@ -42,7 +42,7 @@ export default {
   },
 
   async created() {
-    await this.$store.dispatch("loadAllPizzaStuff");
+    await this.$store.dispatch("Common/loadAllPizzaStuff");
 
     if (Object.keys(this.selectedDough).length === 0) {
       this.$store.dispatch(
