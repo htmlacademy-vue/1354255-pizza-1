@@ -51,6 +51,14 @@ export const testAddress = {
   flat: "11",
 };
 
+const testMisc = {
+  miscId: 1,
+  quantity: 1,
+  name: "Cola-Cola 0,5 литра",
+  image: "/public/img/cola.svg",
+  price: 56,
+};
+
 const testOrders = [
   {
     id: 1,
@@ -64,7 +72,7 @@ const testOrders = [
         ingredients: testIngredients,
       },
     ],
-    orderMisc: [],
+    orderMisc: [testMisc],
     orderAddress: testAddress,
   },
 ];
