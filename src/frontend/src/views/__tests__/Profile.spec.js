@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import Profile from "@/views/Profile.vue";
 import { generateMockStore } from "@/store/mocks";
 import { setUser } from "@/store/mocks/setters";
-import flushPromises from "flush-promises";
+import AddressForm from "@/modules/profile/AddressForm";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -13,12 +13,35 @@ describe("Profile", () => {
   let actions;
   let state;
   let wrapper;
+  let query;
 
   const createComponent = (options = {}) => {
-    wrapper = mount(Profile, options);
+    wrapper = mount(Profile, {
+      ...options,
+      mocks: {
+        $api: {
+          addresses: {
+            query,
+          },
+        },
+      },
+      stubs: {
+        AddressForm: true,
+      },
+    });
   };
 
   beforeEach(() => {
+    query = jest.fn();
+    query.mockResolvedValue([
+      {
+        id: 1,
+        name: "Домашний",
+        street: "Ленина",
+        building: "41",
+        flat: "11",
+      },
+    ]);
     store = generateMockStore();
   });
 
@@ -26,10 +49,15 @@ describe("Profile", () => {
     wrapper.destroy();
   });
 
-  it("renders", async () => {
+  it("renders", () => {
     setUser(store);
     createComponent({ localVue, store });
-    await flushPromises();
     expect(wrapper.find(".layout__content").exists()).toBeTruthy();
+  });
+
+  it("renders address list if not empty", async () => {
+    setUser(store);
+    createComponent({ localVue, store });
+    expect(wrapper.find(".layout__address").exists()).toBeTruthy();
   });
 });
