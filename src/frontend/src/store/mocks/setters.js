@@ -2,38 +2,72 @@ import pizzaData from "@/static/pizza.json";
 import miscData from "@/static/misc.json";
 import user from "@/static/user.json";
 
+const testDough = {
+  id: 1,
+  name: "Тонкое",
+  image: "/public/img/dough-light.svg",
+  description: "Из твердых сортов пшеницы",
+  price: 300,
+};
+
+const testSauce = {
+  id: 1,
+  name: "Томатный",
+  price: 50,
+};
+
+const testSize = {
+  id: 1,
+  name: "23 см",
+  image: "/public/img/diameter.svg",
+  multiplier: 1,
+};
+
+const testIngredients = [
+  {
+    id: 1,
+    name: "Грибы",
+    image: "/public/img/filling/mushrooms.svg",
+    price: 33,
+  },
+];
+
 const testPizza = {
   id: "testpizza-1234",
   name: "test pizza",
   price: 383,
-  dough: {
-    id: 1,
-    name: "Тонкое",
-    image: "/public/img/dough-light.svg",
-    description: "Из твердых сортов пшеницы",
-    price: 300,
-  },
-  sauce: {
-    id: 1,
-    name: "Томатный",
-    price: 50,
-  },
-  ingredients: [
-    {
-      id: 1,
-      name: "Грибы",
-      image: "/public/img/filling/mushrooms.svg",
-      price: 33,
-    },
-  ],
-  size: {
-    id: 1,
-    name: "23 см",
-    image: "/public/img/diameter.svg",
-    multiplier: 1,
-  },
+  dough: testDough,
+  sauce: testSauce,
+  ingredients: testIngredients,
+  size: testSize,
   amount: 1,
 };
+
+export const testAddress = {
+  id: 1,
+  name: "Домашний",
+  street: "Ленина",
+  building: "41",
+  flat: "11",
+};
+
+const testOrders = [
+  {
+    id: 1,
+    orderPizzas: [
+      {
+        id: 2,
+        name: "test pizza",
+        sizeId: testSize.id,
+        doughId: testDough.id,
+        sauceId: testSauce.id,
+        ingredients: testIngredients,
+      },
+    ],
+    orderMisc: [],
+    orderAddress: testAddress,
+  },
+];
 
 export const setPizza = (store) => {
   store.commit("Cart/ADD_PIZZA", testPizza);
@@ -73,4 +107,8 @@ export const selectSauce = (store) => {
 
 export const setUser = (store) => {
   store.commit("Auth/SET_USER", user);
+};
+
+export const setOrders = (store) => {
+  store.commit("Orders/SET_ORDERS", testOrders);
 };
