@@ -4,7 +4,6 @@ import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
 import {
   setMiscData,
-  setDoughData,
   setSaucesData,
   setSizesData,
   setIngredientsData,

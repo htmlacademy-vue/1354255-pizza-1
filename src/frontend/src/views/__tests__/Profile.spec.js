@@ -12,7 +12,6 @@ localVue.use(Vuex);
 describe("Profile", () => {
   let store;
   let actions;
-  let state;
   let wrapper;
   let query;
 

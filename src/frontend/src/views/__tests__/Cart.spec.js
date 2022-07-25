@@ -10,7 +10,6 @@ localVue.use(Vuex);
 describe("Cart", () => {
   let store;
   let actions;
-  let state;
   let wrapper;
 
   const createComponent = (options = {}) => {
@@ -18,12 +17,6 @@ describe("Cart", () => {
   };
 
   beforeEach(() => {
-    state = {
-      Auth: {
-        userId: "1234-1234-1234-1234",
-        pizzas: [],
-      },
-    };
     actions = {
       Auth: {
         login: jest.fn(),

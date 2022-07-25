@@ -1,11 +1,11 @@
 Итого:
-  [] BuilderDoughSelector @builder
+  [] BuilderDoughSelector @builder !
   [] BuilderIngredientsSelector @builder
   [] BuilderPizzaView @builder
   [] BuilderPriceCounter @builder
   [] BuilderSizeSelector @builder
 
-  [] Orders @view - vuex: getter Orders/getMiscData doesn't exist
+  [] Orders @view - vuex: getter Orders/getMiscData doesn't exist !
 Archive:
   ✔ CartPizzaItem @cart - как можно протестировать @done(22-07-25 16:07) @project(Итого)
   ✔ Profile @view - как правильно замокать fetchAll(), ошибка TypeError: Cannot read properties of undefined (reading 'addresses') на 87 @done(22-07-25 13:40) @project(Итого)

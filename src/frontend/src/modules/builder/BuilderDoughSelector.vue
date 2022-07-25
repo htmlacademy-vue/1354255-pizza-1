@@ -5,6 +5,7 @@
 
       <div class="sheet__content dough">
         <radio-button
+          data-test="radio-button"
           :checked="isChecked(element.type)"
           v-for="element in dough"
           :key="element.id"
