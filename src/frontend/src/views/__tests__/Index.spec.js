@@ -2,15 +2,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import Index from "@/views/Index.vue";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
-import {
-  setMiscData,
-  setSaucesData,
-  setSizesData,
-  setIngredientsData,
-  selectDough,
-  selectSize,
-  selectSauce,
-} from "@/store/mocks/setters.js";
+import { selectDough, selectSize, selectSauce } from "@/store/mocks/setters.js";
 import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();

@@ -38,7 +38,7 @@ export default {
 
   computed: {
     ...mapState({
-      dough: (state) => state.doughData,
+      dough: (state) => state.Common.doughData,
       selectedDough: (state) => state.Builder.selectedDough,
     }),
   },

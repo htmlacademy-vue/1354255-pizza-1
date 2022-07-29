@@ -2,7 +2,6 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector.vue";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
-import { testPizza } from "@/store/mocks/setters.js";
 import { setDoughData } from "@/store/mocks/setters.js";
 import pizzaData from "@/static/pizza.json";
 
@@ -13,7 +12,6 @@ describe("BuilderDoughSelector", () => {
   let wrapper;
   let store;
   let actions;
-  let state;
 
   const createComponent = (options) => {
     wrapper = mount(BuilderDoughSelector, options);
@@ -54,8 +52,7 @@ describe("BuilderDoughSelector", () => {
       },
     });
     const radioBtns = wrapper.findAll("[data-test='radio-button']");
-    console.log(wrapper.html());
-    // await radioBtns.at(0).trigger("change");
-    // expect(actions.Builder.selectDough).toHaveBeenCalled();
+    await radioBtns.at(1).trigger("click");
+    expect(actions.Builder.selectDough).toHaveBeenCalled();
   });
 });

@@ -3,7 +3,6 @@ import Orders from "@/views/Orders.vue";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
 import { setOrders } from "@/store/mocks/setters.js";
-import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

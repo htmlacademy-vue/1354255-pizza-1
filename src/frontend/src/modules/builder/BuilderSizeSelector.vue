@@ -35,7 +35,7 @@ export default {
 
   computed: {
     ...mapState({
-      sizes: (state) => state.sizesData,
+      sizes: (state) => state.Common.sizesData,
       selectedSize: (state) => state.Builder.selectedSize,
     }),
   },

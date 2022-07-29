@@ -29,7 +29,9 @@ const getters = {
   getMisc:
     (state, getters, rootState) =>
     ({ miscId, quantity }) => {
-      const currentMisc = rootState.Common.miscData.find((item) => item.id === miscId);
+      const currentMisc = rootState.Common.miscData.find(
+        (item) => item.id === miscId
+      );
       return { ...currentMisc, quantity };
     },
   getDough: (state, getters, rootState) => (doughId) => {
@@ -54,7 +56,9 @@ const getters = {
     return currentSauce.name;
   },
   getSize: (state, getters, rootState) => (sizeId) => {
-    const currentSize = rootState.Common.sizesData.find((item) => item.id === sizeId);
+    const currentSize = rootState.Common.sizesData.find(
+      (item) => item.id === sizeId
+    );
     return currentSize.name;
   },
   getPizzaPrice: (state, getters, rootState) => (pizza) => {
@@ -69,8 +73,9 @@ const getters = {
     ).multiplier;
     const ingredientsPrice = pizza.ingredients.reduce((sum, item) => {
       const result =
-        rootState.Common.ingredientsData.find((elem) => elem.id === item.ingredientId)
-          .price * item.quantity;
+        rootState.Common.ingredientsData.find(
+          (elem) => elem.id === item.ingredientId
+        ).price * item.quantity;
 
       return (sum += result);
     }, 0);
@@ -82,8 +87,8 @@ const getters = {
   getMiscPrice: (state, getters, rootState) => (orderMisc) => {
     return orderMisc.reduce((sum, item) => {
       const itemPrice =
-        rootState.Common.miscData.find((elem) => elem.id === item.miscId).price *
-        item.quantity;
+        rootState.Common.miscData.find((elem) => elem.id === item.miscId)
+          .price * item.quantity;
 
       return sum + itemPrice;
     }, 0);

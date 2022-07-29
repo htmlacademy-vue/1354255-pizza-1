@@ -12,11 +12,16 @@ const initState = () => ({
   sizesData: [],
 });
 
-export const generateMockStore = (actions) => {
+export const generateMockStore = (actions, getters) => {
   const modulesCopy = cloneDeep(modules);
   if (actions) {
     Object.entries(actions).forEach(([module, actions]) => {
       modulesCopy[module] = { ...modulesCopy[module], actions };
+    });
+  }
+  if (getters) {
+    Object.entries(getters).forEach(([module, getters]) => {
+      modulesCopy[module] = { ...modulesCopy[module], getters };
     });
   }
 

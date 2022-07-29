@@ -69,8 +69,8 @@ export default {
 
   computed: {
     ...mapState({
-      sauces: (state) => state.saucesData,
-      ingredients: (state) => state.ingredientsData,
+      sauces: (state) => state.Common.saucesData,
+      ingredients: (state) => state.Common.ingredientsData,
       selectedSauce: (state) => state.Builder.selectedSauce,
     }),
     ...mapGetters({

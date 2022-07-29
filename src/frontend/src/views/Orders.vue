@@ -132,23 +132,24 @@ export default {
 
     repeatOrder(order) {
       order.orderPizzas.forEach((pizza) => {
-        const normalizedDough = this.$store.state.doughData.find(
+        const normalizedDough = this.$store.state.Common.doughData.find(
           (item) => item.id === pizza.doughId
         );
 
-        const normalizedSauce = this.$store.state.saucesData.find(
+        const normalizedSauce = this.$store.state.Common.saucesData.find(
           (item) => item.id === pizza.sauceId
         );
 
-        const normalizedSize = this.$store.state.sizesData.find(
+        const normalizedSize = this.$store.state.Common.sizesData.find(
           (item) => item.id === pizza.sizeId
         );
 
         const normalizedIngredients = pizza.ingredients.reduce(
           (result, item) => {
-            const normalizedItem = this.$store.state.ingredientsData.find(
-              (elem) => elem.id === item.ingredientId
-            );
+            const normalizedItem =
+              this.$store.state.Common.ingredientsData.find(
+                (elem) => elem.id === item.ingredientId
+              );
 
             for (let i = 0; i < item.quantity; i++) {
               result.push(normalizedItem);
