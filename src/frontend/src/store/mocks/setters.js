@@ -2,33 +2,37 @@ import pizzaData from "@/static/pizza.json";
 import miscData from "@/static/misc.json";
 import user from "@/static/user.json";
 
-const testDough = {
+export const testDough = {
   id: 1,
   name: "Тонкое",
   image: "/public/img/dough-light.svg",
   description: "Из твердых сортов пшеницы",
   price: 300,
+  type: "light",
 };
 
-const testSauce = {
+export const testSauce = {
   id: 1,
   name: "Томатный",
   price: 50,
+  type: "tomato"
 };
 
-const testSize = {
+export const testSize = {
   id: 1,
   name: "23 см",
   image: "/public/img/diameter.svg",
   multiplier: 1,
+  type: "small",
 };
 
-const testIngredients = [
+export const testIngredients = [
   {
     id: 1,
     name: "Грибы",
     image: "/public/img/filling/mushrooms.svg",
     price: 33,
+    filling: "mushrooms",
   },
 ];
 
