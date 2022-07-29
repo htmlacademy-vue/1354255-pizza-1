@@ -24,7 +24,7 @@
               </button>
             </div>
             <div class="order__button">
-              <button type="button" class="button" @click="repeatOrder(order)">
+              <button type="button" class="button repeat" @click="repeatOrder(order)">
                 Повторить
               </button>
             </div>

@@ -55,7 +55,7 @@ export const testAddress = {
   flat: "11",
 };
 
-const testMisc = {
+export const testMisc = {
   miscId: 1,
   quantity: 1,
   name: "Cola-Cola 0,5 литра",
