@@ -1,32 +1,32 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector.vue";
+import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector.vue";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
-import { setDoughData } from "@/store/mocks/setters.js";
+import { setSizesData } from "@/store/mocks/setters.js";
 import pizzaData from "@/static/pizza.json";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("BuilderDoughSelector", () => {
+describe("BuilderSizeSelector", () => {
   let wrapper;
   let store;
   let actions;
   let state;
 
   const createComponent = (options) => {
-    wrapper = mount(BuilderDoughSelector, options);
+    wrapper = mount(BuilderSizeSelector, options);
   };
 
   beforeEach(() => {
     state = {
       Common: {
-        doughData: pizzaData.dough,
+        doughData: pizzaData.sizes,
       },
     };
     actions = {
       Builder: {
-        selectDough: jest.fn(),
+        selectSize: jest.fn(),
       },
     };
     store = generateMockStore(actions);
@@ -41,19 +41,19 @@ describe("BuilderDoughSelector", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it("dispatchs selectDough action", async () => {
-    setDoughData(store);
+  it("dispatchs selectSize action", async () => {
+    setSizesData(store);
     createComponent({
       localVue,
       store,
       mocks: {
         $store: {
-          state: { doughData: pizzaData.dough },
+          state: { sizesData: pizzaData.sizes },
         },
       },
     });
     const radioBtns = wrapper.findAll("[data-test='radio-button']");
     await radioBtns.at(1).trigger("click");
-    expect(actions.Builder.selectDough).toHaveBeenCalled();
+    expect(actions.Builder.selectSize).toHaveBeenCalled();
   });
 });

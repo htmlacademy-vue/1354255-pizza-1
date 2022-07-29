@@ -5,6 +5,7 @@
 
       <div class="sheet__content diameter">
         <radio-button
+          data-test="radio-button"
           :checked="isChecked(size.type)"
           v-for="size in sizes"
           :key="size.id"
