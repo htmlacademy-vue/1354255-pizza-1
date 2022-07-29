@@ -120,3 +120,7 @@ export const setUser = (store) => {
 export const setOrders = (store) => {
   store.commit("Orders/SET_ORDERS", testOrders);
 };
+
+export const setPizzaName = (store) => {
+  store.commit("Builder/SET_PIZZA_NAME", testPizza.name);
+}

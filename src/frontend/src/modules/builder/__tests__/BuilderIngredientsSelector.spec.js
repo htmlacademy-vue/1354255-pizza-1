@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import BuilderINgredientsSelector from "@/modules/builder/BuilderINgredientsSelector.vue";
+import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector.vue";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mocks";
 import { setSaucesData, setIngredientsData } from "@/store/mocks/setters.js";
@@ -8,14 +8,14 @@ import pizzaData from "@/static/pizza.json";
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("BuilderINgredientsSelector", () => {
+describe("BuilderIngredientsSelector", () => {
   let wrapper;
   let store;
   let actions;
   let state;
 
   const createComponent = (options) => {
-    wrapper = mount(BuilderINgredientsSelector, options);
+    wrapper = mount(BuilderIngredientsSelector, options);
   };
 
   beforeEach(() => {
