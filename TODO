@@ -1,10 +1,10 @@
 Итого:
-  [] BuilderIngredientsSelector @builder
   [] BuilderPizzaView @builder
   [] BuilderPriceCounter @builder
 
   [] Orders @view - [vuex] unknown getter: Orders/getMiscPrice, TypeError: this.getMiscPrice is not a function
 Archive:
+  ✔ BuilderIngredientsSelector @builder @done(22-07-29 20:25) @project(Итого)
   ✔ BuilderSizeSelector @builder @done(22-07-29 20:16) @project(Итого)
   ✔ BuilderDoughSelector @builder @done(22-07-29 20:10) @project(Итого)
   ✔ CartPizzaItem @cart - как можно протестировать @done(22-07-25 16:07) @project(Итого)
