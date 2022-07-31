@@ -5,6 +5,7 @@
 
       <div class="sheet__content diameter">
         <radio-button
+          data-test="radio-button"
           :checked="isChecked(size.type)"
           v-for="size in sizes"
           :key="size.id"
@@ -35,7 +36,7 @@ export default {
 
   computed: {
     ...mapState({
-      sizes: (state) => state.sizesData,
+      sizes: (state) => state.Common.sizesData,
       selectedSize: (state) => state.Builder.selectedSize,
     }),
   },

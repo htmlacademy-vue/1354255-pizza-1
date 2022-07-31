@@ -46,7 +46,7 @@
     </div>
 
     <div class="cart-list__price">
-      <b>{{ getPizzaPrice(pizza.id) }} ₽</b>
+      <b>{{ pizzaPrice }} ₽</b>
     </div>
 
     <div class="cart-list__button">
@@ -62,10 +62,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import { doughDeclension } from "@/common/helpers";
 
 export default {
+  name: "CartPizzaItem",
+
   props: {
     pizza: {
       type: Object,
@@ -74,13 +76,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters("Cart", ["getPizzaPrice"]),
     fillings() {
       const pizzaFillings = new Set(
         this.pizza.ingredients.map((item) => item.name)
       );
 
       return Array.from(pizzaFillings).join(", ");
+    },
+    pizzaPrice() {
+      return this.pizza.price * this.pizza.amount;
     },
   },
 

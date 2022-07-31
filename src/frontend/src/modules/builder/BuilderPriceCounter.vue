@@ -4,7 +4,7 @@
     <button
       type="button"
       class="button"
-      :disabled="!(ingredientsPrice && isNameFilled && isPizzaSelected)"
+      :disabled="isDisabled"
       @click="addToCart"
     >
       Готовьте!
@@ -32,6 +32,9 @@ export default {
     },
     isNameFilled() {
       return !!this.pizzaName;
+    },
+    isDisabled() {
+      return !(this.ingredientsPrice && this.isNameFilled && this.isPizzaSelected);
     },
   },
 

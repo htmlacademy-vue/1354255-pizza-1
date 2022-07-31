@@ -5,6 +5,7 @@
 
       <div class="sheet__content dough">
         <radio-button
+          data-test="radio-button"
           :checked="isChecked(element.type)"
           v-for="element in dough"
           :key="element.id"
@@ -37,7 +38,7 @@ export default {
 
   computed: {
     ...mapState({
-      dough: (state) => state.doughData,
+      dough: (state) => state.Common.doughData,
       selectedDough: (state) => state.Builder.selectedDough,
     }),
   },

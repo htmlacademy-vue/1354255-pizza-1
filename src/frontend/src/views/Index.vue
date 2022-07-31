@@ -42,26 +42,26 @@ export default {
   },
 
   async created() {
-    await this.$store.dispatch("loadAllPizzaStuff");
+    await this.$store.dispatch("Common/loadAllPizzaStuff");
 
     if (Object.keys(this.selectedDough).length === 0) {
       this.$store.dispatch(
         "Builder/selectDough",
-        this.$store.state.doughData[0]
+        this.$store.state.Common.doughData[0]
       );
     }
 
     if (Object.keys(this.selectedSize).length === 0) {
       this.$store.dispatch(
         "Builder/selectSize",
-        this.$store.state.sizesData[0]
+        this.$store.state.Common.sizesData[0]
       );
     }
 
     if (Object.keys(this.selectedSauce).length === 0) {
       this.$store.dispatch(
         "Builder/selectSauce",
-        this.$store.state.saucesData[0]
+        this.$store.state.Common.saucesData[0]
       );
     }
 

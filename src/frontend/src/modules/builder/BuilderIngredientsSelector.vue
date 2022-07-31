@@ -8,6 +8,7 @@
           <p>Основной соус:</p>
 
           <radio-button
+            data-test="radio-button"
             :checked="isChecked(sauce.type)"
             v-for="sauce in sauces"
             :key="sauce.id"
@@ -69,8 +70,8 @@ export default {
 
   computed: {
     ...mapState({
-      sauces: (state) => state.saucesData,
-      ingredients: (state) => state.ingredientsData,
+      sauces: (state) => state.Common.saucesData,
+      ingredients: (state) => state.Common.ingredientsData,
       selectedSauce: (state) => state.Builder.selectedSauce,
     }),
     ...mapGetters({
