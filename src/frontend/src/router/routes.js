@@ -78,7 +78,7 @@ export default pages
     }
     const { default: component } = await import(`../views/${path.join("/")}`);
 
-    const { middlewares, name } = component;
+    const { layout, middlewares, name } = component;
 
     const route = `/${generateRoute([...path])}`;
 
@@ -110,6 +110,7 @@ export default pages
       name,
       component,
       meta: {
+        layout: layout || defaultLayout,
         middlewares: middlewares || {},
       },
       children,
