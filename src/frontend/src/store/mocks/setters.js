@@ -15,7 +15,7 @@ export const testSauce = {
   id: 1,
   name: "Томатный",
   price: 50,
-  type: "tomato"
+  type: "tomato",
 };
 
 export const testSize = {
@@ -127,4 +127,4 @@ export const setOrders = (store) => {
 
 export const setPizzaName = (store) => {
   store.commit("Builder/SET_PIZZA_NAME", testPizza.name);
-}
+};
