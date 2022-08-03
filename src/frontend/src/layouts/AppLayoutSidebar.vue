@@ -37,6 +37,7 @@ import AppHeader from "@/common/components/AppHeader";
 
 export default {
   name: "AppLayoutSidebar",
+
   components: { AppHeader },
 };
 </script>

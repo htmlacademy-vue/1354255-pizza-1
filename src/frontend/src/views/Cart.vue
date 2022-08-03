@@ -90,6 +90,7 @@ export default {
     ...mapState("Auth", {
       userId: (state) => state.user.id,
     }),
+
     ...mapState("Cart", {
       additionalItems: (state) => state.additionals,
       pizzas: (state) => state.pizzas,
@@ -100,11 +101,15 @@ export default {
       comment: (state) => state.comment,
       selectedOption: (state) => state.selectedOption,
     }),
+
     ...mapState("Builder", {
       allIngredients: (state) => state.ingredients,
     }),
+
     ...mapGetters("Auth", ["isAuthorized"]),
+
     ...mapGetters("Cart", ["isStreetValid", "isBuildingValid"]),
+
     isAddressValid() {
       return (
         (this.isStreetValid && this.isBuildingValid) ||

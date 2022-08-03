@@ -52,12 +52,15 @@ export default {
       "selectedSauce",
       "selectedIngredients",
     ]),
+
     ...mapState({
       pizza: (state) => state.pizzaName,
     }),
+
     ...mapGetters({
       ingredientsList: "getSelectedIngredients",
     }),
+
     pizzaName: {
       get() {
         return this.pizza;
@@ -66,9 +69,11 @@ export default {
         this.$store.commit("Builder/SET_PIZZA_NAME", value);
       },
     },
+
     doughSize() {
       return this.selectedDough.type === "light" ? "small" : "big";
     },
+
     chosenIngredients() {
       const fullList = [];
 
@@ -86,6 +91,7 @@ export default {
     addIngredient(ingredient) {
       this.$store.dispatch("Builder/selectIngredients", ingredient);
     },
+
     showIngredientAmount(amount) {
       switch (amount) {
         case 2:

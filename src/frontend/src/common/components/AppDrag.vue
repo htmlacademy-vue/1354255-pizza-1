@@ -19,11 +19,13 @@ export default {
       type: [Object, String],
       required: true,
     },
+
     isDraggable: {
       type: Boolean,
       default: true,
     },
   },
+
   methods: {
     onDrag({ dataTransfer }) {
       dataTransfer.effectAllowed = MOVE;

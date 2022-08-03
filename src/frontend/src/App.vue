@@ -14,6 +14,7 @@ import { setAuth } from "@/common/helpers";
 
 export default {
   name: "App",
+
   components: { AppLayout },
 
   created() {

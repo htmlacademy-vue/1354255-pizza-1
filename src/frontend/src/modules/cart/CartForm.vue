@@ -103,6 +103,7 @@ export default {
 
   computed: {
     ...mapGetters("Auth", ["isAuthorized"]),
+
     ...mapState("Cart", {
       phoneState: (state) => state.phone,
       streetState: (state) => state.street,
@@ -111,6 +112,7 @@ export default {
       commentState: (state) => state.comment,
       selectedOption: (state) => state.selectedOption,
     }),
+
     phone: {
       get() {
         return this.phoneState;
@@ -119,6 +121,7 @@ export default {
         this.$store.commit("Cart/SET_PHONE", value);
       },
     },
+
     street: {
       get() {
         return this.streetState;
@@ -127,6 +130,7 @@ export default {
         this.$store.commit("Cart/SET_STREET", value);
       },
     },
+
     building: {
       get() {
         return this.buildingState;
@@ -135,6 +139,7 @@ export default {
         this.$store.commit("Cart/SET_BUILDING", value);
       },
     },
+
     flat: {
       get() {
         return this.flatState;
@@ -143,6 +148,7 @@ export default {
         this.$store.commit("Cart/SET_FLAT", value);
       },
     },
+
     comment: {
       get() {
         return this.commentState;
@@ -170,6 +176,7 @@ export default {
       this.$store.dispatch("Cart/setComment", address.comment);
       this.$store.dispatch("Cart/setPhone", address.phone || "");
     },
+
     onChange(e) {
       const value = e.target.value;
 

@@ -74,6 +74,7 @@ export default {
       ingredients: (state) => state.Common.ingredientsData,
       selectedSauce: (state) => state.Builder.selectedSauce,
     }),
+
     ...mapGetters({
       selectedIngredients: "Builder/getSelectedIngredients",
     }),
@@ -87,12 +88,15 @@ export default {
         this.$store.dispatch("Builder/selectIngredients", ingredient);
       }
     },
+
     canDrag(val) {
       return typeof val === "undefined" || val < 3;
     },
+
     selectSauce(selectedSauce) {
       this.$store.dispatch("Builder/selectSauce", selectedSauce);
     },
+
     isChecked(sauce) {
       return this.selectedSauce.type === sauce;
     },

@@ -78,27 +78,27 @@ export default {
     await this.fetchAll();
   },
 
-  update() {
-    console.log("updated");
-  },
-
   methods: {
     async fetchAll() {
       this.addressList = await this.$api.addresses.query();
     },
+
     addAddress() {
       this.isFormShown = true;
     },
+
     editAddress(addressId) {
       this.addressToEdit = this.addressList.find(
         (item) => item.id === addressId
       );
       this.isFormShown = true;
     },
+
     async deleteAddress() {
       this.isFormShown = false;
       await this.fetchAll();
     },
+
     async updateAddress() {
       this.isFormShown = false;
       await this.fetchAll();

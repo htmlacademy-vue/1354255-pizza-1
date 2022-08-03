@@ -23,16 +23,21 @@ export default {
       saucePrice: "getSaucePrice",
       ingredientsPrice: "getIngredientsPrice",
     }),
+
     ...mapState("Builder", ["pizzaName"]),
+
     finalPrice() {
       return this.$store.getters["Builder/getPizzaPrice"];
     },
+
     isPizzaSelected() {
       return this.saucePrice && this.sizePrice && this.doughPrice;
     },
+
     isNameFilled() {
       return !!this.pizzaName;
     },
+
     isDisabled() {
       return !(
         this.ingredientsPrice &&

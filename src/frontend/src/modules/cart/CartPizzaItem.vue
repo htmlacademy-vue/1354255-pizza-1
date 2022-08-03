@@ -83,6 +83,7 @@ export default {
 
       return Array.from(pizzaFillings).join(", ");
     },
+
     pizzaPrice() {
       return this.pizza.price * this.pizza.amount;
     },
@@ -90,6 +91,7 @@ export default {
 
   methods: {
     doughDeclension,
+
     ...mapActions("Cart", [
       "increasePizza",
       "decreasePizza",

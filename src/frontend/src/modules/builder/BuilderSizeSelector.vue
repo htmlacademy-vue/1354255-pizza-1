@@ -45,6 +45,7 @@ export default {
     selectSize(selectedSize) {
       this.$store.dispatch("Builder/selectSize", selectedSize);
     },
+
     isChecked(size) {
       return this.selectedSize.type === size;
     },

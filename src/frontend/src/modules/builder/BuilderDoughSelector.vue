@@ -47,6 +47,7 @@ export default {
     selectDough(selectedDough) {
       this.$store.dispatch("Builder/selectDough", selectedDough);
     },
+
     isChecked(doughType) {
       return this.selectedDough.type === doughType;
     },

@@ -20,18 +20,22 @@ export default {
       type: Array,
       required: true,
     },
+
     inputValue: {
       type: String,
       required: true,
     },
+
     inputName: {
       type: String,
       required: true,
     },
+
     description: {
       type: String,
       default: "",
     },
+
     checked: {
       type: Boolean,
       default: false,

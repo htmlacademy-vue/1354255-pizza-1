@@ -62,6 +62,7 @@ export default {
     ...mapGetters("Cart", {
       totalPrice: "getTotalPrice",
     }),
+
     ...mapGetters("Auth", ["isAuthorized"]),
   },
 
@@ -69,6 +70,7 @@ export default {
     loginHandler() {
       this.$router.push({ name: "Login" });
     },
+
     logoutHandler() {
       this.$store.dispatch("Auth/logout");
       this.$router.push({ name: "Main" });

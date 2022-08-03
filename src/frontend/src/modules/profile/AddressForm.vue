@@ -84,6 +84,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   props: {
     addressToEdit: {
@@ -142,6 +143,7 @@ export default {
       e.target.reset();
       this.$emit("submit");
     },
+
     deleteAddress() {
       this.$api.addresses.delete(this.addressToEdit.id);
       this.$emit("deleteAddress");

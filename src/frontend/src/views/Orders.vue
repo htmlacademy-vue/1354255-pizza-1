@@ -111,6 +111,7 @@ export default {
 
   computed: {
     ...mapState("Orders", ["orderList"]),
+
     ...mapGetters("Orders", [
       "getMisc",
       "getDough",
