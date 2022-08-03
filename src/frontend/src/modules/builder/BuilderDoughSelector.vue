@@ -9,10 +9,10 @@
           :checked="isChecked(element.type)"
           v-for="element in dough"
           :key="element.id"
-          :labelClasses="['dough__input', `dough__input--${element.type}`]"
+          :label-classes="['dough__input', `dough__input--${element.type}`]"
           :description="element.description"
-          :inputValue="element.type"
-          inputName="dough"
+          :input-value="element.type"
+          input-name="dough"
           @change="
             selectDough({
               id: element.id,

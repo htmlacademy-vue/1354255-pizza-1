@@ -41,7 +41,7 @@
     <div class="layout__address">
       <AddressForm
         v-if="isFormShown"
-        :addressToEdit="addressToEdit"
+        :address-to-edit="addressToEdit"
         @deleteAddress="deleteAddress"
         @submit="updateAddress"
       />

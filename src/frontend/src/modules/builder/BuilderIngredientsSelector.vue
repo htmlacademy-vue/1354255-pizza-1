@@ -12,10 +12,10 @@
             :checked="isChecked(sauce.type)"
             v-for="sauce in sauces"
             :key="sauce.id"
-            :labelClasses="['radio', 'ingredients__input']"
+            :label-classes="['radio', 'ingredients__input']"
             :description="sauce.name"
-            :inputValue="sauce.type"
-            inputName="sauce"
+            :input-value="sauce.type"
+            input-name="sauce"
             @change="
               selectSauce({
                 id: sauce.id,
@@ -48,7 +48,7 @@
               </app-drag>
 
               <item-counter
-                :startValue="selectedIngredients[ingredient.filling]"
+                :start-value="selectedIngredients[ingredient.filling]"
                 @changeAmount="selectIngredients($event, ingredient)"
               />
             </li>

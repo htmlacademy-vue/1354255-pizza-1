@@ -1,6 +1,6 @@
 <template>
   <div class="sign-form">
-    <button href="#" class="close close--white">
+    <button class="close close--white">
       <span class="visually-hidden">Закрыть форму авторизации</span>
     </button>
     <div class="sign-form__title">

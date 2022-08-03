@@ -60,7 +60,7 @@
       </div>
     </section>
 
-    <AppPopup :isPopupOpen="isPopupOpen" @closePopup="closePopup" />
+    <AppPopup :is-popup-open="isPopupOpen" @closePopup="closePopup" />
   </form>
 </template>
 
