@@ -9,10 +9,10 @@
           :checked="isChecked(size.type)"
           v-for="size in sizes"
           :key="size.id"
-          :labelClasses="['diameter__input', `diameter__input--${size.type}`]"
+          :label-classes="['diameter__input', `diameter__input--${size.type}`]"
           :description="size.name"
-          :inputValue="size.type"
-          inputName="diameter"
+          :input-value="size.type"
+          input-name="diameter"
           @change="
             selectSize({
               id: size.id,
@@ -21,7 +21,7 @@
               name: size.name,
             })
           "
-        ></radio-button>
+        />
       </div>
     </div>
   </div>
@@ -45,6 +45,7 @@ export default {
     selectSize(selectedSize) {
       this.$store.dispatch("Builder/selectSize", selectedSize);
     },
+
     isChecked(size) {
       return this.selectedSize.type === size;
     },

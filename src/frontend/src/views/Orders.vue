@@ -24,7 +24,11 @@
               </button>
             </div>
             <div class="order__button">
-              <button type="button" class="button repeat" @click="repeatOrder(order)">
+              <button
+                type="button"
+                class="button repeat"
+                @click="repeatOrder(order)"
+              >
                 Повторить
               </button>
             </div>
@@ -88,7 +92,7 @@
       </section>
     </div>
 
-    <AppLoader v-else></AppLoader>
+    <AppLoader v-else />
   </main>
 </template>
 
@@ -107,6 +111,7 @@ export default {
 
   computed: {
     ...mapState("Orders", ["orderList"]),
+
     ...mapGetters("Orders", [
       "getMisc",
       "getDough",
@@ -219,7 +224,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .order__additional-item {
   display: flex;
   align-items: center;

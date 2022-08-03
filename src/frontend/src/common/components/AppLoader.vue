@@ -1,8 +1,8 @@
 <template>
-  <div class="lds-hourglass"></div>
+  <div class="lds-hourglass" />
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $loader-color: #777;
 
 .lds-hourglass {

@@ -15,7 +15,7 @@
       <router-link :to="{ name: 'Cart' }">{{ totalPrice }} ₽</router-link>
     </div>
 
-    <div class="header__user" v-if="isAuthorized">
+    <div class="header__user" v-if="isAuthorized" key="auth">
       <router-link :to="{ name: 'Profile' }">
         <picture>
           <source
@@ -40,7 +40,7 @@
       </button>
     </div>
 
-    <div class="header__user" v-else>
+    <div class="header__user" v-else key="noAuth">
       <button class="header__login" @click="loginHandler">
         <span>Войти</span>
       </button>
@@ -62,6 +62,7 @@ export default {
     ...mapGetters("Cart", {
       totalPrice: "getTotalPrice",
     }),
+
     ...mapGetters("Auth", ["isAuthorized"]),
   },
 
@@ -69,6 +70,7 @@ export default {
     loginHandler() {
       this.$router.push({ name: "Login" });
     },
+
     logoutHandler() {
       this.$store.dispatch("Auth/logout");
       this.$router.push({ name: "Main" });
