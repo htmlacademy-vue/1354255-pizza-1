@@ -2,7 +2,7 @@
   <div class="lds-hourglass"></div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $loader-color: #777;
 
 .lds-hourglass {

@@ -26,7 +26,9 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/scss/app";
+</style>
 
+<style lang="scss" scoped>
 .slide-enter-active {
   transition: all 0.4s;
 }

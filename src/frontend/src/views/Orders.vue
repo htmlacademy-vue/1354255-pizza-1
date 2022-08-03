@@ -219,7 +219,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .order__additional-item {
   display: flex;
   align-items: center;

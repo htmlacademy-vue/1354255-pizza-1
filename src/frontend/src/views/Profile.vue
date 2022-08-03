@@ -107,7 +107,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .user__phone {
   margin-left: 15px;
 }

@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ingredients-enter-active,
 .ingredients-leave-active {
   transform: scale(0.4);
