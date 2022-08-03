@@ -67,9 +67,8 @@ describe("BuilderPriceCounter", () => {
     selectSize(store);
     selectSauce(store);
     createComponent({ localVue, store, mocks });
-    const btn = wrapper.find(".button");
     await wrapper.find(".button").trigger("click");
     expect(actions.Cart.addPizzaToCart).toHaveBeenCalled();
-    expect(mocks.$router.push).toHaveBeenCalledWith({"name": "Cart"});
+    expect(mocks.$router.push).toHaveBeenCalledWith({ name: "Cart" });
   });
 });

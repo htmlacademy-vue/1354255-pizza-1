@@ -34,7 +34,11 @@ export default {
       return !!this.pizzaName;
     },
     isDisabled() {
-      return !(this.ingredientsPrice && this.isNameFilled && this.isPizzaSelected);
+      return !(
+        this.ingredientsPrice &&
+        this.isNameFilled &&
+        this.isPizzaSelected
+      );
     },
   },
 

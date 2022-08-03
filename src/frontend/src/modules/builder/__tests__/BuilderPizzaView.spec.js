@@ -17,7 +17,6 @@ localVue.use(Vuex);
 describe("BuilderPizzaView", () => {
   let stubs;
   let wrapper;
-  let mocks;
   let store;
   let actions;
   let state;
