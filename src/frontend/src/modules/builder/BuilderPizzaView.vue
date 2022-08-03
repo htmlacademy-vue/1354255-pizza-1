@@ -31,7 +31,7 @@
       </div>
     </app-drop>
 
-    <builder-price-counter></builder-price-counter>
+    <builder-price-counter />
   </div>
 </template>
 

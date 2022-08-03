@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <app-loader v-else></app-loader>
+  <app-loader v-else />
 </template>
 
 <script>

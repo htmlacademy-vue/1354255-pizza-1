@@ -21,7 +21,7 @@
               name: size.name,
             })
           "
-        ></radio-button>
+        />
       </div>
     </div>
   </div>

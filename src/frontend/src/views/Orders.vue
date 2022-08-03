@@ -88,7 +88,7 @@
       </section>
     </div>
 
-    <AppLoader v-else></AppLoader>
+    <AppLoader v-else />
   </main>
 </template>
 

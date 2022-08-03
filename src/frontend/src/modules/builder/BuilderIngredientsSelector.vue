@@ -24,7 +24,7 @@
                 name: sauce.name,
               })
             "
-          ></radio-button>
+          />
         </div>
 
         <div class="ingredients__filling">
@@ -50,7 +50,7 @@
               <item-counter
                 :startValue="selectedIngredients[ingredient.filling]"
                 @changeAmount="selectIngredients($event, ingredient)"
-              ></item-counter>
+              />
             </li>
           </ul>
         </div>
