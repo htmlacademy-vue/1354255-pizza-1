@@ -1,5 +1,5 @@
 <template>
-  <div class="lds-hourglass"></div>
+  <div class="lds-hourglass" />
 </template>
 
 <style lang="scss" scoped>
