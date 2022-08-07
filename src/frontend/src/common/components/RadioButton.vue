@@ -8,7 +8,7 @@
       class="visually-hidden"
       @change="$emit('change', $event.target.value)"
     />
-    <slot></slot>
+    <slot />
     <span>{{ description }}</span>
   </label>
 </template>

@@ -25,7 +25,7 @@
                 `pizza__filling--${ingredient.name}`,
                 showIngredientAmount(ingredient.amount),
               ]"
-            ></div>
+            />
           </transition-group>
         </div>
       </div>

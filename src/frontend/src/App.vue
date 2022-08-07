@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <AppLayout>
+    <app-layout>
       <transition name="slide" mode="out-in">
         <router-view />
       </transition>
-    </AppLayout>
+    </app-layout>
   </div>
 </template>
 

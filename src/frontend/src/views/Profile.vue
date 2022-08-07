@@ -39,7 +39,7 @@
     </div>
 
     <div class="layout__address">
-      <AddressForm
+      <address-form
         v-if="isFormShown"
         :address-to-edit="addressToEdit"
         @deleteAddress="deleteAddress"

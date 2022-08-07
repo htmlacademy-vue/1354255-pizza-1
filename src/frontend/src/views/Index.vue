@@ -9,7 +9,7 @@
         <builder-pizza-view />
       </div>
 
-      <AppLoader v-else />
+      <app-loader v-else />
     </form>
   </main>
 </template>

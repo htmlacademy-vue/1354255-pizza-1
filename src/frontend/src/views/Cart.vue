@@ -11,7 +11,7 @@
         </div>
 
         <ul class="cart-list sheet">
-          <CartPizzaItem
+          <cart-pizza-item
             v-for="pizza in pizzas"
             :key="pizza.name"
             :pizza="pizza"
@@ -20,7 +20,7 @@
 
         <div class="cart__additional">
           <ul class="additional-list">
-            <CartAdditionalItem
+            <cart-additional-item
               v-for="item in additionalItems"
               :key="item.id"
               :item="item"
@@ -28,7 +28,7 @@
           </ul>
         </div>
 
-        <CartForm />
+        <cart-form />
       </div>
     </main>
 
@@ -60,7 +60,7 @@
       </div>
     </section>
 
-    <AppPopup :is-popup-open="isPopupOpen" @closePopup="closePopup" />
+    <app-popup :is-popup-open="isPopupOpen" @closePopup="closePopup" />
   </form>
 </template>
 
