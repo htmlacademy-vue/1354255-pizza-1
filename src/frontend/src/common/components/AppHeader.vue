@@ -18,22 +18,9 @@
     <div class="header__user" v-if="isAuthorized" key="auth">
       <router-link :to="{ name: 'Profile' }">
         <picture>
-          <source
-            type="image/webp"
-            srcset="
-              @/assets/img/users/user5.webp    1x,
-              @/assets/img/users/user5@2x.webp 2x
-            "
-          />
-          <img
-            src="@/assets/img/users/user5.jpg"
-            srcset="img/users/user5@2x.jpg"
-            :alt="username"
-            width="32"
-            height="32"
-          />
+          <img :src="user.avatar" :alt="user.name" width="32" height="32" />
         </picture>
-        <span>{{ username }}</span>
+        <span>{{ user.name }}</span>
       </router-link>
       <button class="header__logout" @click="logoutHandler">
         <span>Выйти</span>
@@ -49,19 +36,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      username: "Василий Ложкин",
-    };
-  },
-
   computed: {
     ...mapGetters("Cart", {
       totalPrice: "getTotalPrice",
     }),
+
+    ...mapState("Auth", ["user"]),
 
     ...mapGetters("Auth", ["isAuthorized"]),
   },
