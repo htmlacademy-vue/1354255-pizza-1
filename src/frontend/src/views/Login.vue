@@ -46,9 +46,12 @@
 </template>
 
 <script>
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 import { mapActions } from "vuex";
 
 export default {
+  layout: AppLayoutDefault,
+
   data() {
     return {
       email: "",

@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 import BuilderPizzaView from "@/modules/builder/BuilderPizzaView";
 import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
@@ -30,6 +31,8 @@ export default {
     BuilderDoughSelector,
     AppLoader,
   },
+
+  layout: AppLayoutDefault,
 
   data() {
     return {

@@ -97,11 +97,14 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import AppLayoutSidebar from "@/layouts/AppLayoutSidebar";
 import AppLoader from "@/common/components/AppLoader";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: { AppLoader },
+
+  layout: AppLayoutSidebar,
 
   data() {
     return {

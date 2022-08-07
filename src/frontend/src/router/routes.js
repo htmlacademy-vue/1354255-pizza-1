@@ -57,7 +57,7 @@ const childrenByPath = pages
     return acc;
   }, {});
 
-const defaultLayout = "AppLayoutDefault";
+const defaultLayout = () => import("@/layouts/AppLayoutDefault.vue");
 
 const notFoundPage = "NotFound";
 

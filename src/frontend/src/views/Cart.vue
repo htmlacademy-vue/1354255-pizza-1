@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 import AppPopup from "@/common/components/AppPopup";
 import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
@@ -79,6 +80,8 @@ export default {
     CartPizzaItem,
     CartForm,
   },
+
+  layout: AppLayoutDefault,
 
   data() {
     return {

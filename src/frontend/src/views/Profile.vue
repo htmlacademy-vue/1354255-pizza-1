@@ -56,11 +56,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import AppLayoutSidebar from "@/layouts/AppLayoutSidebar";
 import AddressForm from "@/modules/profile/AddressForm";
+import { mapState } from "vuex";
 
 export default {
   components: { AddressForm },
+
+  layout: AppLayoutSidebar,
 
   data() {
     return {
