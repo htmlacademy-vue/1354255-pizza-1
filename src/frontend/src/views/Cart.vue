@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 import AppPopup from "@/common/components/AppPopup";
 import CartAdditionalItem from "@/modules/cart/CartAdditionalItem";
 import CartPizzaItem from "@/modules/cart/CartPizzaItem";
@@ -73,12 +74,16 @@ import { mapGetters, mapState } from "vuex";
 import { ORDER_RECEIVE_STATUS } from "@/common/constants";
 
 export default {
+  name: "Cart",
+
   components: {
     AppPopup,
     CartAdditionalItem,
     CartPizzaItem,
     CartForm,
   },
+
+  layout: AppLayoutDefault,
 
   data() {
     return {

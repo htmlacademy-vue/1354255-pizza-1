@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 import BuilderPizzaView from "@/modules/builder/BuilderPizzaView";
 import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";
@@ -23,6 +24,8 @@ import AppLoader from "@/common/components/AppLoader";
 import { mapState } from "vuex";
 
 export default {
+  name: "Main",
+
   components: {
     BuilderPizzaView,
     BuilderIngredientsSelector,
@@ -30,6 +33,8 @@ export default {
     BuilderDoughSelector,
     AppLoader,
   },
+
+  layout: AppLayoutDefault,
 
   data() {
     return {
