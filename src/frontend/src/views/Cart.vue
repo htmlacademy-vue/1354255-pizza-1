@@ -74,6 +74,8 @@ import { mapGetters, mapState } from "vuex";
 import { ORDER_RECEIVE_STATUS } from "@/common/constants";
 
 export default {
+  name: "Cart",
+
   components: {
     AppPopup,
     CartAdditionalItem,

@@ -102,6 +102,8 @@ import AppLoader from "@/common/components/AppLoader";
 import { mapState, mapGetters } from "vuex";
 
 export default {
+  name: "Orders",
+
   components: { AppLoader },
 
   layout: AppLayoutSidebar,

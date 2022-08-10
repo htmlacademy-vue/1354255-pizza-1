@@ -24,6 +24,8 @@ import AppLoader from "@/common/components/AppLoader";
 import { mapState } from "vuex";
 
 export default {
+  name: "Main",
+
   components: {
     BuilderPizzaView,
     BuilderIngredientsSelector,

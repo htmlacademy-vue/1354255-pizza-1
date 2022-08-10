@@ -6,6 +6,8 @@
 import AppLayoutDefault from "@/layouts/AppLayoutDefault";
 
 export default {
+  name: "NotFound",
+
   layout: AppLayoutDefault,
 };
 </script>
